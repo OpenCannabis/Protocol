@@ -1,7 +1,8 @@
 
 ### Description
 
-- Version: `1.6.0`
+- Version: `1.8.0-alpha3`
+- Filed By: @sgammon
 - Linked Issue: `Bloombox/OpenCannabis#1`
 
 <!-- Describe what happened. Include as much detail as necessary. -->

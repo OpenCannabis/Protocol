@@ -1,0 +1,147 @@
+
+/**
+ * Enumerate and define concepts related to *terpenes,* which are volatile chemicals that can affect the aroma (taste or
+ * smell) of a given cannabis product. Each terpene known or supported by the system is enumerated herein, along with
+ * definitions for ancillary data structures, as applicable.
+ */
+syntax = "proto3";
+
+package opencannabis.structs.labtesting;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.product.struct.testing";
+option java_multiple_files = true;
+option java_outer_classname = "TerpeneCompounds";
+
+
+// Enumerates known terpene compounds. Terpenes are volatile chemical compounds that define the taste and aroma (flavor,
+// smell, etc), and in some manners, the psychokinetic experience of cannabis in flower, concentrate, edible, preroll or
+// cartridge form.
+enum Terpene {
+  // Camphene.
+  CAMPHENE = 0;
+
+  // Carene.
+  CARENE = 1;
+
+  // Beta-caryophyllene.
+  BETA_CARYOPHYLLENE = 2;
+
+  // Caryophyllene-oxide.
+  CARYOPHYLLENE_OXIDE = 3;
+
+  // Eucalyptol.
+  EUCALYPTOL = 4;
+
+  // Fenchol.
+  FENCHOL = 5;
+
+  // Alpha-humulene.
+  ALPHA_HUMULENE = 6;
+
+  // Limonene.
+  LIMONENE = 7;
+
+  // Linalool.
+  LINALOOL = 8;
+
+  // Myrcene.
+  MYRCENE = 9;
+
+  // Alpha-ocimene.
+  ALPHA_OCIMENE = 10;
+
+  // Beta-ocimene.
+  BETA_OCIMENE = 11;
+
+  // Alpha-phellandrene.
+  ALPHA_PHELLANDRENE = 12;
+
+  // Alpha-pinene.
+  ALPHA_PINENE = 13;
+
+  // Beta-pinene.
+  BETA_PINENE = 14;
+
+  // Alpha-terpineol.
+  ALPHA_TERPINEOL = 15;
+
+  // Alpha-terpinine.
+  ALPHA_TERPININE = 16;
+
+  // Gamma-terpinine.
+  GAMMA_TERPININE = 17;
+
+  // Terpinolene.
+  TERPINOLENE = 18;
+
+  // Valencene.
+  VALENCENE = 19;
+
+  // Geraniol.
+  GERANIOL = 20;
+
+  // Phellandrene.
+  PHELLANDRENE = 21;
+
+  // Borneol.
+  BORNEOL = 22;
+
+  // Isoborneol.
+  ISOBORNEOL = 23;
+
+  // Bisabolol.
+  BISABOLOL = 24;
+
+  // Phytol.
+  PHYTOL = 25;
+
+  // Sabinene.
+  SABINENE = 26;
+
+  // Camphor.
+  CAMPHOR = 27;
+
+  // Menthol.
+  MENTHOL = 28;
+
+  // Cedrene.
+  CEDRENE = 29;
+
+  // Nerol.
+  NEROL = 30;
+
+  // Nerolidol.
+  NEROLIDOL = 31;
+
+  // Guaiol.
+  GUAIOL = 32;
+
+  // Isopulegol.
+  ISOPULEGOL = 33;
+
+  // Geranyl-acetate.
+  GERANYL_ACETATE = 34;
+
+  // Cymene.
+  CYMENE = 35;
+
+  // Pulegone.
+  PULEGONE = 36;
+
+  // Cineole.
+  CINEOLE = 37;
+
+  // Fenchone.
+  FENCHONE = 38;
+
+  // Terpinene.
+  TERPINENE = 39;
+
+  // Citronellol.
+  CITRONELLOL = 40;
+
+  // Delta-3-carene.
+  DELTA_3_CARENE = 41;
+}

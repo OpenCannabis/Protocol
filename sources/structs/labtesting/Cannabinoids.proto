@@ -1,0 +1,105 @@
+
+/**
+ * Provides definitions and enumerations related specifically to compounds classified as cannabinoids. This includes an
+ * enumeration of all cannabinoid compounds known or supported by the system. Cannabinoid ratios and other ancillary
+ * definitions (but still related to cannabinoids) can be found here.
+ */
+syntax = "proto3";
+
+package opencannabis.structs.labtesting;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.product.struct.testing";
+option java_multiple_files = true;
+option java_outer_classname = "CannabinoidCompounds";
+
+
+// Enumerates available cannabinoid compounds, that generally show up in test results related to cannabis.
+enum Cannabinoid {
+  // THC.
+  THC = 0;
+
+  // THC-a.
+  THC_A = 1;
+
+  // THC-v.
+  THC_V = 2;
+
+  // THC-va.
+  THC_VA = 3;
+
+  // THC-8.
+  THC_8 = 4;
+
+  // THC-9.
+  THC_9 = 5;
+
+  // CBD.
+  CBD = 10;
+
+  // CBD-a.
+  CBD_A = 11;
+
+  // CBD-v.
+  CBD_V = 12;
+
+  // CBD-va.
+  CBD_VA = 13;
+
+  // CBC.
+  CBC = 20;
+
+  // CBC-a.
+  CBC_A = 21;
+
+  // CBG.
+  CBG = 30;
+
+  // CBG-a.
+  CBG_A = 31;
+
+  // CBN.
+  CBN = 40;
+
+  // CBN-a.
+  CBN_A = 41;
+
+  // CBV.
+  CBV = 50;
+
+  // CBV-a.
+  CBV_A = 51;
+
+  // TAC.
+  TAC = 60;
+
+  // CBL.
+  CBL = 70;
+
+  // CBL-a.
+  CBL_A = 71;
+}
+
+// Enumerates available cannabinoid ratio states. This value is computed from the THC and CBD test results, if
+// available, and expresses the general (low-resolution) ratio between those two values, which are the most important in
+// cannabis test result data.
+enum CannabinoidRatio {
+  // No cannabinoid dominance.
+  NO_CANNABINOID_PREFERENCE = 0;
+
+  // Majority THC or only THC.
+  THC_ONLY = 1;
+
+  // THC majority, with a minority of CBD.
+  THC_OVER_CBD = 2;
+
+  // Equal THC and CBD content.
+  EQUAL = 3;
+
+  // CBD majority, with a minority of THC.
+  CBD_OVER_THC = 4;
+
+  // Majority CBD or only CBD.
+  CBD_ONLY = 5;
+}

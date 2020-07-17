@@ -1,0 +1,44 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+## Partner
+proto(
+    name = "EmailAddress",
+    srcs = ["EmailAddress.proto"],
+    deps = ["//sources/public/models/core:Datamodel"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "PhoneNumber",
+    srcs = ["PhoneNumber.proto"],
+    deps = ["//sources/public/models/core:Datamodel"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "Website",
+    srcs = ["Website.proto"],
+    deps = ["//sources/public/models/core:Datamodel"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "ContactInfo",
+    srcs = ["ContactInfo.proto"],
+    deps = [
+        ":PhoneNumber",
+        ":EmailAddress",
+        ":Website",
+        "//sources/public/models/geo:Location",
+        "//sources/public/models/core:Datamodel"],
+    strip_import_prefix = "/sources/public/models")
+
+
+module(
+    name = "opencannabis.contact",
+    deps = [
+        ":EmailAddress",
+        ":PhoneNumber",
+        ":Website",
+        ":ContactInfo"],
+    strip_import_prefix = "/sources/public/models")

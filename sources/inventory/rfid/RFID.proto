@@ -1,22 +1,3 @@
-// OpenCannabis Protocol
-//
-// Copyright $today.year (c) OpenCannabis Authors. All rights reserved.
-// https://rfc.opencannabis.info - https://github.com/opencannabis/protocol
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-// * Redistributions of source code must retain the above copyright notice,
-//   this list of conditions and the following disclaimer.
-//
-// * Redistributions in binary form must reproduce the above copyright notice,
-//   this list of conditions and the following disclaimer in the documentation
-//   and/or other materials provided with the distribution.
-//
-// The source programming code in this file is licensed for open source use
-// under the terms of the Apache License 2.0. Please see NOTICE.txt and
-// LICENSE.txt at the root of this repository, or at the GitHub URL listed at
-// the top of this file, for more information.
 
 /**
  * Defines the structure of Radio Frequency Identifier (RFID)-related hardware and software. RFID is used in this
@@ -32,9 +13,6 @@ option java_package = "io.opencannabis.schema.inventory";
 option java_multiple_files = true;
 
 import "core/Datamodel.proto";
-
-import "bq_field.proto";
-import "bq_table.proto";
 
 
 // Describes known vendors of RFID reader equipment.
@@ -83,32 +61,32 @@ enum ReaderModel {
 message Reader {
   // Specifies the string name of the reader, if one is assigned and could be detected.
   string name = 1 [
-    (gen_bq_schema.description) = "Canonical label/name for the reader device involved in an RFID operation."
+    (core.field).summary = "Canonical label/name for the reader device involved in an RFID operation."
   ];
 
   // Specifies the MAC address of the reader device, assigned to the Ethernet/PoE port embedded on the device and hooked
   // into the local network.
   string mac = 2 [
-    (gen_bq_schema.require) = true,
-    (gen_bq_schema.description) = "MAC address of the reader device involved in an RFID operation."
+    (core.opts).required = true,
+    (core.field).summary = "MAC address of the reader device involved in an RFID operation."
   ];
 
   // Specifies the IP address of the reader device, where it can be connected to over LLRP, assuming no firewall or
   // security IDS/IPS interference.
   string ip = 3 [
-    (gen_bq_schema.description) = "IP address of the reader device involved in an RFID operation."
+    (core.field).summary = "IP address of the reader device involved in an RFID operation."
   ];
 
   // Describes the vendor of the RFID reader controller, if one could be detected.
   ReaderVendor vendor = 4 [
-    (gen_bq_schema.require) = true,
-    (gen_bq_schema.description) = "Vendor for the reader involved in an RFID operation."
+    (core.opts).required = true,
+    (core.field).summary = "Vendor for the reader involved in an RFID operation."
   ];
 
   // Describes the model of the RFID reader controller, if one could be detected.
   ReaderModel model = 5 [
-    (gen_bq_schema.require) = true,
-    (gen_bq_schema.description) = "Model of the reader involved in an RFID operation."
+    (core.opts).required = true,
+    (core.field).summary = "Model of the reader involved in an RFID operation."
   ];
 }
 
@@ -119,7 +97,7 @@ message Antenna {
   // Antenna number. This identifies the port which the antenna is connected to on the reader which is controlling this
   // external RFID antenna device.
   uint32 index = 1 [
-    (gen_bq_schema.description) = "Port index for the antenna that produced some operation."
+    (core.field).summary = "Port index for the antenna that produced some operation."
   ];
 }
 
@@ -130,14 +108,14 @@ message Tag {
   // Tag ID, assigned to the tag at manufacturing time and never over-written. Uniquely identifies this particular RFID
   // tag in a permanent, hard-to-reproduce manner.
   string tid = 1 [
-    (gen_bq_schema.description) = "Tag ID, assigned to the tag at manufacturing time and never over-written."
+    (core.field).summary = "Tag ID, assigned to the tag at manufacturing time and never over-written."
   ];
 
   // Raw content encoded onto the tag. This payload is set to complement any decoded content payload which might be
   // available as a result of this scan.
   bytes payload = 2 [
-    (gen_bq_schema.ignore) = true,
-    (gen_bq_schema.description) = "Raw content encoded onto the tag."
+    (core.column).ignore = true,
+    (core.field).summary = "Raw content encoded onto the tag."
   ];
 
   // Specifies decoded content, read from the raw content of the encodable section of the RFID tag we are describing.
@@ -145,8 +123,8 @@ message Tag {
     // EPC, or Electronic Product Code, which was read from the encoded data section of the subject RFID tag which we
     // are describing in this payload.
     string epc = 10 [
-      (gen_bq_schema.require) = true,
-      (gen_bq_schema.description) = "Electronic Product Code (EPC) that was present on the tag."
+      (core.opts).required = true,
+      (core.field).summary = "Electronic Product Code (EPC) that was present on the tag."
     ];
   }
 }

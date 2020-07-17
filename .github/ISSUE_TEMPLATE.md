@@ -1,7 +1,7 @@
 
 ### Description
 
-Version: `1.6.0`
+Version: `1.8.0-alpha3`
 
 <!-- Describe what happened. Include as much detail as necessary. -->
 

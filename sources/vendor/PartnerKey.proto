@@ -1,24 +1,3 @@
-// Bloombox Unified Schema: Source Redistributable
-//
-// Copyright $today.year (c) Momentum Ideas Co. All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are not permitted without express permission from a
-// director of Momentum Ideas Co. Source code contained in this file
-// is considered proprietary and potentially sensitive, but may, in
-// specific circumstances, be distributed alongside other OSS code.
-// Files with this specific header adhere to these rules and do not imply
-// a license change in any other file or package.
-//
-// Redistribution and use in source and binary forms, without modification,
-// are permitted provided that the following conditions are met:
-//
-// * Redistributions of source code must retain the above copyright notice,
-//   this list of conditions and any following disclaimer.
-//
-// * Redistributions in binary form must reproduce the above copyright notice,
-//   this list of conditions and any following disclaimer in the documentation
-//   and/or other materials provided with the distribution.
 
 /**
  * Specifies the structure of a key that unique describes the identity of a partner record.
@@ -33,15 +12,18 @@ option java_package = "io.bloombox.schema.partner";
 option java_multiple_files = false;
 option java_outer_classname = "PartnerMeta";
 
-import "bq_field.proto";
 import "core/Datamodel.proto";
 
 
 // Specifies a key that references a partner organization, with an account opened at Bloombox.
 message PartnerKey {
+  option (core.db) = {
+    path: "partners"
+  };
+
   // Short string that uniquely identifies a partner organization.
   string code = 1 [
     (core.field).type = ID,
-    (gen_bq_schema.description) = "Short string that uniquely identifies a partner organization."
+    (core.field).summary = "Short string that uniquely identifies a partner organization."
   ];
 }

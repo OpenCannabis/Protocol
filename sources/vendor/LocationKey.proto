@@ -1,24 +1,3 @@
-// Bloombox Unified Schema: Source Redistributable
-//
-// Copyright $today.year (c) Momentum Ideas Co. All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are not permitted without express permission from a
-// director of Momentum Ideas Co. Source code contained in this file
-// is considered proprietary and potentially sensitive, but may, in
-// specific circumstances, be distributed alongside other OSS code.
-// Files with this specific header adhere to these rules and do not imply
-// a license change in any other file or package.
-//
-// Redistribution and use in source and binary forms, without modification,
-// are permitted provided that the following conditions are met:
-//
-// * Redistributions of source code must retain the above copyright notice,
-//   this list of conditions and any following disclaimer.
-//
-// * Redistributions in binary form must reproduce the above copyright notice,
-//   this list of conditions and any following disclaimer in the documentation
-//   and/or other materials provided with the distribution.
 
 /**
  * Specifies a referencial key that points to a partner location record.
@@ -33,21 +12,26 @@ option java_package = "io.bloombox.schema.partner";
 option java_multiple_files = false;
 option java_outer_classname = "LocationAccountKey";
 
-import "bq_field.proto";
 import "core/Datamodel.proto";
 import "partner/PartnerKey.proto";
 
 
 // Specifies a key that references a location owned by a partner organization that has an active account with Bloombox.
 message LocationKey {
+  option (core.db) = {
+    path: "locations"
+    parent: "partners"
+  };
+
   // Specifies the partner that owns this location.
   bloombox.partner.PartnerKey partner = 1 [
-    (gen_bq_schema.description) = "Specifies the partner that owns this location."
+    (core.field).type = PARENT,
+    (core.field).summary = "Specifies the partner that owns this location."
   ];
 
   // Short string that uniquely identifies this location, under a given partner account.
   string code = 2 [
     (core.field).type = ID,
-    (gen_bq_schema.description) = "Short string that uniquely identifies this location, under a given partner account."
+    (core.field).summary = "Short string that uniquely identifies this location, under a given partner account."
   ];
 }

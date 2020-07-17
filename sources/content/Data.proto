@@ -1,0 +1,54 @@
+
+/**
+ * Provides definitions, structures, and enumerations related to raw data and data formats.
+ */
+syntax = "proto3";
+
+package opencannabis.content;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.content";
+option java_multiple_files = true;
+
+
+// Enumerates known data encapsulation or encoding formats, which are commonly found or used to integrate systems. These
+// formats (or, a subset of them) are supported for adaption to and from OpenCannabis.
+enum DataFormat {
+  // Sentinel value for an unknown, or unrecognized, data format.
+  UNKNOWN_FORMAT = 0;
+
+  // Comma-Separated-Values. When referred to with no other demarcation, this enumeration corresponds with
+  // [RFC4180 (Common Format and MIME Type for Comma-Separated Values)](https://tools.ietf.org/html/rfc4180).
+  CSV = 10;
+
+  // Tab-Separated-Values (i.e. CSV, but with tabs). Follows the same quoting and newline guidelines as RFC-4180.
+  TSV = 11;
+
+  // Excel-style CSV (Comma-Separated-Values) format.
+  EXCEL_CSV = 12;
+
+  // Old-style Excel spreadsheet format.
+  EXCEL_XLS = 13;
+
+  // Modern Excel spreadsheet format.
+  EXCEL_XLSX = 14;
+
+  // MessagePack: length-prefixed JSON-like binary encoding format, schemaless.
+  MSGPACK = 20;
+
+  // Avro: length-prefixed JSON-like binary encoding format, schema'd.
+  AVRO = 30;
+
+  // Structured Query Language-based systems or dialects.
+  SQL = 40;
+
+  // ProtoJSON/JSON object format, serialized to comply with the OpenCannabis standard.
+  JSON = 50;
+
+  // Proto-text format, serialized to comply with the OpenCannabis standard.
+  OCP_TEXT = 61;
+
+  // Proto-binary format, serialized to comply with the OpenCannabis standard.
+  OCP_BINARY = 62;
+}

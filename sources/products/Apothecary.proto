@@ -1,22 +1,3 @@
-// OpenCannabis Protocol
-//
-// Copyright $today.year (c) OpenCannabis Authors. All rights reserved.
-// https://rfc.opencannabis.info - https://github.com/opencannabis/protocol
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-// * Redistributions of source code must retain the above copyright notice,
-//   this list of conditions and the following disclaimer.
-//
-// * Redistributions in binary form must reproduce the above copyright notice,
-//   this list of conditions and the following disclaimer in the documentation
-//   and/or other materials provided with the distribution.
-//
-// The source programming code in this file is licensed for open source use
-// under the terms of the Apache License 2.0. Please see NOTICE.txt and
-// LICENSE.txt at the root of this repository, or at the GitHub URL listed at
-// the top of this file, for more information.
 
 /**
  * Provides structures relating to apothacary and enumerates various apothacary flags, and types.
@@ -37,33 +18,50 @@ import "content/MaterialsData.proto";
 import "content/ProductContent.proto";
 
 
-// Specifies types of apothecary items that may be expressed.
-enum ApothecaryType {
-  // Specifies an unidentified, or unspecified, apothecary item.
-  UNSPECIFIED_APOTHECARY = 0;
-
-  // Specifies a topical material, such as an ointment or oil, meant for application to the skin.
-  TOPICAL = 1;
-
-  // Specifies a liquid that may be added to other liquids or foods. Often used with tea.
-  TINCTURE = 2;
-
-  // Specifies a capsule containing cannabinoids, similar to a dietary supplement.
-  CAPSULE = 3;
-
-  // Specifies an injector or injection style system.
-  INJECTOR = 4;
-}
-
-
 // Specifies an apothecary item for sale. Apothecary items are described as drugstore-style items, like capsules, oils,
 // injectors, and other edge-case applications.
 message Apothecary {
+  // Specifies types of apothecary items that may be expressed.
+  enum Type {
+    // Specifies an unidentified, or unspecified, apothecary item.
+    UNSPECIFIED_APOTHECARY = 0;
+
+    // Specifies a topical material, such as an ointment or oil, meant for application to the skin.
+    TOPICAL = 1;
+
+    // Specifies a liquid that may be added to other liquids or foods. Often used with tea.
+    TINCTURE = 2;
+
+    // Specifies a capsule containing cannabinoids, similar to a dietary supplement.
+    CAPSULE = 3;
+
+    // Specifies an injector or injection style system.
+    INJECTOR = 4;
+
+    // Specifies a spray-style tool or bottle.
+    SPRAY = 5;
+
+    // Specifies a sublingual strip or dropper-style applicator.
+    SUBLINGUAL = 6;
+
+    // Specifies an anally-administered dose or applicator.
+    SUPPOSITORY = 7;
+
+    // Specifies a patch or substance that works via a transdermal mechanism (i.e. via skin).
+    TRANSDERMAL = 8;
+
+    // Bath bombs, soaps, and so on.
+    BATH_AND_BODY = 9;
+
+    // Lotions, creams, and balms.
+    LOTION = 10;
+  }
+
   // Product key uniquely identifying this apothecary item.
   opencannabis.base.ProductKey key = 1;
 
   // Specific type of apothecary item being described.
-  ApothecaryType type = 2;
+  Type type = 2;
 
   // Product content about this apothecary item.
   opencannabis.content.ProductContent product = 3;

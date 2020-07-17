@@ -1,0 +1,20 @@
+
+package(default_visibility = ["//visibility:public"])
+
+load("@io_bazel_rules_closure//closure:defs.bzl",
+     "closure_js_proto_library",
+     "closure_proto_library")
+
+alias(name = "OpenCannabis", actual = "//sources/public/models:OpenCannabis")
+alias(name = "Schema", actual = "//sources/private/models:schema")
+alias(name = "Services", actual = "//sources/private/services:services")
+
+
+# Exports
+proto_library(
+    name = "models",
+    deps = [":OpenCannabis", ":Schema"])
+
+proto_library(
+    name = "bloombox.schema",
+    deps = [":OpenCannabis", ":Schema", ":Services"])

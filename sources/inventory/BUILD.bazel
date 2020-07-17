@@ -1,0 +1,35 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+# Inventory
+proto(
+    name = "InventoryProduct",
+    srcs = ["InventoryProduct.proto"],
+    deps = [
+        "//sources/public/models/core:Datamodel",
+        "//sources/public/models/base:ProductKey",
+        "//sources/public/models/temporal:Instant",
+        "//sources/public/models/commerce:Item",
+        "//sources/public/models/products/menu:Menu",
+        "//sources/public/models/structs/pricing:PricingDescriptor"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "InventoryLocation",
+    srcs = ["InventoryLocation.proto"],
+    deps = [
+        ":InventoryProduct",
+        "//sources/public/models/core:Datamodel",
+        "//sources/public/models/contact:ContactInfo"],
+    strip_import_prefix = "/sources/public/models")
+
+
+module(
+    name = "opencannabis.inventory",
+    deps = [
+        ":InventoryProduct",
+        ":InventoryLocation",
+        "//sources/public/models/inventory/rfid:opencannabis.inventory.rfid"],
+    strip_import_prefix = "/sources/public/models")

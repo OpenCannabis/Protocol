@@ -1,22 +1,3 @@
-// OpenCannabis Protocol
-//
-// Copyright $today.year (c) OpenCannabis Authors. All rights reserved.
-// https://rfc.opencannabis.info - https://github.com/opencannabis/protocol
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-// * Redistributions of source code must retain the above copyright notice,
-//   this list of conditions and the following disclaimer.
-//
-// * Redistributions in binary form must reproduce the above copyright notice,
-//   this list of conditions and the following disclaimer in the documentation
-//   and/or other materials provided with the distribution.
-//
-// The source programming code in this file is licensed for open source use
-// under the terms of the Apache License 2.0. Please see NOTICE.txt and
-// LICENSE.txt at the root of this repository, or at the GitHub URL listed at
-// the top of this file, for more information.
 
 /**
  * Specifies structures that relate to data modeling and the structure of the data. Enumerates collection mode and field
@@ -26,7 +7,6 @@ syntax = "proto3";
 package core;
 
 import "google/protobuf/descriptor.proto";
-import "content/Colors.proto";
 
 
 // Sets the visibility of a given object and its constituent properties, in circumstances where the object is served to
@@ -80,6 +60,15 @@ enum FieldType {
 
   // Store this object as a special flags-style mapping.
   FLAGS = 4;
+
+  // This key is a foreign reference.
+  REFERENCE = 5;
+
+  // This item is a timestamp.
+  TIMESTAMP = 6;
+
+  // This field represents a key for this item's parent.
+  PARENT = 7;
 }
 
 
@@ -94,6 +83,15 @@ message DatapointOptions {
   // Whether this data point (model or field or enum, etc) should be considered "required" for this model to be valid.
   // This setting is applied in various circumstances, usually when data crosses API boundaries.
   bool required = 2;
+
+  // Whether this property contains a "concrete" sub-message, in which case, its properties are lifted to the parent
+  // entity. During decoding, a property is added to indicate the concrete selection made. This is usually combined with
+  // generic types in a one-of field, for instance, in `MenuProduct`.
+  bool concrete = 3;
+
+  // Indicate to the data storage engine that a given field is ephemeral, and should not be stored, but rather held with
+  // a calculated value for use in systems upstream from the data storage layer.
+  bool ephemeral = 4;
 }
 
 
@@ -105,6 +103,9 @@ message PersistenceOptions {
 
   // Data path for a given message, with items in the URL corresponding to parameters in the item's key path.
   string path = 2;
+
+  // Name of this item's parent collection, if applicable.
+  string parent = 3;
 }
 
 // Options specific to model integration with table-style engines, where there can be a table name and/or description
@@ -122,8 +123,33 @@ message SubmessageOptions {
   // Collection storage mode for the given sub-message field.
   CollectionMode mode = 1;
 
+  // Concrete type name for this sub-message type.
+  string concrete = 2;
+
   // Data path for the given sub-message field.
   string path = 3;
+
+  // If the persistence node is in `COLLECTION` mode, this flag will embed it in the parent entity anyway. Useful in
+  // some circumstances where sub-listed data is for indexing, and fetching it repeatedly would be inefficient.
+  bool embed = 4;
+}
+
+// Describes the visibility options for a given field.
+enum FieldVisibility {
+  // Default visibility level. No change to default behavior.
+  DEFAULT_VISIBILITY = 0;
+
+  // Denotes data that is fine to expose publicly.
+  OPEN = 1;
+
+  // Denotes data that should only be exposed to authorized users.
+  AUTHORIZED = 2;
+
+  // Denotes data that should only be exposed to users authorized by the owner.
+  OWNER = 3;
+
+  // Denotes data that should only be exposed internally.
+  INTERNAL = 4;
 }
 
 // Persistence/data engine options specific to an individual message field.
@@ -133,6 +159,35 @@ message FieldPersistenceOptions {
 
   // String description of this field included in schemas.
   string description = 2;
+
+  // Summary for this field, which provides a narrative description. It should be suitable for use in external
+  // circumstances, like documentation.
+  string summary = 3;
+
+  // This item is a timestamp, and we would like it to be automatically updated each time the model that contains it is
+  // modified in underlying storage. The field should be read-only.
+  bool stamp_update = 5;
+
+  // This item is a timestamp, and we would like it to be automatically set when the model is created. After that point,
+  // we would like this field to be read-only.
+  bool stamp_create = 6;
+
+  // This field should not allow writes, but rather produce its value dynamically. Fields marked in this manner cannot
+  // be set by external code at any point in time.
+  bool read_only = 7;
+
+  // This field should allow writes when the model that contains it is written, but then, henceforth, the model should
+  // not allow this field to be mutated.
+  bool immutable = 8;
+
+  // This field should always be explicitly listed with a value, even if it is set to the default value. This function
+  // is especially useful for enums with default values, when there is a desire to have consistent indexes.
+  bool explicit = 9;
+
+  // Describes the visibility level of a given field in a tree of fields. This value applies recursively under message
+  // fields on which it is applied. Depending on the visibility level active when data is deserialized or serialized,
+  // certain data may be withheld corresponding to the invoking user or system's access level.
+  FieldVisibility visibility = 10;
 }
 
 // Specifies options specific to storing this field in a tabular-style data engine.
@@ -192,9 +247,6 @@ extend google.protobuf.EnumValueOptions {
   // Human-readable label for a given enumeration value state. Optional, can be used by invoking code to generate labels
   // for states in forms or other UI.
   string label = 8003;
-
-  // Color code value for a given enumerated value state. Optional, can be used by invoking code to generate UI schemes.
-  opencannabis.content.Color color = 8004;
 
   // Settings that specify state for this enum value, including validation settings, as applicable.
   DatapointOptions value = 8007;

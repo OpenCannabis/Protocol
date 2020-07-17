@@ -1,0 +1,41 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+# Menus
+proto(
+    name = "Section",
+    srcs = ["Section.proto"],
+    deps = [
+        "//sources/public/models/content:Name",
+        "//sources/public/models/media:MediaItem"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "Menu",
+    srcs = ["Menu.proto"],
+    deps = [
+        ":Section",
+        "//sources/public/models/core:Datamodel",
+        "//sources/public/models/base:ProductKey",
+        "//sources/public/models/media:MediaKey",
+        "//sources/public/models/temporal:Instant",
+        "//sources/public/models/products:Apothecary",
+        "//sources/public/models/products:Cartridge",
+        "//sources/public/models/products:Edible",
+        "//sources/public/models/products:Extract",
+        "//sources/public/models/products:Flower",
+        "//sources/public/models/products:Merchandise",
+        "//sources/public/models/products:Plant",
+        "//sources/public/models/products:Preroll",
+        "//sources/public/models/products:SKU",
+        "//sources/public/models/crypto/primitives:Integrity",
+        "//sources/private/models/partner:LocationKey"],
+    strip_import_prefix = "/sources/public/models")
+
+
+module(
+    name = "opencannabis.products.menu",
+    deps = [":Section", ":Menu"],
+    strip_import_prefix = "/sources/public/models")

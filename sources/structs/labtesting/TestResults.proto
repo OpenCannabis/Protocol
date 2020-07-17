@@ -1,22 +1,3 @@
-// OpenCannabis Protocol
-//
-// Copyright $today.year (c) OpenCannabis Authors. All rights reserved.
-// https://rfc.opencannabis.info - https://github.com/opencannabis/protocol
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-// * Redistributions of source code must retain the above copyright notice,
-//   this list of conditions and the following disclaimer.
-//
-// * Redistributions in binary form must reproduce the above copyright notice,
-//   this list of conditions and the following disclaimer in the documentation
-//   and/or other materials provided with the distribution.
-//
-// The source programming code in this file is licensed for open source use
-// under the terms of the Apache License 2.0. Please see NOTICE.txt and
-// LICENSE.txt at the root of this repository, or at the GitHub URL listed at
-// the top of this file, for more information.
 
 /**
  * Empirical laboratory product testing structures and definitions. Provides support for cannabinoid testing, terpene
@@ -34,6 +15,9 @@ option java_outer_classname = "LabTesting";
 
 import "content/Content.proto";
 import "temporal/Instant.proto";
+
+import "structs/labtesting/Terpenes.proto";
+import "structs/labtesting/Cannabinoids.proto";
 import "structs/labtesting/TestValue.proto";
 
 
@@ -50,7 +34,7 @@ enum TestMethod {
   // Recommended for the most volatile compounds.
   LCMS = 2;
 
-  // Classic PCR is a qualitative and semi-quantitative genetic test that identifies the presense or absence of 
+  // Classic PCR is a qualitative and semi-quantitative genetic test that identifies the presence or absence of
   // specific genes.
   CLASSIC_PCR = 3;
 
@@ -63,7 +47,7 @@ enum TestMethod {
 }
 
 
-// Test results for contaminants which indicate presense/absense of a compound along with a value (if available)
+// Test results for contaminants which indicate presence/absence of a compound along with a value (if available)
 message Contaminants {
   // Pesticide-specific test results. Indicates a pesticide reading, by chemical compound name, and a reading value.
   Pesticides pesticides = 1;
@@ -158,73 +142,6 @@ message TestCoordinates {
   // Unique ID given to the sample that was tested. This may represent individual plants or products, grouped lots or
   // batches, or even random selections from entire zones.
   string sample_id = 4;
-}
-
-
-// Enumerates available cannabinoid compounds, that generally show up in test results related to cannabis.
-enum Cannabinoid {
-  // THC.
-  THC = 0;
-
-  // THC-a.
-  THC_A = 1;
-
-  // THC-v.
-  THC_V = 2;
-
-  // CBD.
-  CBD = 10;
-
-  // CBD-a.
-  CBD_A = 11;
-
-  // CBD-v.
-  CBD_V = 12;
-
-  // CBD-va.
-  CBD_VA = 13;
-
-  // CBC.
-  CBC = 20;
-
-  // CBG.
-  CBG = 30;
-
-  // CBG-a.
-  CBG_A = 31;
-
-  // CBN.
-  CBN = 40;
-
-  // CBV.
-  CBV = 50;
-
-  // CBV-a.
-  CBV_A = 51;
-}
-
-
-// Enumerates available cannabinoid ratio states. This value is computed from the THC and CBD test results, if
-// available, and expresses the general (low-resolution) ratio between those two values, which are the most important in
-// cannabis test result data.
-enum CannabinoidRatio {
-  // No cannabinoid dominance.
-  NO_CANNABINOID_PREFERENCE = 0;
-
-  // Majority THC or only THC.
-  THC_ONLY = 1;
-
-  // THC majority, with a minority of CBD.
-  THC_OVER_CBD = 2;
-
-  // Equal THC and CBD content.
-  EQUAL = 3;
-
-  // CBD majority, with a minority of THC.
-  CBD_OVER_THC = 4;
-
-  // Majority CBD or only CBD.
-  CBD_ONLY = 5;
 }
 
 
@@ -431,136 +348,4 @@ message Terpenes {
 
   // Enumerates computed aroma/flavor notes.
   repeated TasteNote aroma = 3;
-}
-
-
-// Enumerates known terpene compounds. Terpenes are volatile chemical compounds that define the taste and aroma (flavor,
-// smell, etc), and in some manners, the psychokinetic experience of cannabis in flower, concentrate, edible, preroll or
-// cartridge form.
-enum Terpene {
-  // Camphene.
-  CAMPHENE = 0;
-
-  // Carene.
-  CARENE = 1;
-
-  // Beta-caryophyllene.
-  BETA_CARYOPHYLLENE = 2;
-
-  // Caryophyllene-oxide.
-  CARYOPHYLLENE_OXIDE = 3;
-
-  // Eucalyptol.
-  EUCALYPTOL = 4;
-
-  // Fenchol.
-  FENCHOL = 5;
-
-  // Alpha-humulene.
-  ALPHA_HUMULENE = 6;
-
-  // Limonene.
-  LIMONENE = 7;
-
-  // Linalool.
-  LINALOOL = 8;
-
-  // Myrcene.
-  MYRCENE = 9;
-
-  // Alpha-ocimene.
-  ALPHA_OCIMENE = 10;
-
-  // Beta-ocimene.
-  BETA_OCIMENE = 11;
-
-  // Alpha-phellandrene.
-  ALPHA_PHELLANDRENE = 12;
-
-  // Alpha-pinene.
-  ALPHA_PINENE = 13;
-
-  // Beta-pinene.
-  BETA_PINENE = 14;
-
-  // Alpha-terpineol.
-  ALPHA_TERPINEOL = 15;
-
-  // Alpha-terpinine.
-  ALPHA_TERPININE = 16;
-
-  // Gamma-terpinine.
-  GAMMA_TERPININE = 17;
-
-  // Terpinolene.
-  TERPINOLENE = 18;
-
-  // Valencene.
-  VALENCENE = 19;
-
-  // Geraniol.
-  GERANIOL = 20;
-
-  // Phellandrene.
-  PHELLANDRENE = 21;
-
-  // Borneol.
-  BORNEOL = 22;
-
-  // Isoborneol.
-  ISOBORNEOL = 23;
-
-  // Bisabolol.
-  BISABOLOL = 24;
-
-  // Phytol.
-  PHYTOL = 25;
-
-  // Sabinene.
-  SABINENE = 26;
-
-  // Camphor.
-  CAMPHOR = 27;
-
-  // Menthol.
-  MENTHOL = 28;
-
-  // Cedrene.
-  CEDRENE = 29;
-
-  // Nerol.
-  NEROL = 30;
-
-  // Nerolidol.
-  NEROLIDOL = 31;
-
-  // Guaiol.
-  GUAIOL = 32;
-
-  // Isopulegol.
-  ISOPULEGOL = 33;
-
-  // Geranyl-acetate.
-  GERANYL_ACETATE = 34;
-
-  // Cymene.
-  CYMENE = 35;
-
-  // Pulegone.
-  PULEGONE = 36;
-
-  // Cineole.
-  CINEOLE = 37;
-
-  // Fenchone.
-  FENCHONE = 38;
-
-  // Terpinene.
-  TERPINENE = 39;
-
-  // Citronellol.
-  CITRONELLOL = 40;
-
-  // Delta-3-carene.
-  DELTA_3_CARENE = 41;
 }

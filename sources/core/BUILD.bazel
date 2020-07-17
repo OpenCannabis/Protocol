@@ -1,0 +1,17 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+## Core
+proto(
+    name = "Datamodel",
+    srcs = ["Datamodel.proto"],
+    deps = ["@com_google_protobuf//:descriptor_proto"],
+    strip_import_prefix = "/sources/public/models")
+
+
+module(
+    name = "opencannabis.core",
+    deps = [":Datamodel"],
+    strip_import_prefix = "/sources/public/models")

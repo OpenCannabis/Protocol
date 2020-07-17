@@ -1,0 +1,29 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+# Person
+proto(
+    name = "PersonName",
+    srcs = ["PersonName.proto"],
+    deps = ["//sources/public/models/core:Datamodel"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "Person",
+    srcs = ["Person.proto"],
+    deps = [
+        ":PersonName",
+        "//sources/public/models/contact:ContactInfo",
+        "//sources/public/models/temporal:Date",
+        "//sources/public/models/core:Datamodel"],
+    strip_import_prefix = "/sources/public/models")
+
+
+module(
+    name = "opencannabis.person",
+    deps = [
+        ":PersonName",
+        ":Person"],
+    strip_import_prefix = "/sources/public/models")

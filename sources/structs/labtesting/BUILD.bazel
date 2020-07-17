@@ -1,0 +1,38 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+# Testing
+proto(
+    name = "Terpenes",
+    srcs = ["Terpenes.proto"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "Cannabinoids",
+    srcs = ["Cannabinoids.proto"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "TestValue",
+    srcs = ["TestValue.proto"],
+    deps = ["//sources/public/models/media:MediaItem"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "TestResults",
+    srcs = ["TestResults.proto"],
+    deps = [
+        ":TestValue",
+        ":Terpenes",
+        ":Cannabinoids",
+        "//sources/public/models/content:Content",
+        "//sources/public/models/temporal:Instant"],
+    strip_import_prefix = "/sources/public/models")
+
+
+module(
+    name = "opencannabis.structs.labtesting",
+    deps = [":TestValue", ":TestResults", ":Terpenes", ":Cannabinoids"],
+    strip_import_prefix = "/sources/public/models")

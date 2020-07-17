@@ -1,22 +1,3 @@
-// OpenCannabis Protocol
-//
-// Copyright $today.year (c) OpenCannabis Authors. All rights reserved.
-// https://rfc.opencannabis.info - https://github.com/opencannabis/protocol
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-// * Redistributions of source code must retain the above copyright notice,
-//   this list of conditions and the following disclaimer.
-//
-// * Redistributions in binary form must reproduce the above copyright notice,
-//   this list of conditions and the following disclaimer in the documentation
-//   and/or other materials provided with the distribution.
-//
-// The source programming code in this file is licensed for open source use
-// under the terms of the Apache License 2.0. Please see NOTICE.txt and
-// LICENSE.txt at the root of this repository, or at the GitHub URL listed at
-// the top of this file, for more information.
 
 /**
  * Specifies structures that, together, form a composed menu product catalog, which is defined as a payload that
@@ -35,10 +16,14 @@ option java_multiple_files = true;
 import "core/Datamodel.proto";
 
 import "base/ProductKey.proto";
+import "media/MediaKey.proto";
 import "temporal/Instant.proto";
 import "products/menu/Section.proto";
 import "crypto/primitives/Integrity.proto";
 
+import "partner/LocationKey.proto";
+
+import "products/SKU.proto";
 import "products/Apothecary.proto";
 import "products/Cartridge.proto";
 import "products/Edible.proto";
@@ -119,39 +104,74 @@ message Metadata {
 // Specifies the concept of a tag that may be arbitrarily created and attached to menu products, in a many-to-many-style
 // relationship, for the purpose of categorically sorting/managing items.
 message ProductTag {
+  option (core.db) = {
+    mode: GROUP
+    path: "tags"
+  };
+
   // ID for the tag. Usually a shortened version of the display name.
-  string id = 1;
+  string id = 1 [
+    (core.field).type = ID,
+    (core.opts).required = true
+  ];
+
+  // Partner ID for the account that owns this tag.
+  string partner = 2 [(core.opts).required = true];
+
+  // Location ID for the account that owns this tag.
+  string location = 3 [(core.opts).required = true];
 
   // Display text for the tag.
-  string display = 2;
+  string display = 4 [(core.opts).required = true];
 
   // Color code, in hex, for the tag.
-  string color = 3;
+  string color = 5;
+
+  // Optional description for this product tag.
+  string description = 6;
 }
 
 
 // Specifies a foreign reference for a given menu product. A foreign reference is a unique ID or link between a product
 // and that same product in some foreign computer system.
 message ForeignReference {
+  option (core.db) = {
+    mode: GROUP
+    path: "references"
+  };
+
+  // Generated ID for this unique foreign reference. Ideally, should be based on the formula MD5(domain + key), to allow
+  // de-duplication and presence detection with keys-only queries.
+  string id = 1 [
+    (core.field).type = ID,
+    (core.opts).required = true
+  ];
+
   // Foreign key value for a reference between an in-network product and an out-of-network representation of that same
   // product in a different computer system.
-  string key = 1;
+  string key = 2 [(core.opts).required = true];
+
+  // Partner ID for the account that owns this foreign reference.
+  string partner = 3 [(core.opts).required = true];
+
+  // Location ID for the account that owns this foreign reference.
+  string location = 4 [(core.opts).required = true];
 
   // Domain for the integrating system. This is usually set to a unique domain value that corresponds to the foreign
   // system, and can be used to identify it later.
-  string domain = 2;
+  string domain = 5 [(core.opts).required = true];
 
   // URL to this product in the foreign system, if applicable. Can also be a link to a REST URL payload representing
   // this product's data in the foreign system.
-  string link = 3;
+  string link = 6;
 
   // Timestamp for when this foreign reference was attached to a given menu product. This timestamp should only be set
   // once, upon original creation/linking of the foreign reference.
-  opencannabis.temporal.Instant attached = 4;
+  opencannabis.temporal.Instant attached = 7;
 
   // Timestamp indicating when this foreign product reference was last validated with the foreign system. Each time an
   // item is fetched or otherwise synchronized, this should be updated.
-  opencannabis.temporal.Instant validated = 5;
+  opencannabis.temporal.Instant validated = 8;
 }
 
 
@@ -172,37 +192,82 @@ message MenuProduct {
 
   // Product tags attached to this entry. Product tags are arbitrary phrases or strings that may be attached to product
   // records to help categorize them or facilitate their management. They are not generally end-user-visible.
-  repeated ProductTag tag = 2;
+  repeated ProductTag tag = 2 [
+    (core.field).visibility = OWNER,
+    (core.collection) = {
+      mode: GROUP
+      concrete: "tags"
+      path: "tags"
+    }
+  ];
 
   // Set of foreign references for this product, or, instances in which this product exists in an out-of-network system,
   // in a uniquely identifiable way.
-  repeated ForeignReference ref = 3;
+  repeated ForeignReference ref = 3 [
+    (core.field).visibility = INTERNAL,
+    (core.collection) = {
+      mode: GROUP
+      concrete: "references"
+      path: "references"
+    }
+  ];
+
+  // Specifies media references for this product. These are gathered from all applicable sub-objects, for instance,
+  // product content media and laboratory test result attached media.
+  repeated opencannabis.media.MediaReference media = 4 [
+    (core.collection) = {
+      mode: GROUP
+      concrete: "media"
+      path: "media"
+      embed: true
+    }
+  ];
+
+  // Specifies Stock-Keeping-Units (SKUs) mapped to this product in foreign systems. This is distinguished from foreign
+  // references by the ability to address specific product variants over multiple opaque IDs.
+  repeated opencannabis.products.sku.MappedSKU sku = 5 [
+    (core.field).visibility = INTERNAL,
+    (core.collection) = {
+      mode: COLLECTION
+      path: "sku"
+      embed: true
+    }
+  ];
+
+  // Describes the location scope that owns this product key, and the underlying data associated with it.
+  bloombox.partner.LocationKey owner = 6 [
+    (core.field) = {
+      type: PARENT
+      visibility: INTERNAL
+      summary: "Describes the location scope that owns this product key, and the data associated with it."
+    }
+  ];
 
   // Content and materials data for this menu product.
   oneof product {
     // Apothecary product.
-    opencannabis.products.Apothecary apothecary = 10;
+    opencannabis.products.Apothecary apothecary = 10 [(core.opts).concrete = true];
 
     // Cartridge product.
-    opencannabis.products.Cartridge cartridge = 11;
+    opencannabis.products.Cartridge cartridge = 11 [(core.opts).concrete = true];
 
     // Edible product.
-    opencannabis.products.Edible edible = 12;
+    opencannabis.products.Edible edible = 12 [(core.opts).concrete = true];
 
     // Extract product.
-    opencannabis.products.Extract extract = 13;
+    opencannabis.products.Extract extract = 13 [(core.opts).concrete = true];
 
     // Flower product.
-    opencannabis.products.Flower flower = 14;
+    opencannabis.products.Flower flower = 14 [(core.opts).concrete = true];
 
     // Merchandise product.
-    opencannabis.products.Merchandise merchandise = 15;
+    opencannabis.products.Merchandise merchandise = 15 [(core.opts).concrete = true];
 
     // Plant product.
-    opencannabis.products.Plant plant = 16;
+    opencannabis.products.Plant plant = 16 [(core.opts).concrete = true];
 
     // Preroll product.
-    opencannabis.products.Preroll preroll = 17;
+    opencannabis.products.Preroll preroll = 17 [(core.opts).concrete = true];
   }
 }
 
@@ -233,6 +298,8 @@ message SectionedMenu {
 // Specifies an inner menu payload which contains mapped data, where each map key is a section name, lower-cased, and
 // each map value is itself a product, and each map is addressed at a typed property name.
 message StaticMenu {
+  option deprecated = true;
+
   // Specifies APOTHECARY products attached to this menu.
   map<string, opencannabis.products.Apothecary> apothecary = 1;
 
@@ -271,6 +338,6 @@ message Menu {
     SectionedMenu payload = 3;
 
     // Specifies a static menu, where each section is specified as a typed map, with keys mapped to products.
-    StaticMenu menu = 4;
+    StaticMenu menu = 4 [deprecated = true];
   }
 }

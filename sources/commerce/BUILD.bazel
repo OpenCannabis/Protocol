@@ -1,0 +1,81 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+# Commerce
+proto(
+    name = "Currency",
+    srcs = ["Currency.proto"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "Customer",
+    srcs = ["Customer.proto"],
+    deps = [
+        "//sources/public/models/person:Person",
+        "//sources/public/models/core:Datamodel"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "Delivery",
+    srcs = ["Delivery.proto"],
+    deps = [
+        "//sources/public/models/geo:Address",
+        "//sources/public/models/core:Datamodel"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "Discounts",
+    srcs = ["Discounts.proto"],
+    deps = ["//sources/public/models/temporal:Instant"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "Item",
+    srcs = ["Item.proto"],
+    deps = [
+        "//sources/public/models/base:ProductKey",
+        "//sources/public/models/structs/pricing:PricingDescriptor"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "Order",
+    srcs = ["Order.proto"],
+    deps = [
+        ":Item",
+        ":Delivery",
+        ":Customer",
+        "//sources/public/models/commerce/payments:Payment",
+        "//sources/public/models/temporal:Instant",
+        "//sources/public/models/core:Datamodel"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "Purchase",
+    srcs = ["Purchase.proto"],
+    deps = [
+        ":Item",
+        ":Currency",
+        ":Discounts",
+        "//sources/public/models/core:Datamodel",
+        "//sources/public/models/accounting:Taxes",
+        "//sources/public/models/crypto:Signature",
+        "//sources/public/models/commerce/payments:Payment",
+        "//sources/public/models/inventory:InventoryProduct",
+        "//sources/public/models/temporal:Instant"],
+    strip_import_prefix = "/sources/public/models")
+
+
+module(
+    name = "opencannabis.commerce",
+    deps = [
+        ":Currency",
+        ":Customer",
+        ":Delivery",
+        ":Discounts",
+        ":Item",
+        ":Order",
+        ":Purchase",
+        "//sources/public/models/commerce/payments:opencannabis.commerce.payments"],
+    strip_import_prefix = "/sources/public/models")

@@ -1,0 +1,32 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+# Cryptography
+proto(
+    name = "Signature",
+    srcs = ["Signature.proto"],
+    deps = [
+        "//sources/public/models/crypto/primitives:Keys",
+        "//sources/public/models/crypto/primitives:Integrity"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "Container",
+    srcs = ["Container.proto"],
+    deps = [
+        "//sources/public/models/base:Compression",
+        "//sources/public/models/content:Content",
+        "//sources/public/models/crypto/primitives:Keys",
+        "//sources/public/models/crypto/primitives:Integrity"],
+    strip_import_prefix = "/sources/public/models")
+
+
+module(
+    name = "opencannabis.crypto",
+    deps = [
+        ":Signature",
+        ":Container",
+        "//sources/public/models/crypto/primitives:opencannabis.crypto.primitives"],
+    strip_import_prefix = "/sources/public/models")

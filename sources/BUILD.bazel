@@ -1,0 +1,83 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "module")
+
+
+alias(name = "opencannabis.accounting",
+      actual = "//sources/public/models/accounting:opencannabis.accounting")
+
+alias(name = "opencannabis.base",
+      actual = "//sources/public/models/base:opencannabis.base")
+
+alias(name = "opencannabis.commerce",
+      actual = "//sources/public/models/commerce:opencannabis.commerce")
+
+alias(name = "opencannabis.contact",
+      actual = "//sources/public/models/contact:opencannabis.contact")
+
+alias(name = "opencannabis.content",
+      actual = "//sources/public/models/content:opencannabis.content")
+
+alias(name = "opencannabis.core",
+      actual = "//sources/public/models/core:opencannabis.core")
+
+alias(name = "opencannabis.crypto",
+      actual = "//sources/public/models/crypto:opencannabis.crypto")
+
+alias(name = "opencannabis.device",
+      actual = "//sources/public/models/device:opencannabis.device")
+
+alias(name = "opencannabis.geo",
+      actual = "//sources/public/models/geo:opencannabis.geo")
+
+alias(name = "opencannabis.inventory",
+      actual = "//sources/public/models/inventory:opencannabis.inventory")
+
+alias(name = "opencannabis.media",
+      actual = "//sources/public/models/media:opencannabis.media")
+
+alias(name = "opencannabis.oauth",
+      actual = "//sources/public/models/oauth:opencannabis.oauth")
+
+alias(name = "opencannabis.person",
+      actual = "//sources/public/models/person:opencannabis.person")
+
+alias(name = "opencannabis.products",
+      actual = "//sources/public/models/products:opencannabis.products")
+
+alias(name = "opencannabis.proximity",
+      actual = "//sources/public/models/proximity:opencannabis.proximity")
+
+alias(name = "opencannabis.regulatory",
+      actual = "//sources/public/models/regulatory:opencannabis.regulatory")
+
+alias(name = "opencannabis.structs",
+      actual = "//sources/public/models/structs:opencannabis.structs")
+
+alias(name = "opencannabis.temporal",
+      actual = "//sources/public/models/temporal:opencannabis.temporal")
+
+
+## OpenCannabis: Models
+module(
+    name = "OpenCannabis",
+    deps = [
+        ":opencannabis.accounting",
+        ":opencannabis.base",
+        ":opencannabis.commerce",
+        ":opencannabis.contact",
+        ":opencannabis.content",
+        ":opencannabis.core",
+        ":opencannabis.crypto",
+        ":opencannabis.device",
+        ":opencannabis.geo",
+        ":opencannabis.inventory",
+        ":opencannabis.media",
+        ":opencannabis.oauth",
+        ":opencannabis.person",
+        ":opencannabis.products",
+        ":opencannabis.proximity",
+        ":opencannabis.regulatory",
+        ":opencannabis.structs",
+        ":opencannabis.temporal"],
+    strip_import_prefix = "/sources/public/models")

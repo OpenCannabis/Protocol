@@ -1,22 +1,3 @@
-// OpenCannabis Protocol
-//
-// Copyright $today.year (c) OpenCannabis Authors. All rights reserved.
-// https://rfc.opencannabis.info - https://github.com/opencannabis/protocol
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-// * Redistributions of source code must retain the above copyright notice,
-//   this list of conditions and the following disclaimer.
-//
-// * Redistributions in binary form must reproduce the above copyright notice,
-//   this list of conditions and the following disclaimer in the documentation
-//   and/or other materials provided with the distribution.
-//
-// The source programming code in this file is licensed for open source use
-// under the terms of the Apache License 2.0. Please see NOTICE.txt and
-// LICENSE.txt at the root of this repository, or at the GitHub URL listed at
-// the top of this file, for more information.
 
 /**
  * Provides a structure for specifying a specific point on the earth.
@@ -30,7 +11,7 @@ option objc_class_prefix = "OCS";
 option java_package = "io.opencannabis.schema.geo";
 option java_multiple_files = true;
 
-import "bq_field.proto";
+import "core/Datamodel.proto";
 import "geo/Distance.proto";
 
 
@@ -39,21 +20,85 @@ import "geo/Distance.proto";
 message Point {
   // Latitude value of this point.
   double latitude = 1 [
-    (gen_bq_schema.description) = "Latitude value of this point."
+    (core.field).summary = "Latitude value of this point."
   ];
 
   // Longitude value of this point.
   double longitude = 2 [
-    (gen_bq_schema.description) = "Longitude value of this point."
+    (core.field).summary = "Longitude value of this point."
   ];
 
   // Elevation of this point, if any.
   Distance elevation = 3 [
-    (gen_bq_schema.description) = "Elevation of this point, if any."
+    (core.field).summary = "Elevation of this point, if any."
   ];
 
   // Accuracy rating attached to this point, if any.
   Distance accuracy = 4 [
-    (gen_bq_schema.description) = "Accuracy rating attached to this point, if any."
+    (core.field).summary = "Accuracy rating attached to this point, if any."
+  ];
+}
+
+
+// Specifies a world coordinate structure, which implements the Mercator Projection for use with Google Maps.
+message WorldCoordinate {
+  // 'Right' value for a world coordinate.
+  double right = 1 [
+    (core.field).summary = "'Right' value for a world coordinate."
+  ];
+
+  // 'Down' value for a world coordinate.
+  double down = 2 [
+    (core.field).summary = "'Down' value for a world coordinate."
+  ];
+
+  // Elevation of this point, if any.
+  Distance elevation = 3 [
+    (core.field).summary = "Elevation of this point, if any."
+  ];
+
+  // Accuracy rating attached to this point, if any.
+  Distance accuracy = 4 [
+    (core.field).summary = "Accuracy rating attached to this point, if any."
+  ];
+}
+
+
+// Specifies a map coordinate by tile and pixel locations.
+message MapCoordinate {
+  // `x` value for a map coordinate.
+  uint32 x = 1;
+
+  // `y` value for a map coordinate.
+  uint32 y = 2;
+
+  // `right` value for a map coordinate (tile `x`).
+  uint32 right = 3;
+
+  // `down` value for a map coordinate (tile `y`).
+  uint32 down = 4;
+}
+
+
+// Specifies a full map position, with space for all available points/coordinates.
+message MapPosition {
+  // Geo-point (latitude/longitude) for the retail location.
+  opencannabis.geo.Point point = 1 [
+    (core.field).summary = "Geo-point (latitude/longitude) for this retail location."
+  ];
+
+  // Tile/pixel coordinate for this location, using coordinates.
+  opencannabis.geo.MapCoordinate tile = 2 [
+    (core.field).summary = "Tile/pixel coordinate for this location, using coordinates."
+  ];
+
+  // Geo-coordinate (as a "world coordinate") for use with Google Maps.
+  opencannabis.geo.WorldCoordinate coordinate = 3 [
+    (core.field).summary = "Geo-coordinate (as a 'world coordinate') for use with Google Maps."
+  ];
+
+  // Zoom level for the map.
+  uint32 zoom = 4 [
+    (core.field).summary = "Zoom level for the map."
   ];
 }

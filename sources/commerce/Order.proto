@@ -1,22 +1,3 @@
-// OpenCannabis Protocol
-//
-// Copyright $today.year (c) OpenCannabis Authors. All rights reserved.
-// https://rfc.opencannabis.info - https://github.com/opencannabis/protocol
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-// * Redistributions of source code must retain the above copyright notice,
-//   this list of conditions and the following disclaimer.
-//
-// * Redistributions in binary form must reproduce the above copyright notice,
-//   this list of conditions and the following disclaimer in the documentation
-//   and/or other materials provided with the distribution.
-//
-// The source programming code in this file is licensed for open source use
-// under the terms of the Apache License 2.0. Please see NOTICE.txt and
-// LICENSE.txt at the root of this repository, or at the GitHub URL listed at
-// the top of this file, for more information.
 
 /**
  * Specifies the notion of a Commercial Order, which is a request to purchase a set of products, by a customer (which is
@@ -32,7 +13,7 @@ option java_package = "io.opencannabis.schema.commerce";
 option java_multiple_files = false;
 option java_outer_classname = "CommercialOrder";
 
-import "bq_field.proto";
+import "core/Datamodel.proto";
 
 import "commerce/Item.proto";
 import "commerce/Delivery.proto";
@@ -49,6 +30,9 @@ enum OrderType {
 
   // Delivery order.
   DELIVERY = 1;
+
+  // Order submitted on-site at a retail location.
+  ONSITE = 2;
 }
 
 
@@ -66,13 +50,13 @@ enum SchedulingType {
 message OrderScheduling {
   // Scheduling type, either 'ASAP' or a target time.
   SchedulingType scheduling = 1 [
-    (gen_bq_schema.require) = true,
-    (gen_bq_schema.description) = "Scheduling type, either 'ASAP' or a target time."
+    (core.opts).required = true,
+    (core.field).summary = "Scheduling type, either 'ASAP' or a target time."
   ];
 
   // Desired delivery time, if specified.
   opencannabis.temporal.Instant desired_time = 2 [
-    (gen_bq_schema.description) = "Desired delivery time, if specified."
+    (core.field).summary = "Desired delivery time, if specified."
   ];
 }
 
@@ -103,22 +87,22 @@ enum OrderStatus {
 message OrderPayment {
   // Status of payment for this order.
   PaymentStatus status = 1 [
-    (gen_bq_schema.description) = "Status of payment for this order."
+    (core.field).summary = "Status of payment for this order."
   ];
 
   // Method of payment used on this order.
   PaymentMethod method = 2 [
-    (gen_bq_schema.description) = "Method of payment used on this order."
+    (core.field).summary = "Method of payment used on this order."
   ];
 
   // Amount of tax added to the subtotal.
   double tax = 3 [
-    (gen_bq_schema.description) = "Amount of tax added to the subtotal."
+    (core.field).summary = "Amount of tax added to the subtotal."
   ];
 
   // Amount the user has paid so far for this order.
   double paid = 4 [
-    (gen_bq_schema.description) = "Amount the user has paid so far for this order."
+    (core.field).summary = "Amount the user has paid so far for this order."
   ];
 }
 
@@ -140,7 +124,7 @@ message StatusCheckin {
 message OrderKey {
   // Order ID, assigned by the server upon creation.
   string id = 1 [
-    (gen_bq_schema.description) = "Order ID, assigned by the server upon creation."
+    (core.field).summary = "Order ID, assigned by the server upon creation."
   ];
 }
 
@@ -149,76 +133,76 @@ message OrderKey {
 message Order {
   // ID assigned to the order by the server, and potentially nominated by the client.
   string id = 1 [
-    (gen_bq_schema.require) = true,
-    (gen_bq_schema.description) = "ID assigned to the order by the server, and potentially nominated by the client."
+    (core.opts).required = true,
+    (core.field).summary = "ID assigned to the order by the server, and potentially nominated by the client."
   ];
 
-  // Type of order requested - either PICKUP or DELIVERY.
+  // Type of order requested: `PICKUP`, `DELIVERY` or `ONSITE`.
   OrderType type = 2 [
-    (gen_bq_schema.require) = true,
-    (gen_bq_schema.description) = "Type of order requested - either PICKUP or DELIVERY."
+    (core.opts).required = true,
+    (core.field).summary = "Type of order requested - either PICKUP or DELIVERY."
   ];
 
   // Current status of this order.
   OrderStatus status = 3 [
-    (gen_bq_schema.ignore) = true
+    (core.column).ignore = true
   ];
 
   // Customer that submitted this order.
   Customer customer = 4 [
-    (gen_bq_schema.require) = true,
-    (gen_bq_schema.description) = "Customer that submitted this order."
+    (core.opts).required = true,
+    (core.field).summary = "Customer that submitted this order."
   ];
 
   // Scheduling spec for this order.
   OrderScheduling scheduling = 5 [
-    (gen_bq_schema.require) = true,
-    (gen_bq_schema.description) = "Scheduling spec for this order."
+    (core.opts).required = true,
+    (core.field).summary = "Scheduling spec for this order."
   ];
 
   // Location for delivery, if applicable.
   DeliveryDestination destination = 6 [
-    (gen_bq_schema.description) = "Location for delivery, if applicable."
+    (core.field).summary = "Location for delivery, if applicable."
   ];
 
   // User-provided notes or questions, if any.
   string notes = 7 [
-    (gen_bq_schema.ignore) = true
+    (core.column).ignore = true
   ];
 
   // Items being ordered.
   repeated Item item = 8 [
-    (gen_bq_schema.ignore) = true
+    (core.column).ignore = true
   ];
 
   // Actions taken on this order.
   repeated StatusCheckin action_log = 9 [
-    (gen_bq_schema.ignore) = true
+    (core.column).ignore = true
   ];
 
   // When this order was created.
   opencannabis.temporal.Instant created_at = 10 [
-    (gen_bq_schema.require) = true,
-    (gen_bq_schema.description) = "When this order was created."
+    (core.opts).required = true,
+    (core.field).summary = "When this order was created."
   ];
 
   // Order subtotal.
   double subtotal = 11 [
-    (gen_bq_schema.description) = "Order subtotal."
+    (core.field).summary = "Order subtotal."
   ];
 
   // When this order was created.
   opencannabis.temporal.Instant updated_at = 12 [
-    (gen_bq_schema.ignore) = true
+    (core.column).ignore = true
   ];
 
   // Session ID that was active when this order was submitted.
   string sid = 13 [
-    (gen_bq_schema.description) = "Session ID that was active when this order was submitted."
+    (core.field).summary = "Session ID that was active when this order was submitted."
   ];
 
   // Payment information/metadata for this order, if applicable.
   OrderPayment payment = 14 [
-    (gen_bq_schema.description) = "Payment information/metadata for this order, if applicable."
+    (core.field).summary = "Payment information/metadata for this order, if applicable."
   ];
 }

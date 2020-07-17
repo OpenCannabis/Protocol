@@ -1,0 +1,30 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+# RFID/LLRP
+proto(
+    name = "RFID",
+    srcs = ["RFID.proto"],
+    deps = [
+        "//sources/public/models/core:Datamodel"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "LLRP",
+    srcs = ["LLRP.proto"],
+    deps = [
+        ":RFID",
+        "//sources/public/models/temporal:Instant",
+        "//sources/public/models/core:Datamodel"],
+    strip_import_prefix = "/sources/public/models")
+
+
+
+module(
+    name = "opencannabis.inventory.rfid",
+    deps = [
+        ":RFID",
+        ":LLRP"],
+    strip_import_prefix = "/sources/public/models")

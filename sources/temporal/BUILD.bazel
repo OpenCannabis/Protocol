@@ -1,0 +1,63 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+## Temporal
+proto(
+    name = "Date",
+    srcs = ["Date.proto"],
+    deps = ["//sources/public/models/core:Datamodel"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "Duration",
+    srcs = ["Duration.proto"],
+    deps = ["//sources/public/models/core:Datamodel"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "Instant",
+    srcs = ["Instant.proto"],
+    deps = ["//sources/public/models/core:Datamodel"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "Interval",
+    srcs = ["Interval.proto"],
+    deps = ["//sources/public/models/core:Datamodel"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "Time",
+    srcs = ["Time.proto"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "Schedule",
+    srcs = ["Schedule.proto"],
+    deps = [
+        ":Time",
+        ":Instant",
+        ":Interval",
+        "//sources/public/models/core:Datamodel"],
+    strip_import_prefix = "/sources/public/models")
+
+proto(
+    name = "Timehash",
+    srcs = ["Timehash.proto"],
+    deps = ["//sources/public/models/core:Datamodel"],
+    strip_import_prefix = "/sources/public/models")
+
+
+module(
+    name = "opencannabis.temporal",
+    deps = [
+        ":Date",
+        ":Duration",
+        ":Instant",
+        ":Interval",
+        ":Time",
+        ":Schedule",
+        ":Timehash"],
+    strip_import_prefix = "/sources/public/models")
