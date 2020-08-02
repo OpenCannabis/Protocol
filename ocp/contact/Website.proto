@@ -1,0 +1,34 @@
+
+/**
+ * Record to store and express a website link.
+ */
+syntax = "proto3";
+
+package opencannabis.contact;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.contact";
+option java_multiple_files = false;
+option java_outer_classname = "ContactWebsite";
+
+import "gust/core/datamodel.proto";
+
+
+// Specifies a structure that describes a URI/website, and related information.
+message Website {
+  // URI for the website.
+  string uri = 1 [
+    (core.field).summary = "URI for the website."
+  ];
+
+  // Title from the HTML page at URI.
+  string title = 2 [
+    (core.field).summary = "Title from the HTML page at URI."
+  ];
+
+  // Favicon raw bytes from the HTML page at URI.
+  bytes icon = 3 [
+    (core.column).ignore = true
+  ];
+}

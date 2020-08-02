@@ -1,0 +1,106 @@
+
+/**
+ * Provides a structure for device types and credentials and enumerates device types.
+ */
+syntax = "proto3";
+
+package opencannabis.device;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.device";
+option java_multiple_files = true;
+
+import "gust/core/datamodel.proto";
+
+
+// Enumerates major types of devices that might be encountered, including desktops, phones, tablets, TVs, and browsers.
+enum DeviceType {
+  // The end-device type is not known.
+  UNKNOWN_DEVICE_TYPE = 0;
+
+  // The end-device is a desktop of some kind.
+  DESKTOP = 1;
+
+  // The end-device is a phone.
+  PHONE = 2;
+
+  // The end-device is a tablet.
+  TABLET = 3;
+
+  // The end-device is a TV of some kind.
+  TV = 4;
+
+  // Small or embedded compute units.
+  EMBEDDED = 5;
+
+  // Server units.
+  SERVER = 6;
+}
+
+
+// Specifies a structure that describes a known device.
+message Device {
+  // Universally unique identifier for this device.
+  string uuid = 1 [
+    (core.field).summary = "Universally unique identifier for this device."
+  ];
+
+  // Type of this device.
+  DeviceType type = 2 [
+    (core.field).summary = "Type of this device."
+  ];
+
+  // Flags for this device.
+  DeviceFlags flags = 3 [
+    (core.field).summary = "Flags for this device."
+  ];
+
+  // Credentials for this device.
+  DeviceCredentials key = 4 [
+    (core.field).summary = "Credentials for this device."
+  ];
+}
+
+
+// Stateful flags that may be set on a device.
+message DeviceFlags {
+  // Flag to mark a device as ephemeral, i.e. attached to a disposable identity.
+  bool ephemeral = 1 [
+    (core.field).summary = "Flag to mark a device as ephemeral, i.e. attached to a disposable identity."
+  ];
+
+  // Flag to mark a device as managed by EMM systems.
+  bool managed = 2 [
+    (core.field).summary = "Flag to mark a device as managed by EMM systems."
+  ];
+}
+
+
+// Credentials that assert a device's identity or authorization.
+message DeviceCredentials {
+  // Raw bytes for a device's public key.
+  bytes public_key = 1 [
+    (core.column).ignore = true
+  ];
+
+  // Raw bytes for the device's private key.
+  bytes private_key = 2 [
+    (core.column).ignore = true
+  ];
+
+  // SHA256 hash of this device's public key.
+  string sha256 = 3 [
+    (core.field).summary = "SHA256 hash of this device's public key."
+  ];
+
+  // A device's raw identity payload.
+  string identity = 4 [
+    (core.column).ignore = true
+  ];
+
+  // Repeated PEM authority payloads, asserted as trusted by the server.
+  repeated bytes authorities = 5 [
+    (core.column).ignore = true
+  ];
+}

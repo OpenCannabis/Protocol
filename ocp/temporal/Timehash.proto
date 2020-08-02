@@ -1,0 +1,18 @@
+
+syntax = "proto3";
+
+package opencannabis.temporal;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.temporal";
+option java_multiple_files = true;
+
+import "gust/core/datamodel.proto";
+
+
+// Specifies a point in temporal space, with the ability to zoom out by some amount by operating on substrings.
+message Timehash {
+  // Specifies the entire timehash, and each sub-string.
+  repeated string component = 1 [(core.field).summary = "Entire string, and substrings, of the timehash."];
+}

@@ -1,0 +1,130 @@
+
+/**
+ * Defines the structure of Radio Frequency Identifier (RFID)-related hardware and software. RFID is used in this
+ * context to track and trace individual inventory throughout the supply chain.
+ */
+syntax = "proto3";
+
+package opencannabis.inventory.rfid;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.inventory";
+option java_multiple_files = true;
+
+import "gust/core/datamodel.proto";
+
+
+// Describes known vendors of RFID reader equipment.
+enum ReaderVendor {
+  // The vendor for the reader could not be recognized.
+  UNRECOGNIZED_VENDOR = 0;
+
+  // The vendor for the reader was detected as Impinj.
+  IMPINJ = 25882;
+
+  // The vendor for the reader was detected as Alien.
+  ALIEN = 2;
+}
+
+
+// Describes known, or supported, models of RFID reader controller devices.
+enum ReaderModel {
+  // The model of the reader could not be recognized.
+  UNRECOGNIZED_READER = 0;
+
+  // Impinj Speedway Revolution R120 (1-port).
+  SPEEDWAY_R120 = 1;
+
+  // Impinj Speedway Revolution R220 (2-port).
+  SPEEDWAY_R220 = 2;
+
+  // Impinj Speedway Revolution R420 (4-port).
+  SPEEDWAY_R420 = 2001002;
+
+  // Impinj Speedway xPortal Gateway.
+  SPEEDWAY_XPORTAL = 4;
+
+  // Alien ALR-H450 handheld reader.
+  ALIEN_ALRH450 = 5;
+
+  // Alien F800 reader.
+  ALIEN_F800 = 6;
+
+  // Alien ALR-9680 reader (4-port).
+  ALIEN_ALR9680 = 7;
+}
+
+
+// Describes the notion of an RFID reader device, which manages one or more RFID antennae. RFID readers control the RF
+// scanning process, and correspond over LLRP with clients to facilitate reading RFID tags.
+message Reader {
+  // Specifies the string name of the reader, if one is assigned and could be detected.
+  string name = 1 [
+    (core.field).summary = "Canonical label/name for the reader device involved in an RFID operation."
+  ];
+
+  // Specifies the MAC address of the reader device, assigned to the Ethernet/PoE port embedded on the device and hooked
+  // into the local network.
+  string mac = 2 [
+    (core.opts).required = true,
+    (core.field).summary = "MAC address of the reader device involved in an RFID operation."
+  ];
+
+  // Specifies the IP address of the reader device, where it can be connected to over LLRP, assuming no firewall or
+  // security IDS/IPS interference.
+  string ip = 3 [
+    (core.field).summary = "IP address of the reader device involved in an RFID operation."
+  ];
+
+  // Describes the vendor of the RFID reader controller, if one could be detected.
+  ReaderVendor vendor = 4 [
+    (core.opts).required = true,
+    (core.field).summary = "Vendor for the reader involved in an RFID operation."
+  ];
+
+  // Describes the model of the RFID reader controller, if one could be detected.
+  ReaderModel model = 5 [
+    (core.opts).required = true,
+    (core.field).summary = "Model of the reader involved in an RFID operation."
+  ];
+}
+
+
+// Describes the concept of an RFID antenna, which is attached to an RFID reader device. Antennas are essentially
+// passive hardware, so they must be operated by a reader, which is the "controller" device clients communicate with.
+message Antenna {
+  // Antenna number. This identifies the port which the antenna is connected to on the reader which is controlling this
+  // external RFID antenna device.
+  uint32 index = 1 [
+    (core.field).summary = "Port index for the antenna that produced some operation."
+  ];
+}
+
+
+// Defines the structure of an individual RFID tag, which is placed on, or attached to, a physical item in order to
+// facilitate unique tracking of that item throughout the supply chain.
+message Tag {
+  // Tag ID, assigned to the tag at manufacturing time and never over-written. Uniquely identifies this particular RFID
+  // tag in a permanent, hard-to-reproduce manner.
+  string tid = 1 [
+    (core.field).summary = "Tag ID, assigned to the tag at manufacturing time and never over-written."
+  ];
+
+  // Raw content encoded onto the tag. This payload is set to complement any decoded content payload which might be
+  // available as a result of this scan.
+  bytes payload = 2 [
+    (core.column).ignore = true,
+    (core.field).summary = "Raw content encoded onto the tag."
+  ];
+
+  // Specifies decoded content, read from the raw content of the encodable section of the RFID tag we are describing.
+  oneof content {
+    // EPC, or Electronic Product Code, which was read from the encoded data section of the subject RFID tag which we
+    // are describing in this payload.
+    string epc = 10 [
+      (core.opts).required = true,
+      (core.field).summary = "Electronic Product Code (EPC) that was present on the tag."
+    ];
+  }
+}

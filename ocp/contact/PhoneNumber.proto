@@ -1,0 +1,46 @@
+
+/**
+ * Provides a structured record that specifies an E164-formatted telephone number.
+ */
+syntax = "proto3";
+
+package opencannabis.contact;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.contact";
+option java_multiple_files = false;
+option java_outer_classname = "ContactPhone";
+
+import "gust/core/datamodel.proto";
+
+
+// Payload that specifies a phone number, and any additional information to be carried with it (including verification
+// state, if applicable).
+message PhoneNumber {
+  // E164-formatted telephone number.
+  string e164 = 1 [
+    (core.field).summary = "E164-formatted telephone number."
+  ];
+
+  // Validation status. Usable by providers to indicate a phone number that has already been validated, or that a phone
+  // number remains unvalidated.
+  bool validated = 2 [
+    (core.field).summary = "Validation status for this phone number."
+  ];
+
+  // Display text for this phone number, if applicable.
+  string display = 3 [
+    (core.field).summary = "Display text for this phone number, if applicable."
+  ];
+
+  // Whether the phone number in question is known to be capable of receiving or sending SMS messages.
+  bool text_capable = 4 [
+    (core.field).summary = "Whether this number can send and receive SMS."
+  ];
+
+  // Whether the phone number in question is known to be capable of receiving or sending voice calls.
+  bool voice_capable = 5 [
+    (core.field).summary = "Whether this number can send and receive calls."
+  ];
+}

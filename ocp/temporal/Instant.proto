@@ -1,0 +1,32 @@
+
+/**
+ * Provides timestamp-related definitions and structures.
+ */
+syntax = "proto3";
+
+package opencannabis.temporal;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.temporal";
+option java_multiple_files = false;
+option java_outer_classname = "TemporalInstant";
+
+import "gust/core/datamodel.proto";
+
+
+// Specifies a particular moment in time.
+message Instant {
+  // Instant specification option.
+  oneof spec {
+  	// ISO8601-formatted timestamp.
+    string iso8601 = 1 [
+      (core.field).summary = "ISO8601-formatted timestamp."
+    ];
+
+    // Unix epoch timestamp, at millisecond resolution.
+    uint64 timestamp = 2 [
+      (core.field).summary = "Unix epoch timestamp, at millisecond resolution."
+    ];
+  }
+}

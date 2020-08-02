@@ -1,0 +1,52 @@
+
+syntax = "proto3";
+
+package opencannabis.temporal;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.temporal";
+option java_multiple_files = true;
+
+import "gust/core/datamodel.proto";
+
+
+// Specifies time units that may be used to express durations.
+enum TimeUnit {
+  // Millisecond-level resolution.
+  MILLISECONDS = 0;
+
+  // Microsecond-level resolution.
+  MICROSECONDS = 1;
+
+  // Second-level resolution.
+  SECONDS = 2;
+
+  // Minute-level resolution.
+  MINUTES = 3;
+
+  // Hour-level resolution.
+  HOURS = 4;
+
+  // Day-level resolution.
+  DAYS = 5;
+
+  // Week-level resolution.
+  WEEKS = 6;
+
+  // Month-level resolution.
+  MONTHS = 7;
+
+  // Year-level resolution.
+  YEARS = 8;
+}
+
+
+// Specifies a duration, or, a distance between two points in temporal space.
+message Duration {
+  // Specifies the unit this duration operates on.
+  TimeUnit unit = 1;
+
+  // Specifies the amount expressed of the above duration.
+  uint32 amount = 2;
+}

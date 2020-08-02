@@ -1,0 +1,35 @@
+
+/**
+ * Provides a structured record to store email addresses.
+ */
+syntax = "proto3";
+
+package opencannabis.contact;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.contact";
+option java_multiple_files = false;
+option java_outer_classname = "ContactEmail";
+
+import "gust/core/datamodel.proto";
+
+
+// Specifies information about an electronic mail (email) address, and optionally, its validation status.
+message EmailAddress {
+  // Email address, in standard format ('example@sample.com').
+  string address = 1 [
+    (core.field).summary = "Email address, in standard format ('example@sample.com')."
+  ];
+
+  // Validation status. Usable by providers to indicate an email address that has already been validated, or that an
+  // address remains unvalidated.
+  bool validated = 2 [
+    (core.field).summary = "Validation status for this email address."
+  ];
+
+  // Display name for the email address, if known/specified.
+  string name = 3 [
+    (core.field).summary = "Display name for the email address, if known/specified."
+  ];
+}

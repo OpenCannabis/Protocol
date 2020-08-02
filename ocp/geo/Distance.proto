@@ -1,0 +1,76 @@
+
+/**
+ * Describes geography-related models, specifically with regard to distances between two points.
+ */
+syntax = "proto3";
+
+package opencannabis.geo;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.geo";
+option java_multiple_files = true;
+
+import "gust/core/datamodel.proto";
+
+
+// Enumeration of recognized units of distance.
+enum DistanceUnit {
+  // Distance in meters.
+  METERS = 0;
+
+  // Distance in inches.
+  INCHES = 1;
+
+  // Distance in feet.
+  FEET = 2;
+
+  // Distance in millimeters.
+  MILLIMETERS = 3;
+
+  // Distance in centimeters.
+  CENTIMETERS = 4;
+
+  // Distance in kilometers.
+  KILOMETERS = 5;
+
+  // Distance in miles.
+  MILES = 6;
+}
+
+
+// Represents an estimate of location accuracy.
+message LocationAccuracy {
+  // Specifies whether this accuracy rating is an estimate.
+  bool estimate = 1 [(core.field).summary = "Specifies whether this accuracy rating is an estimate."];
+
+  // Distance value for the accuracy specified.
+  DistanceValue value = 2 [(core.field).summary = "Distance value for the accuracy specified."];
+}
+
+
+// Specifies a single distance value.
+message DistanceValue {
+  // Specifies the unit of measurement employed for this distance.
+  DistanceUnit unit = 1 [(core.field).summary = "Specifies the unit of measurement employed for this distance."];
+
+  // Actual value.
+  double value = 3 [(core.field).summary = "Actual distance value."];
+}
+
+
+// Specifies a distance between two locations.
+message Distance {
+  // Specifies whether this distance is an estimate.
+  bool estimate = 1 [(core.field).summary = "Specifies whether this distance is an estimate."];
+
+  // Specifies the accuracy estimate for the distance values, if known.
+  LocationAccuracy accuracy = 2 [
+    (core.field).summary = "Specifies the accuracy estimate for the distance values, if known."
+  ];
+
+  // Specifies the unit of measurement for a location accuracy estimate.
+  DistanceUnit unit = 3 [
+    (core.field).summary = "Specifies whether this distance is an estimate."
+  ];
+}
