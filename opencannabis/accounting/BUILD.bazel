@@ -1,0 +1,20 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+## Accounting
+proto(
+    name = "Taxes",
+    srcs = ["Taxes.proto"],
+    deps = [
+        "//opencannabisgeo:Province",
+        "//opencannabisgeo:Country"],
+    strip_import_prefix = "/opencannabis")
+
+
+module(
+    name = "opencannabis.accounting",
+    deps = [
+        ":Taxes"],
+    strip_import_prefix = "/opencannabis")

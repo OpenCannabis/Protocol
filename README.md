@@ -1,6 +1,6 @@
 
 # OpenCannabis
-## Release __1.8.0-alpha3__
+## Release __1.8.0-alpha8__
 
 _An Open Model for the Legal Cannabis Industry_
 

@@ -1,0 +1,129 @@
+
+/**
+ * Structures for dealing with colors in various forms (including hex, RGBA, etc), color schemes, and so on.
+ */
+syntax = "proto3";
+
+package opencannabis.content;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.content";
+option java_multiple_files = false;
+option java_outer_classname = "Colors";
+
+
+// Specifies standard colors.
+enum StandardColor {
+  // Unspecified or unrecognized standard color.
+  UNSPECIFIED_COLOR = 0;
+
+  // The color red.
+  RED = 1;
+
+  // The color green.
+  GREEN = 2;
+
+  // The color blue.
+  BLUE = 3;
+
+  // The color yellow.
+  YELLOW = 4;
+
+  // The color purple.
+  PURPLE = 5;
+
+  // The color orange.
+  ORANGE = 6;
+
+  // The color pink.
+  PINK = 7;
+
+  // The color gray.
+  GRAY = 8;
+
+  // The color brown.
+  BROWN = 9;
+}
+
+
+// Specifies a component of a high-res color specification.
+message RGBAColorSpec {
+  // Red value for the color.
+  uint64 r = 1;
+
+  // Green value for the color.
+  uint64 g = 2;
+
+  // Blue value for the color.
+  uint64 b = 3;
+
+  // Alpha value for the color.
+  uint64 a = 4;
+}
+
+
+// Specifies a hue-saturation-brightness color specification.
+message HSBColorSpec {
+  // Hue value for the color.
+  uint64 h = 1;
+
+  // Saturation value for the color.
+  uint64 s = 2;
+
+  // Brightness value for the color.
+  uint64 b = 3;
+}
+
+
+// Specifies a cyan-magenta-yellow-key color specification.
+message CMYKColorSpec {
+  // Cyan value for the color.
+  uint64 c = 1;
+
+  // Magenta value for the color.
+  uint64 m = 2;
+
+  // Yellow value for the color.
+  uint64 y = 3;
+
+  // Key value (or, black) for the color.
+  uint64 k = 4;
+}
+
+
+// Specifies an individual color, via standard reference, or hex, or some other form.
+message Color {
+  oneof spec {
+    // Specifies a reference to a standard, simple color.
+    StandardColor standard = 1;
+
+    // Specifies a reference to a color by RGB hex code.
+    string hex = 2;
+
+    // Specifies a full RGBA color.
+    RGBAColorSpec rgba = 3;
+
+    // Specifies an HSB-based color.
+    HSBColorSpec hsb = 4;
+
+    // Specifies a CMYK-based color.
+    CMYKColorSpec cmyk = 5;
+  }
+}
+
+
+// Specifies a scheme of color selections, with primary and secondary colors and additional configurable color values.
+message ColorScheme {
+  // Primary color for the color scheme.
+  Color primary = 1;
+
+  // Secondary color for the color scheme.
+  Color secondary = 2;
+
+  // Alert, or attention color, for the color scheme.
+  Color alert = 3;
+
+  // Color shades to be used in various contexts.
+  repeated Color shades = 4;
+}

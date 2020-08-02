@@ -1,0 +1,39 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+## Base
+proto(
+    name = "Compression",
+    srcs = ["Compression.proto"],
+    strip_import_prefix = "/opencannabis")
+
+proto(
+    name = "Language",
+    srcs = ["Language.proto"],
+    strip_import_prefix = "/opencannabis")
+
+proto(
+    name = "ProductKind",
+    srcs = ["ProductKind.proto"],
+    strip_import_prefix = "/opencannabis")
+
+proto(
+    name = "ProductKey",
+    srcs = ["ProductKey.proto"],
+    deps = [
+        ":ProductKind",
+        "//opencannabiscontent:Name",
+        "//opencannabiscore:Datamodel"],
+    strip_import_prefix = "/opencannabis")
+
+
+module(
+    name = "opencannabis.base",
+    deps = [
+        ":Compression",
+        ":Language",
+        ":ProductKey",
+        ":ProductKind"],
+    strip_import_prefix = "/opencannabis")

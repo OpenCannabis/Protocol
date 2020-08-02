@@ -1,0 +1,78 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+## Content
+proto(
+    name = "Name",
+    srcs = ["Name.proto"],
+    strip_import_prefix = "/opencannabis")
+
+proto(
+    name = "Colors",
+    srcs = ["Colors.proto"],
+    strip_import_prefix = "/opencannabis")
+
+proto(
+    name = "Content",
+    srcs = ["Content.proto"],
+    deps = [
+        "//opencannabiscore:Datamodel",
+        "//opencannabisbase:Language",
+        "//opencannabisbase:Compression"],
+    strip_import_prefix = "/opencannabis")
+
+proto(
+    name = "Data",
+    srcs = ["Data.proto"],
+    strip_import_prefix = "/opencannabis")
+
+proto(
+    name = "MaterialsData",
+    srcs = ["MaterialsData.proto"],
+    deps = [
+        "//opencannabisstructs:Grow",
+        "//opencannabisstructs:Shelf",
+        "//opencannabisstructs:Species",
+        "//opencannabisstructs:Genetics",
+        "//opencannabisproducts/distribution:DistributionChannel"],
+    strip_import_prefix = "/opencannabis")
+
+proto(
+    name = "Brand",
+    srcs = ["Brand.proto"],
+    deps = [
+            "//opencannabiscontent:Name",
+            "//opencannabiscontent:Colors",
+            "//opencannabiscontent:Content",
+            "//opencannabismedia:MediaKey"],
+    strip_import_prefix = "/opencannabis")
+
+proto(
+    name = "ProductContent",
+    srcs = ["ProductContent.proto"],
+    deps = [
+        ":Name",
+        ":Brand",
+        ":Content",
+        "//opencannabismedia:MediaKey",
+        "//opencannabisstructs:ProductFlags",
+        "//opencannabistemporal:Instant",
+        "//opencannabisstructs/pricing:PricingDescriptor",
+        "//opencannabisstructs/labtesting:TestResults",
+        "//opencannabiscore:Datamodel"],
+    strip_import_prefix = "/opencannabis")
+
+
+module(
+    name = "opencannabis.content",
+    deps = [
+        ":Name",
+        ":Colors",
+        ":Content",
+        ":Data",
+        ":MaterialsData",
+        ":Brand",
+        ":ProductContent"],
+    strip_import_prefix = "/opencannabis")

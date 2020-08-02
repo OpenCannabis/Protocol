@@ -1,0 +1,103 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+# Products
+proto(
+    name = "Apothecary",
+    srcs = ["Apothecary.proto"],
+    deps = [
+        "//opencannabisbase:ProductKey",
+        "//opencannabiscontent:MaterialsData",
+        "//opencannabiscontent:ProductContent"],
+    strip_import_prefix = "/opencannabis")
+
+proto(
+    name = "Cartridge",
+    srcs = ["Cartridge.proto"],
+    deps = [
+        "//opencannabisbase:ProductKey",
+        "//opencannabiscontent:MaterialsData",
+        "//opencannabiscontent:ProductContent"],
+    strip_import_prefix = "/opencannabis")
+
+proto(
+    name = "Edible",
+    srcs = ["Edible.proto"],
+    deps = [
+        "//opencannabisbase:ProductKey",
+        "//opencannabiscontent:MaterialsData",
+        "//opencannabiscontent:ProductContent"],
+    strip_import_prefix = "/opencannabis")
+
+proto(
+    name = "Extract",
+    srcs = ["Extract.proto"],
+    deps = [
+        "//opencannabisbase:ProductKey",
+        "//opencannabiscontent:MaterialsData",
+        "//opencannabiscontent:ProductContent"],
+    strip_import_prefix = "/opencannabis")
+
+proto(
+    name = "Flower",
+    srcs = ["Flower.proto"],
+    deps = [
+        "//opencannabiscore:Datamodel",
+        "//opencannabisbase:ProductKey",
+        "//opencannabiscontent:MaterialsData",
+        "//opencannabiscontent:ProductContent"],
+    strip_import_prefix = "/opencannabis")
+
+proto(
+    name = "Merchandise",
+    srcs = ["Merchandise.proto"],
+    deps = [
+        "//opencannabisbase:ProductKey",
+        "//opencannabiscontent:ProductContent"],
+    strip_import_prefix = "/opencannabis")
+
+proto(
+    name = "Plant",
+    srcs = ["Plant.proto"],
+    deps = [
+        "//opencannabisbase:ProductKey",
+        "//opencannabiscontent:MaterialsData",
+        "//opencannabiscontent:ProductContent"],
+    strip_import_prefix = "/opencannabis")
+
+proto(
+    name = "Preroll",
+    srcs = ["Preroll.proto"],
+    deps = [
+        "//opencannabisbase:ProductKey",
+        "//opencannabiscontent:MaterialsData",
+        "//opencannabiscontent:ProductContent"],
+    strip_import_prefix = "/opencannabis")
+
+proto(
+    name = "SKU",
+    srcs = ["SKU.proto"],
+    deps = [
+        "//sources/private/models/partner/integrations:IntegrationSettings",
+        "//opencannabiscommerce:Item",
+        "//opencannabiscore:Datamodel"],
+    strip_import_prefix = "/opencannabis")
+
+
+module(
+    name = "opencannabis.products",
+    deps = [
+        ":Apothecary",
+        ":Cartridge",
+        ":Edible",
+        ":Extract",
+        ":Flower",
+        ":Merchandise",
+        ":Plant",
+        ":Preroll",
+        ":SKU",
+        "//opencannabisproducts/distribution:opencannabis.products.distribution",
+        "//opencannabisproducts/menu:opencannabis.products.menu"],
+    strip_import_prefix = "/opencannabis")
