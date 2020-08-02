@@ -7,22 +7,22 @@ load("//defs:proto.bzl", "proto", "module")
 proto(
     name = "MediaOrientation",
     srcs = ["MediaOrientation.proto"],
-    deps = ["//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+    deps = ["//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "MediaType",
     srcs = ["MediaType.proto"],
-    deps = ["//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+    deps = ["//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "MediaKey",
     srcs = ["MediaKey.proto"],
     deps = [
         ":MediaType",
-        "//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "MediaItem",
@@ -30,10 +30,10 @@ proto(
     deps = [
         ":MediaKey",
         ":MediaType",
-        "//sources/public/models/base:ProductKey",
-        "//sources/public/models/temporal:Instant",
-        "//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/base:ProductKey",
+        "//sources/temporal:Instant",
+        "//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 
 module(
@@ -43,4 +43,4 @@ module(
         ":MediaType",
         ":MediaKey",
         ":MediaItem"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")

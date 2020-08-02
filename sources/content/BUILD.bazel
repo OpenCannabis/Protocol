@@ -7,47 +7,47 @@ load("//defs:proto.bzl", "proto", "module")
 proto(
     name = "Name",
     srcs = ["Name.proto"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Colors",
     srcs = ["Colors.proto"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Content",
     srcs = ["Content.proto"],
     deps = [
-        "//sources/public/models/core:Datamodel",
-        "//sources/public/models/base:Language",
-        "//sources/public/models/base:Compression"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/core:Datamodel",
+        "//sources/base:Language",
+        "//sources/base:Compression"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Data",
     srcs = ["Data.proto"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 proto(
     name = "MaterialsData",
     srcs = ["MaterialsData.proto"],
     deps = [
-        "//sources/public/models/structs:Grow",
-        "//sources/public/models/structs:Shelf",
-        "//sources/public/models/structs:Species",
-        "//sources/public/models/structs:Genetics",
-        "//sources/public/models/products/distribution:DistributionChannel"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/structs:Grow",
+        "//sources/structs:Shelf",
+        "//sources/structs:Species",
+        "//sources/structs:Genetics",
+        "//sources/products/distribution:DistributionChannel"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Brand",
     srcs = ["Brand.proto"],
     deps = [
-            "//sources/public/models/content:Name",
-            "//sources/public/models/content:Colors",
-            "//sources/public/models/content:Content",
-            "//sources/public/models/media:MediaKey"],
-    strip_import_prefix = "/sources/public/models")
+            "//sources/content:Name",
+            "//sources/content:Colors",
+            "//sources/content:Content",
+            "//sources/media:MediaKey"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "ProductContent",
@@ -56,13 +56,13 @@ proto(
         ":Name",
         ":Brand",
         ":Content",
-        "//sources/public/models/media:MediaKey",
-        "//sources/public/models/structs:ProductFlags",
-        "//sources/public/models/temporal:Instant",
-        "//sources/public/models/structs/pricing:PricingDescriptor",
-        "//sources/public/models/structs/labtesting:TestResults",
-        "//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/media:MediaKey",
+        "//sources/structs:ProductFlags",
+        "//sources/temporal:Instant",
+        "//sources/structs/pricing:PricingDescriptor",
+        "//sources/structs/labtesting:TestResults",
+        "//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 
 module(
@@ -75,4 +75,4 @@ module(
         ":MaterialsData",
         ":Brand",
         ":ProductContent"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")

@@ -7,18 +7,18 @@ load("//defs:proto.bzl", "proto", "module")
 proto(
     name = "PersonName",
     srcs = ["PersonName.proto"],
-    deps = ["//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+    deps = ["//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Person",
     srcs = ["Person.proto"],
     deps = [
         ":PersonName",
-        "//sources/public/models/contact:ContactInfo",
-        "//sources/public/models/temporal:Date",
-        "//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/contact:ContactInfo",
+        "//sources/temporal:Date",
+        "//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 
 module(
@@ -26,4 +26,4 @@ module(
     deps = [
         ":PersonName",
         ":Person"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")

@@ -8,13 +8,13 @@ proto(
     name = "Taxes",
     srcs = ["Taxes.proto"],
     deps = [
-        "//sources/public/models/geo:Province",
-        "//sources/public/models/geo:Country"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/geo:Province",
+        "//sources/geo:Country"],
+    strip_import_prefix = "/sources")
 
 
 module(
     name = "opencannabis.accounting",
     deps = [
         ":Taxes"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")

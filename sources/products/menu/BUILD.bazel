@@ -8,34 +8,34 @@ proto(
     name = "Section",
     srcs = ["Section.proto"],
     deps = [
-        "//sources/public/models/content:Name",
-        "//sources/public/models/media:MediaItem"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/content:Name",
+        "//sources/media:MediaItem"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Menu",
     srcs = ["Menu.proto"],
     deps = [
         ":Section",
-        "//sources/public/models/core:Datamodel",
-        "//sources/public/models/base:ProductKey",
-        "//sources/public/models/media:MediaKey",
-        "//sources/public/models/temporal:Instant",
-        "//sources/public/models/products:Apothecary",
-        "//sources/public/models/products:Cartridge",
-        "//sources/public/models/products:Edible",
-        "//sources/public/models/products:Extract",
-        "//sources/public/models/products:Flower",
-        "//sources/public/models/products:Merchandise",
-        "//sources/public/models/products:Plant",
-        "//sources/public/models/products:Preroll",
-        "//sources/public/models/products:SKU",
-        "//sources/public/models/crypto/primitives:Integrity",
+        "//sources/core:Datamodel",
+        "//sources/base:ProductKey",
+        "//sources/media:MediaKey",
+        "//sources/temporal:Instant",
+        "//sources/products:Apothecary",
+        "//sources/products:Cartridge",
+        "//sources/products:Edible",
+        "//sources/products:Extract",
+        "//sources/products:Flower",
+        "//sources/products:Merchandise",
+        "//sources/products:Plant",
+        "//sources/products:Preroll",
+        "//sources/products:SKU",
+        "//sources/crypto/primitives:Integrity",
         "//sources/private/models/partner:LocationKey"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 
 module(
     name = "opencannabis.products.menu",
     deps = [":Section", ":Menu"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")

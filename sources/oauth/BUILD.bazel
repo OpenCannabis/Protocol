@@ -7,16 +7,16 @@ load("//defs:proto.bzl", "proto", "module")
 proto(
     name = "AuthorizationScope",
     srcs = ["AuthorizationScope.proto"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Client",
     srcs = ["Client.proto"],
     deps = [
         ":AuthorizationScope",
-        "//sources/public/models/media:MediaItem",
-        "//sources/public/models/temporal:Instant"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/media:MediaItem",
+        "//sources/temporal:Instant"],
+    strip_import_prefix = "/sources")
 
 
 module(
@@ -24,4 +24,4 @@ module(
     deps = [
         ":AuthorizationScope",
         ":Client"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")

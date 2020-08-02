@@ -7,10 +7,10 @@ load("//defs:proto.bzl", "proto", "module")
 proto(
     name = "CAAgency",
     srcs = ["CAAgency.proto"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 
 module(
     name = "opencannabis.regulatory.usa.ca",
     deps = [":CAAgency"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")

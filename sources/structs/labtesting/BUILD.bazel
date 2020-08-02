@@ -7,18 +7,18 @@ load("//defs:proto.bzl", "proto", "module")
 proto(
     name = "Terpenes",
     srcs = ["Terpenes.proto"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Cannabinoids",
     srcs = ["Cannabinoids.proto"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 proto(
     name = "TestValue",
     srcs = ["TestValue.proto"],
-    deps = ["//sources/public/models/media:MediaItem"],
-    strip_import_prefix = "/sources/public/models")
+    deps = ["//sources/media:MediaItem"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "TestResults",
@@ -27,12 +27,12 @@ proto(
         ":TestValue",
         ":Terpenes",
         ":Cannabinoids",
-        "//sources/public/models/content:Content",
-        "//sources/public/models/temporal:Instant"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/content:Content",
+        "//sources/temporal:Instant"],
+    strip_import_prefix = "/sources")
 
 
 module(
     name = "opencannabis.structs.labtesting",
     deps = [":TestValue", ":TestResults", ":Terpenes", ":Cannabinoids"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")

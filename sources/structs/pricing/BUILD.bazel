@@ -7,19 +7,19 @@ load("//defs:proto.bzl", "proto", "module")
 proto(
     name = "SaleDescriptor",
     srcs = ["SaleDescriptor.proto"],
-    deps = ["//sources/public/models/temporal:Instant"],
-    strip_import_prefix = "/sources/public/models")
+    deps = ["//sources/temporal:Instant"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "PricingDescriptor",
     srcs = ["PricingDescriptor.proto"],
     deps = [
         ":SaleDescriptor",
-        "//sources/public/models/commerce:Currency"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/commerce:Currency"],
+    strip_import_prefix = "/sources")
 
 
 module(
     name = "opencannabis.structs.pricing",
     deps = [":SaleDescriptor", ":PricingDescriptor"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")

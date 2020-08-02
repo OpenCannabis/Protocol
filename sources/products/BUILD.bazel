@@ -8,81 +8,81 @@ proto(
     name = "Apothecary",
     srcs = ["Apothecary.proto"],
     deps = [
-        "//sources/public/models/base:ProductKey",
-        "//sources/public/models/content:MaterialsData",
-        "//sources/public/models/content:ProductContent"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/base:ProductKey",
+        "//sources/content:MaterialsData",
+        "//sources/content:ProductContent"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Cartridge",
     srcs = ["Cartridge.proto"],
     deps = [
-        "//sources/public/models/base:ProductKey",
-        "//sources/public/models/content:MaterialsData",
-        "//sources/public/models/content:ProductContent"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/base:ProductKey",
+        "//sources/content:MaterialsData",
+        "//sources/content:ProductContent"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Edible",
     srcs = ["Edible.proto"],
     deps = [
-        "//sources/public/models/base:ProductKey",
-        "//sources/public/models/content:MaterialsData",
-        "//sources/public/models/content:ProductContent"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/base:ProductKey",
+        "//sources/content:MaterialsData",
+        "//sources/content:ProductContent"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Extract",
     srcs = ["Extract.proto"],
     deps = [
-        "//sources/public/models/base:ProductKey",
-        "//sources/public/models/content:MaterialsData",
-        "//sources/public/models/content:ProductContent"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/base:ProductKey",
+        "//sources/content:MaterialsData",
+        "//sources/content:ProductContent"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Flower",
     srcs = ["Flower.proto"],
     deps = [
-        "//sources/public/models/base:ProductKey",
-        "//sources/public/models/content:MaterialsData",
-        "//sources/public/models/content:ProductContent"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/base:ProductKey",
+        "//sources/content:MaterialsData",
+        "//sources/content:ProductContent"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Merchandise",
     srcs = ["Merchandise.proto"],
     deps = [
-        "//sources/public/models/base:ProductKey",
-        "//sources/public/models/content:ProductContent"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/base:ProductKey",
+        "//sources/content:ProductContent"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Plant",
     srcs = ["Plant.proto"],
     deps = [
-        "//sources/public/models/base:ProductKey",
-        "//sources/public/models/content:MaterialsData",
-        "//sources/public/models/content:ProductContent"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/base:ProductKey",
+        "//sources/content:MaterialsData",
+        "//sources/content:ProductContent"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Preroll",
     srcs = ["Preroll.proto"],
     deps = [
-        "//sources/public/models/base:ProductKey",
-        "//sources/public/models/content:MaterialsData",
-        "//sources/public/models/content:ProductContent"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/base:ProductKey",
+        "//sources/content:MaterialsData",
+        "//sources/content:ProductContent"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "SKU",
     srcs = ["SKU.proto"],
     deps = [
         "//sources/private/models/partner/integrations:IntegrationSettings",
-        "//sources/public/models/commerce:Item",
-        "//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/commerce:Item",
+        "//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 
 module(
@@ -97,6 +97,6 @@ module(
         ":Plant",
         ":Preroll",
         ":SKU",
-        "//sources/public/models/products/distribution:opencannabis.products.distribution",
-        "//sources/public/models/products/menu:opencannabis.products.menu"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/products/distribution:opencannabis.products.distribution",
+        "//sources/products/menu:opencannabis.products.menu"],
+    strip_import_prefix = "/sources")

@@ -7,20 +7,20 @@ load("//defs:proto.bzl", "proto", "module")
 proto(
     name = "EmailAddress",
     srcs = ["EmailAddress.proto"],
-    deps = ["//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+    deps = ["//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "PhoneNumber",
     srcs = ["PhoneNumber.proto"],
-    deps = ["//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+    deps = ["//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Website",
     srcs = ["Website.proto"],
-    deps = ["//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+    deps = ["//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "ContactInfo",
@@ -29,9 +29,9 @@ proto(
         ":PhoneNumber",
         ":EmailAddress",
         ":Website",
-        "//sources/public/models/geo:Location",
-        "//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/geo:Location",
+        "//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 
 module(
@@ -41,4 +41,4 @@ module(
         ":PhoneNumber",
         ":Website",
         ":ContactInfo"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")

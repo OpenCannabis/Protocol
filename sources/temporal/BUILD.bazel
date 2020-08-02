@@ -7,31 +7,31 @@ load("//defs:proto.bzl", "proto", "module")
 proto(
     name = "Date",
     srcs = ["Date.proto"],
-    deps = ["//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+    deps = ["//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Duration",
     srcs = ["Duration.proto"],
-    deps = ["//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+    deps = ["//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Instant",
     srcs = ["Instant.proto"],
-    deps = ["//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+    deps = ["//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Interval",
     srcs = ["Interval.proto"],
-    deps = ["//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+    deps = ["//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Time",
     srcs = ["Time.proto"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Schedule",
@@ -40,14 +40,14 @@ proto(
         ":Time",
         ":Instant",
         ":Interval",
-        "//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Timehash",
     srcs = ["Timehash.proto"],
-    deps = ["//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+    deps = ["//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 
 module(
@@ -60,4 +60,4 @@ module(
         ":Time",
         ":Schedule",
         ":Timehash"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")

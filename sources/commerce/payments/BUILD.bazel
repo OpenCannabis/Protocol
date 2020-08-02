@@ -7,10 +7,10 @@ load("//defs:proto.bzl", "proto", "module")
 proto(
     name = "Payment",
     srcs = ["Payment.proto"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 
 module(
     name = "opencannabis.commerce.payments",
     deps = [":Payment"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")

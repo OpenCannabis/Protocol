@@ -7,34 +7,34 @@ load("//defs:proto.bzl", "proto", "module")
 proto(
     name = "Genetics",
     srcs = ["Genetics.proto"],
-    deps = ["//sources/public/models/base:ProductKey"],
-    strip_import_prefix = "/sources/public/models")
+    deps = ["//sources/base:ProductKey"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Grow",
     srcs = ["Grow.proto"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 proto(
     name = "ProductFlags",
     srcs = ["ProductFlags.proto"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Shelf",
     srcs = ["Shelf.proto"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Species",
     srcs = ["Species.proto"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Version",
     srcs = ["Version.proto"],
-    deps = ["//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+    deps = ["//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 
 module(
@@ -46,6 +46,6 @@ module(
         ":Shelf",
         ":Species",
         ":Version",
-        "//sources/public/models/structs/labtesting:opencannabis.structs.labtesting",
-        "//sources/public/models/structs/pricing:opencannabis.structs.pricing"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/structs/labtesting:opencannabis.structs.labtesting",
+        "//sources/structs/pricing:opencannabis.structs.pricing"],
+    strip_import_prefix = "/sources")

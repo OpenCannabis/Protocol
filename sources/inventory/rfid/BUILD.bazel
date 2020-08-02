@@ -8,17 +8,17 @@ proto(
     name = "RFID",
     srcs = ["RFID.proto"],
     deps = [
-        "//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "LLRP",
     srcs = ["LLRP.proto"],
     deps = [
         ":RFID",
-        "//sources/public/models/temporal:Instant",
-        "//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/temporal:Instant",
+        "//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 
 
@@ -27,4 +27,4 @@ module(
     deps = [
         ":RFID",
         ":LLRP"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")

@@ -8,19 +8,19 @@ proto(
     name = "Signature",
     srcs = ["Signature.proto"],
     deps = [
-        "//sources/public/models/crypto/primitives:Keys",
-        "//sources/public/models/crypto/primitives:Integrity"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/crypto/primitives:Keys",
+        "//sources/crypto/primitives:Integrity"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Container",
     srcs = ["Container.proto"],
     deps = [
-        "//sources/public/models/base:Compression",
-        "//sources/public/models/content:Content",
-        "//sources/public/models/crypto/primitives:Keys",
-        "//sources/public/models/crypto/primitives:Integrity"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/base:Compression",
+        "//sources/content:Content",
+        "//sources/crypto/primitives:Keys",
+        "//sources/crypto/primitives:Integrity"],
+    strip_import_prefix = "/sources")
 
 
 module(
@@ -28,5 +28,5 @@ module(
     deps = [
         ":Signature",
         ":Container",
-        "//sources/public/models/crypto/primitives:opencannabis.crypto.primitives"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/crypto/primitives:opencannabis.crypto.primitives"],
+    strip_import_prefix = "/sources")

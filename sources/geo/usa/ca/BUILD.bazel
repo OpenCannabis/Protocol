@@ -5,11 +5,11 @@ load("//defs:proto.bzl", "proto", "module")
 proto(
     name = "CACounty",
     srcs = ["CACounty.proto"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 
 
 module(
     name = "opencannabis.geo.usa.ca",
     deps = [":CACounty"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")

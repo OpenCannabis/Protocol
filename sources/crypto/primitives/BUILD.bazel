@@ -7,13 +7,13 @@ load("//defs:proto.bzl", "proto", "module")
 proto(
     name = "Integrity",
     srcs = ["Integrity.proto"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Keys",
     srcs = ["Keys.proto"],
     deps = [":Integrity"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 
 module(
@@ -21,4 +21,4 @@ module(
     deps = [
         ":Integrity",
         ":Keys"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")

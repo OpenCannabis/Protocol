@@ -8,13 +8,13 @@ proto(
     name = "BluetoothBeacon",
     srcs = ["BluetoothBeacon.proto"],
     deps = [
-        "//sources/public/models/geo:Location",
-        "//sources/public/models/geo:Distance",
-        "//sources/public/models/temporal:Instant"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/geo:Location",
+        "//sources/geo:Distance",
+        "//sources/temporal:Instant"],
+    strip_import_prefix = "/sources")
 
 
 module(
     name = "opencannabis.proximity",
     deps = [":BluetoothBeacon"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")

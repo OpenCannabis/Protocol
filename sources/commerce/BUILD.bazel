@@ -7,37 +7,37 @@ load("//defs:proto.bzl", "proto", "module")
 proto(
     name = "Currency",
     srcs = ["Currency.proto"],
-    strip_import_prefix = "/sources/public/models")
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Customer",
     srcs = ["Customer.proto"],
     deps = [
-        "//sources/public/models/person:Person",
-        "//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/person:Person",
+        "//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Delivery",
     srcs = ["Delivery.proto"],
     deps = [
-        "//sources/public/models/geo:Address",
-        "//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/geo:Address",
+        "//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Discounts",
     srcs = ["Discounts.proto"],
-    deps = ["//sources/public/models/temporal:Instant"],
-    strip_import_prefix = "/sources/public/models")
+    deps = ["//sources/temporal:Instant"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Item",
     srcs = ["Item.proto"],
     deps = [
-        "//sources/public/models/base:ProductKey",
-        "//sources/public/models/structs/pricing:PricingDescriptor"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/base:ProductKey",
+        "//sources/structs/pricing:PricingDescriptor"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Order",
@@ -46,10 +46,10 @@ proto(
         ":Item",
         ":Delivery",
         ":Customer",
-        "//sources/public/models/commerce/payments:Payment",
-        "//sources/public/models/temporal:Instant",
-        "//sources/public/models/core:Datamodel"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/commerce/payments:Payment",
+        "//sources/temporal:Instant",
+        "//sources/core:Datamodel"],
+    strip_import_prefix = "/sources")
 
 proto(
     name = "Purchase",
@@ -58,13 +58,13 @@ proto(
         ":Item",
         ":Currency",
         ":Discounts",
-        "//sources/public/models/core:Datamodel",
-        "//sources/public/models/accounting:Taxes",
-        "//sources/public/models/crypto:Signature",
-        "//sources/public/models/commerce/payments:Payment",
-        "//sources/public/models/inventory:InventoryProduct",
-        "//sources/public/models/temporal:Instant"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/core:Datamodel",
+        "//sources/accounting:Taxes",
+        "//sources/crypto:Signature",
+        "//sources/commerce/payments:Payment",
+        "//sources/inventory:InventoryProduct",
+        "//sources/temporal:Instant"],
+    strip_import_prefix = "/sources")
 
 
 module(
@@ -77,5 +77,5 @@ module(
         ":Item",
         ":Order",
         ":Purchase",
-        "//sources/public/models/commerce/payments:opencannabis.commerce.payments"],
-    strip_import_prefix = "/sources/public/models")
+        "//sources/commerce/payments:opencannabis.commerce.payments"],
+    strip_import_prefix = "/sources")
