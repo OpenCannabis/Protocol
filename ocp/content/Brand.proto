@@ -53,4 +53,10 @@ message Brand {
 
   // Specifies color scheme and app theme values.
   opencannabis.content.ColorScheme theme = 21;
+
+// Formatted slug to use for the brand, as applicable.
+  string slug = 22;
+
+  // Link to the brand's main page.
+  string link = 23;
 }
