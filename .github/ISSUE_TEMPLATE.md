@@ -1,7 +1,7 @@
 
 ### Description
 
-Version: `1.9.0-alpha2`
+Version: `1.9.0-alpha3`
 
 <!-- Describe what happened. Include as much detail as necessary. -->
 

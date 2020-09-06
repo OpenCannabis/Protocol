@@ -21,8 +21,6 @@ import "opencannabis/temporal/Instant.proto";
 import "opencannabis/products/menu/Section.proto";
 import "opencannabis/crypto/primitives/Integrity.proto";
 
-import "opencannabis/partner/LocationKey.proto";
-
 import "opencannabis/products/SKU.proto";
 import "opencannabis/products/Apothecary.proto";
 import "opencannabis/products/Cartridge.proto";
@@ -235,7 +233,7 @@ message MenuProduct {
   ];
 
   // Describes the location scope that owns this product key, and the underlying data associated with it.
-  bloombox.partner.LocationKey owner = 6 [
+  string owner = 6 [
     (core.field) = {
       type: PARENT
       visibility: INTERNAL

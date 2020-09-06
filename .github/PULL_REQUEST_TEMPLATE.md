@@ -1,7 +1,7 @@
 
 ### Description
 
-- Version: `1.9.0-alpha2`
+- Version: `1.9.0-alpha3`
 - Filed By: @sgammon
 - Linked Issue: `Bloombox/OpenCannabis#1`
 

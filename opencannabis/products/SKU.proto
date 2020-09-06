@@ -13,9 +13,7 @@ option java_package = "io.opencannabis.schema.sku";
 option java_multiple_files = false;
 
 import "gust/core/datamodel.proto";
-
 import "opencannabis/commerce/Item.proto";
-import "opencannabis/partner/integrations/IntegrationSettings.proto";
 
 
 // Enumerates types of SKUs that can be mapped to products. SKUs either occur at the "product" level, or the "item"
@@ -57,7 +55,7 @@ message MappedSKU {
   ];
 
   // Integrating system, from which we are referencing a record with this SKU.
-  bloombox.partner.integrations.IntegrationPartner system = 4 [
+  string system = 4 [
     (core.opts).required = true,
     (core.field).summary = "Integrating system, from which we are referencing a record with this SKU."
   ];

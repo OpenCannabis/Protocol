@@ -80,7 +80,6 @@ proto(
     name = "SKU",
     srcs = ["SKU.proto"],
     deps = [
-        "//sources/private/models/partner/integrations:IntegrationSettings",
         "//opencannabis/commerce:Item",
         "//opencannabis/core:Datamodel"],
 )
