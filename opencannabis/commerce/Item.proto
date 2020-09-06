@@ -1,0 +1,68 @@
+
+/**
+ * Specifies the notion of an 'Order Item,' which is a product requested as part of a commercial order. An order item
+ * references a product on a partner's active menu, by key, along with a count representing the number of instances of
+ * that product that are desired for purchase.
+ */
+syntax = "proto3";
+
+package opencannabis.commerce;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.commerce";
+option java_multiple_files = false;
+option java_outer_classname = "OrderItem";
+
+import "opencannabis/base/ProductKey.proto";
+import "opencannabis/structs/pricing/PricingDescriptor.proto";
+
+
+// Specifies weight and price of  ordered product
+enum ProductVariant {
+  // Variance by product weight.
+  WEIGHT = 0;
+
+  // Variance by product color.
+  COLOR = 1;
+
+  // Variance by product size.
+  SIZE = 2;
+}
+
+
+// Specifies if it is a weighted product or a unit priced product and attaches that to item.
+message VariantSpec {
+  // Specifies the variance type for this spec.
+  ProductVariant variant = 1;
+
+  oneof spec {
+    // Specifies a product weight, when varying by weight.
+    opencannabis.structs.pricing.PricingWeightTier weight = 2;
+
+    // Specifies a size option for the product.
+    string size = 3;
+
+    // Specifies a color option for the product.
+    string color = 4;
+  }
+}
+
+
+// Specifies the Item via the product key as well as weight, and count of product ordered
+message Item {
+  // Key for the item, which is the type and ID, combined.
+  opencannabis.base.ProductKey key = 1;
+
+  // Variance specifications for this item.
+  repeated VariantSpec variant = 2;
+
+  // Count of this item requested.
+  uint32 count = 3;
+
+  // Detail/link URL for this item.
+  string uri = 4;
+
+  // Image URL for this item.
+  string image_uri = 5;
+}

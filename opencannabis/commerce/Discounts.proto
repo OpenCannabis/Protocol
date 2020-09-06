@@ -1,0 +1,86 @@
+
+/**
+ * Discounts on pricing and products, and enumerations specifying discount types or bases.
+ */
+syntax = "proto3";
+
+package opencannabis.commerce;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.accounting";
+option java_multiple_files = false;
+option java_outer_classname = "CommercialDiscounts";
+
+import "opencannabis/temporal/Instant.proto";
+
+
+// Enumerates types of discounts that may be applied.
+enum DiscountType {
+  // Some custom discount applied at the time of purchase.
+  CUSTOM = 0;
+
+  // Statutorily-mandated discount, for instance, for medical-only patients.
+  STATUTORY = 1;
+
+  // Commercial discount, for instance, for vendors, brand ambassadors, and staff.
+  COMMERCIAL = 2;
+}
+
+
+// Enumerates operational calculation modes for discounts.
+enum DiscountBasis {
+  // The discount is calculated per-item.
+  ITEM = 0;
+
+  // The discount is calculated from the order subtotal, before tax.
+  ORDER_SUBTOTAL = 1;
+
+  // The discount is calculated from the order total, after tax.
+  ORDER_TOTAL = 2;
+}
+
+
+// Specifies the concept of a discount, and how it is set to behave.
+message DiscountSpec {
+  // Type of discount to apply.
+  DiscountType type = 1;
+
+  // Basis to form when calculating the discount.
+  DiscountBasis basis = 2;
+
+  // Rate specified for the discount.
+  oneof rate {
+    // Percentage rate for the discount.
+    double percentage = 3;
+
+    // Flat rate for the discount.
+    double static_value = 4;
+  }
+}
+
+
+// Specifies a discount to be applied during a purchase or order.
+message Discount {
+  // ID code for this discount entry.
+  string id = 1;
+
+  // Specification for how this discount behaves.
+  DiscountSpec spec = 2;
+
+  // Back-office name for this tax.
+  string name = 3;
+
+  // User-visible name for this tax.
+  string label = 4;
+
+  // Narrative description for this discount, to be displayed to back-office and end-users in some special
+  // circumstances.
+  string description = 5;
+
+  // Last time this discount was modified.
+  opencannabis.temporal.Instant modified_at = 7;
+
+  // When this discount was created.
+  opencannabis.temporal.Instant created_at = 6;
+}

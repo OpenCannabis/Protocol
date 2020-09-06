@@ -1,0 +1,122 @@
+
+/**
+ * Provides structures relating to a menu section and enumerates section flags, and section types as well as enumerating
+ * filters.
+ */
+syntax = "proto3";
+
+package opencannabis.products.menu.section;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.menu.section";
+option java_multiple_files = true;
+
+import "opencannabis/content/Name.proto";
+import "opencannabis/media/MediaItem.proto";
+
+
+// Flags that may be applied to a section's configuration.
+enum SectionFlag {
+  // This section should not be displayed.
+  HIDDEN = 0;
+
+  // This section should be promoted and/or presented with high priority.
+  FEATURED = 1; 
+}
+
+
+// Known sections, that are expected to be included with nearly every menu.
+enum Section {
+  // Unspecified or unknown section.
+  UNSPECIFIED = 0;
+
+  // Traditional "buds" or "flowers" section.
+  FLOWERS = 1;
+
+  // Concentrated cannabis products such as oils, waxes and hashes.
+  EXTRACTS = 2;
+
+  // Edible cannabis products, such as brownies, candy bars, etc.
+  EDIBLES = 3;
+
+  // Cartridge and pen battery products.
+  CARTRIDGES = 4;
+
+  // Tinctures, teas, and other miscellaneous products.
+  APOTHECARY = 5;
+
+  // Pre-rolled flower-based joints, potentially fortified.
+  PREROLLS = 6;
+
+  // Plant clones, seeds, and other cultivation products.
+  PLANTS = 7;
+
+  // General merchandise.
+  MERCHANDISE = 8;
+}
+
+
+// Special filtered sections - commonly used sections based on filters builtin to apps/sites.
+enum FilteredSection {
+  // Only presents products that are on sale.
+  ON_SALE = 0;
+
+  // Only presents products that are cultivated, manufactured, or otherwise produced in-house.
+  HOUSE = 1;
+
+  // Only presents products containing CBD.
+  CBD = 2;
+
+  // Special section for product search.
+  SEARCH = 3;
+}
+
+
+// Custom configuration-based menu sections, usually via `FilteredSection`.
+message CustomSection {
+  // String ID for a custom section.
+  string id = 1;
+
+  // Filtered section specification.
+  FilteredSection filter = 2;
+}
+
+
+// Specifies media for a section.
+message SectionMedia {
+  // Specifies a media item to use as a tablet homescreen tile for this section.
+  opencannabis.media.MediaItem tablet_homescreen_media = 2;
+}
+
+
+// Specifies settings that a menu section may consider.
+message SectionSettings {
+  // Presentable name for this section.
+  opencannabis.content.Name name = 1;
+
+  // Media to use when presenting this section.
+  SectionMedia media = 2;
+}
+
+
+// Specifies a menu section, along with section configuration (settings and flags).
+message SectionSpec {
+  // Specifies the subject menu section.
+  oneof spec {
+    // Known and enumerated menu section.
+    Section section = 1;
+
+    // Custom, filter-based menu section.
+    CustomSection custom_section = 2;
+
+    // Arbitrary name for other types of sections.
+    string name = 3;
+  }
+
+  // Settings to apply to the subject section.
+  SectionSettings settings = 4;
+
+  // Current set of flags to apply to the subject section.
+  repeated SectionFlag flags = 5;
+}

@@ -1,0 +1,48 @@
+
+/**
+ * Provides structures relating to plants and enumerates various plant flags, and types.
+ */
+syntax = "proto3";
+
+package opencannabis.products;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.product";
+option java_multiple_files = false;
+option java_outer_classname = "PlantProduct";
+
+import "opencannabis/base/ProductKey.proto";
+import "opencannabis/content/MaterialsData.proto";
+import "opencannabis/content/ProductContent.proto";
+
+
+// Specifies a plant product, such as seeds, or clones, that are designed to be cultivated by the end user.
+message Plant {
+  // Enumerates types or subcategories of plants that may be sold.
+  enum Type {
+    // Unknown, unrecognized, or otherwise unspecified plant type.
+    UNSPECIFIED_PLANT = 0;
+
+    // Specifies a pack of seeds, or an individual seed.
+    SEED = 1;
+
+    // Specifies a cloned plant that is grown to some point and then sold.
+    CLONE = 2;
+  }
+
+  // Product key uniquely identifying this cannabis plant item.
+  opencannabis.base.ProductKey key = 1;
+
+  // Specific subcategory for this plant item.
+  Type type = 2;
+
+  // Menu products made from this raw plant product.
+  repeated opencannabis.base.ProductReference origin = 3;
+
+  // Product content attached to this cannabis plant item.
+  opencannabis.content.ProductContent product = 4;
+
+  // Handling and materials data regarding this cannabis plant item.
+  opencannabis.content.MaterialsData material = 5;
+}

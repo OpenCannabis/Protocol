@@ -1,0 +1,81 @@
+
+/**
+ * Provides a structure and definitions for a "sale" (Discounted Purchase). Enumerates types of sales.
+ */
+syntax = "proto3";
+
+package opencannabis.structs.pricing;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.product.struct";
+option java_multiple_files = true;
+option java_outer_classname = "ProductDiscount";
+
+import "opencannabis/temporal/Instant.proto";
+
+
+// Enumerates the various types of "sales" I.E. a retail purchase made with a discount of some amount applied.
+enum SaleType {
+  // A reduction of an item or the total by a percentage. I.E. "20% off".
+  PERCENTAGE_REDUCTION = 0;
+
+  // The reduction of an item or total by a flat value. I.E. "5 dollars off".
+  VALUE_REDUCTION = 1;
+
+  // A buy-one-get-one discount. Some discounted amount, applicable to the second item bought.
+  BOGO = 2;
+
+  // A discount for being a frequent or returning customer.
+  LOYALTY = 3;
+}
+
+// A discount of a percentage. I.E, "20% off".
+message PercentageDiscount {
+  // Represents the discount percentage.
+  uint32 discount = 20;
+}
+
+// A buy-one-get-one discount. Some discounted amount, applicable to the second item bought. First item is usually full
+// price. Can be applied in various ways. I.E. a customer purchases two items at full price and the third is discounted.
+message BOGODiscount {
+  // The discount code used to trigger the discount.
+  uint32 trigger = 21;
+
+  // The value for the discount.
+  uint32 reward = 22;
+}
+
+// A discount for returning to a partner or partner location multiple times or for having been a member for a certain
+// amount of time or having displayed a certain amount of buying power at a partner or partner location.
+message LoyaltyDiscount {
+  // The discount code used to trigger the discount.
+  uint32 trigger = 23;
+
+  // The value for the discount.
+  uint32 reward = 24;
+}
+
+// A description of the sale, the parameters to invoke the sale, its valid dates, and its type.
+message SaleDescriptor {
+  // Sale metadata.
+  SaleType type = 1;
+
+  // Represents the date that the discount can be applied.
+  opencannabis.temporal.Instant effective = 2;
+
+  // Represents the final date that the discount can be applied.
+  opencannabis.temporal.Instant expiration = 3;
+
+  // Sale amount and trigger properties.
+  oneof sale {
+    // Represents the percentage value to be discounted.
+    PercentageDiscount percentage_off = 4;
+
+    // Represents that the discount is buy one get one.
+    BOGODiscount bogo = 5;
+
+    // Represents that the discount is using accrued loyalty rewards.
+    LoyaltyDiscount loyalty = 6;
+  }
+}

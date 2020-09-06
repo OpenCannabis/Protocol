@@ -1,0 +1,287 @@
+
+/**
+ *
+ */
+syntax = "proto3";
+
+package opencannabis.crypto;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.crypto.primitives";
+option java_multiple_files = true;
+
+import "opencannabis/crypto/primitives/Integrity.proto";
+
+
+// Specifies basic types of keying. Options include "symmetric," which describes keys that are shared in some manner or
+// otherwise expected to be equal during encryption and decryption, and "asymmetric," which describes keying systems
+// that include the notion of a "public" and "private" member of a keypair.
+enum KeyType {
+  // Symmetric and/or pre-shared keys.
+  SYMMETRIC = 0;
+
+  // Asymmetric keying.
+  ASYMMETRIC = 1;
+}
+
+
+// Specifies the known key disposition options for a given key. This indicates the use parameters for a key structure.
+// Secret keys, or private keys, should always be kept private. Ephemeral keys are private but meant for temporally
+// bounded use in some specific context or circumstance.
+enum KeyDisposition {
+  // Secret key for a symmetric connection, or the private portion of an asymmetric keypair.
+  PRIVATE = 0;
+
+  // Ephemeral key for a given session or specific context. Considered secret.
+  EPHEMERAL = 1;
+
+  // Public portion of an asymmetric keypair.
+  PUBLIC = 2;
+}
+
+
+// Specifies known block cipher algorithms. Only the ciphers defined here are usable for sensitive data within the
+// OpenCannabis ecosystem. Other ciphers may be added in the future.
+enum BlockCipher {
+  // Unspecified block cipher.
+  UNSPECIFIED_BLOCK_CIPHER = 0;
+
+  // Advanced Encryption Standard.
+  AES = 1;
+
+  // Camellia block cipher.
+  CAMELLIA = 2;
+}
+
+
+// Specifies known stream cipher algorithms. Only the ciphers defined here are usable for sensitive data within the
+// OpenCannabis ecosystem. Other ciphers may be added in the future.
+enum StreamCipher {
+  // Unspecified stream cipher.
+  UNSPECIFIED_STREAM_CIPHER = 0;
+
+  // Rivest Cipher 5.
+  RC5 = 1;
+
+  // Rivest Cipher 6.
+  RC6 = 2;
+
+  // ChaCha20-Poly1305.
+  CHACHA20 = 3;
+}
+
+
+// Specifies known key agreement protocols. Only the algorithms defined here are usable for sensitive data within the
+// OpenCannabis ecosystem. Other protocols may be added in the future.
+enum KeyAgreement {
+  // Unspecified key agreement protocol.
+  UNSPECIFIED_KEY_AGREEMENT = 0;
+
+  // Diffie-Hellman Ephemeral Key Exchange.
+  DHE = 1;
+
+  // Elliptic Curve Diffie-Hellman Ephemeral Key Exchange.
+  ECDHE = 2;
+}
+
+
+// Specifies symmetric keying-based systems' block cipher operating mode. Some ciphers only support a subset of the
+// operating modes defined herein.
+enum BlockMode {
+  // Unspecified block cipher operation mode.
+  UNSPECIFIED_BLOCK_MODE = 0;
+
+  // Electronic Code Book mode.
+  ECB = 1;
+
+  // Cipher Block Chaining mode.
+  CBC = 2;
+
+  // Cipher Feedback mode.
+  CFB = 3;
+
+  // Output Feedback mode.
+  OFB = 4;
+
+  // Counter mode.
+  CTR = 5;
+
+  // Counter with CBC-MAC mode.
+  CCM = 6;
+
+  // Galois Counter mode.
+  GCM = 7;
+
+  // XEX with Ciphertext Stealing mode.
+  XTS = 8;
+
+  // Key Wrap Padding mode.
+  KWP = 9;
+}
+
+
+
+// Enumerates PKI/asymmetric keying schemes supported by the system. RSA, ECC and DSA keying are usually used for TLS,
+// and in particular HTTPS (with DSA being in the far minority). EdDSA keying is used for distributed ledger operations.
+enum KeyingScheme {
+  // RSA keying.
+  RSA = 0;
+
+  // ECC (curve-based) keying.
+  ECC = 1;
+
+  // DSA keying.
+  DSA = 2;
+
+  // ED-DSA keying.
+  EdDSA = 3;
+}
+
+
+// Specifies parameters that are applicable specifically to ciphers operating on blocks of data, to include the block
+// cipher operating mode, and the cipher itself.
+message BlockCipherParameters {
+  // Specifies the cipher in use.
+  BlockCipher algorithm = 1;
+
+  // Specifies the operating mode of the block cipher in use.
+  BlockMode mode = 2;
+}
+
+
+// Specifies parameters that are applicable to symmetric keys, or, keys shared between parties and identically used for
+// encryption and decryption.
+message SymmetricKeyParameters {
+  // Defines the block or stream cipher in use for symmetric crypto.
+  oneof cipher {
+    // Specifies a stream cipher.
+    StreamCipher stream = 1;
+
+    // Specifies a block cipher.
+    BlockCipherParameters block = 2;
+  }
+}
+
+
+// Specifies parameters that are applicable to asymmetric key pairs.
+message AsymmetricKeypairParameters {
+  // Asymmetric keying scheme in use.
+  KeyingScheme scheme = 1;
+
+  // Fingerprint of the public key that was used in some circumstance.
+  opencannabis.crypto.Hash fingerprint = 2;
+}
+
+
+// Specifies parameters used to generate an underlying keypair.
+message KeyParameters {
+  // Algorithm in use to generate the key.
+  string algorithm = 1;
+
+  // Format name for the key.
+  string format = 2;
+
+  // Key size, in bits, if applicable.
+  uint32 bits = 3;
+
+  // Type/architecture of the keys.
+  KeyType type = 4;
+
+  // Disposition of the subject key (i.e. scope).
+  KeyDisposition disposition = 5;
+
+  // General architecture and parameters for the key.
+  oneof architecture {
+    // Key type/keying scheme.
+    KeyingScheme scheme = 10;
+
+    // Specifies parameters for symmetric keying.
+    SymmetricKeyParameters symmetric = 11;
+  }
+}
+
+
+// Specifies known initialization vector operating or allocation modes.
+enum InitializationVectorMode {
+  // The IV is pre-shared or otherwise does not change.
+  STATIC_IV = 0;
+
+  // The IV is generated, or derive-able, using a Time-based One-Time-Password (OTP) algorithm.
+  TOTP = 1;
+
+  // The IV is generated from a counter.
+  COUNTER = 2;
+}
+
+
+// Specifies information about an initialization vector value. IV lifecycle and use is governed by the specific
+// application or use case.
+message InitializationVector {
+  // Specifies the operating mode for this IV, if applicable.
+  InitializationVectorMode mode = 1;
+
+  // Initialization vector value.
+  oneof value {
+    // Raw bytes for the vector.
+    bytes raw = 10;
+
+    // Base64-encoded raw bytes for the vector.
+    string b64 = 11;
+
+    // Initialization number.
+    uint32 number = 12;
+  }
+}
+
+
+// Specifies a symmetric encryption key, which is generally considered a secret value.
+message SymmetricKey {
+  // Bit size for the underlying symmetric key.
+  uint32 bits = 1;
+
+  // Specifies an initialization vector value. Raw bytes should be encoded in Base64.
+  InitializationVector iv = 2;
+
+  // Data for the underlying symmetric key.
+  oneof data {
+    // Specifies the raw bytes of the key.
+    bytes raw = 10;
+
+    // Specifies the key bytes, encoded in base64.
+    string b64 = 11;
+  }
+}
+
+
+// Specifies raw or encoded key material data, which is to say, the actual public or private keys themselves. Key
+// material may be specified in raw binary form, encoded PEM form, or simply a cryptographic hash of their contents
+// (particularly when transmitting a hash of a public key).
+message KeyMaterial {
+  // Cryptographic hash of the key in question.
+  opencannabis.crypto.Hash fingerprint = 1;
+
+  // Parameters regarding the subject key.
+  KeyParameters params = 2;
+
+  // Raw data for the key in question.
+  oneof data {
+    // Raw bytes of the key itself.
+    bytes raw = 10;
+
+    // Key, encoded in PEM format.
+    string pem = 11;
+  }
+}
+
+
+// Specifies key material for a set (pair) of asymmetric keys, which is to say, a public and a private key. This
+// structure may be used to transmit both keys in full, or just a hash of the public key, depending on the fields that
+// are filled in or not when the object is constructed.
+message Keypair {
+  // Public key. In PKI, the public key can be used only to encrypt data.
+  KeyMaterial public = 1;
+
+  // Private key. In PKI, the private key can be used to encrypt or decrypt data.
+  KeyMaterial private = 2;
+}

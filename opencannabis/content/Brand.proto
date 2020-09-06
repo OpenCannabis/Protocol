@@ -1,0 +1,62 @@
+
+/**
+ * Specifies a structure for dealing with brand content information.
+ */
+syntax = "proto3";
+
+package opencannabis.content;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.content";
+option java_multiple_files = false;
+option java_outer_classname = "BrandContent";
+
+import "opencannabis/content/Colors.proto";
+import "opencannabis/content/Name.proto";
+import "opencannabis/content/Content.proto";
+import "opencannabis/media/MediaKey.proto";
+
+
+// Raster graphic URL reference.
+message RasterGraphic {
+  // Standard-resolution graphic link.
+  opencannabis.media.MediaReference standard = 1;
+
+  // High-resolution graphic link.
+  opencannabis.media.MediaReference retina = 2;
+}
+
+
+// Individual brand asset.
+message BrandAsset {
+  // Raster graphic references.
+  RasterGraphic raster = 1;
+
+  // Vector graphic reference.
+  opencannabis.media.MediaReference vector = 2;
+}
+
+// Information about a particular brand or producer of products or materials.
+message Brand {
+  // Naming information for this brand.
+  opencannabis.content.Name name = 1;
+
+  // Parent/owning brand, if applicable.
+  opencannabis.content.Brand parent = 2;
+
+  // Summary information or content about this brand.
+  opencannabis.content.Content summary = 3;
+
+  // Media items attached to this brand.
+  repeated BrandAsset media = 20;
+
+  // Specifies color scheme and app theme values.
+  opencannabis.content.ColorScheme theme = 21;
+
+// Formatted slug to use for the brand, as applicable.
+  string slug = 22;
+
+  // Link to the brand's main page.
+  string link = 23;
+}

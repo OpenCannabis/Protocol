@@ -1,0 +1,114 @@
+
+/**
+ * Provides structures relating to edibles and enumerates various edible flags, and types.
+ */
+syntax = "proto3";
+
+package opencannabis.products;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.product";
+option java_multiple_files = false;
+option java_outer_classname = "EdibleProduct";
+
+import "opencannabis/base/ProductKey.proto";
+
+import "opencannabis/content/MaterialsData.proto";
+import "opencannabis/content/ProductContent.proto";
+
+
+// Specifies an ingredient included in an edible.
+message EdibleIngredient {
+  // Human-friendly label for the ingredient.
+  string label = 1;
+
+  // Human-friendly label describing the amount for this ingredient.
+  string amount = 2;
+}
+
+
+// Specifies an edible product that may be consumed as a food or beverage, that contains cannabis or cannabinoids in
+// some quantity.
+message Edible {
+  // Specifies types of edible products that are known and considered sub-categories of the full 'edibles' menu section.
+  enum Type {
+    // Unknown, unrecognized, or otherwise unspecified edible type.
+    UNSPECIFIED_EDIBLE = 0;
+
+    // Specifies chocolate products, including truffles, chocolate bars, and so on.
+    CHOCOLATE = 1;
+
+    // Specifies a baked good, such as a cookie, doughnut, brownie, pie, and so on.
+    BAKED_GOOD = 2;
+
+    // Specifies generic candy items not otherwise specified.
+    CANDY = 3;
+
+    // Beverage/drink products.
+    BEVERAGE = 4;
+
+    // Lozenge (hardened candy) products.
+    LOZENGE = 5;
+
+    // Sub-lingual, i.e. under-the-tongue, products.
+    SUBLINGUAL = 6;
+
+    // Soft candies made of congealed sugar product.
+    GUMMY = 7;
+
+    // Medicated butter products.
+    BUTTER = 8;
+
+    // Cooking oil and other edible oils.
+    OILS = 9;
+
+    // Cereals and related breakfast products.
+    CEREAL = 10;
+
+    // Capsules, which may also be listed in the "Apothecary" section.
+    CAPSULE = 11;
+  }
+
+  // Flags that may be applied specifically to an edible product.
+  enum Flag {
+    // Special default flag indicating no flags.
+    NO_EDIBLE_FLAG = 0;
+
+    // Flag indicating this edible product is vegan.
+    VEGAN = 1;
+
+    // Flag indicating this edible product is gluten free.
+    GLUTEN_FREE = 2;
+
+    // Flag indicating this edible product is sugar free.
+    SUGAR_FREE = 3;
+
+    // Flag indicating this edible product is compliant with fair trade practices.
+    FAIR_TRADE = 4;
+
+    // Flag indicating this edible product is considered organic.
+    ORGANIC = 5;
+
+    // Flag indicating this edible product was grown or cultivated or prepared locally.
+    LOCAL = 6;
+  }
+
+  // Product key that uniquely identifies this edible item.
+  opencannabis.base.ProductKey key = 1;
+
+  // Specifies the subcategory of this edible product, if known and applicable.
+  Type type = 2;
+
+  // Specifies flags attached to this edible product.
+  repeated Flag flags = 3;
+
+  // Product content related to/about this edible item.
+  opencannabis.content.ProductContent product = 4;
+
+  // Materials and handling information about this cartridge product.
+  opencannabis.content.MaterialsData material = 5;
+
+  // Specifies the ingredients for a product, when/if it is composed of ingredients (i.e. edibles).
+  repeated EdibleIngredient ingredients = 6;
+}

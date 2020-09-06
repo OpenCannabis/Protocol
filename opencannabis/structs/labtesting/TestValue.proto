@@ -1,0 +1,95 @@
+
+/**
+ * Provides structures related to the testing process and results in regards to the cannabis plant. Enumerates value
+ * types and testing types.
+ */
+syntax = "proto3";
+
+package opencannabis.structs.labtesting;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.product.struct.testing";
+option java_multiple_files = true;
+option java_outer_classname = "BaseTestingSpec";
+
+import "opencannabis/media/MediaItem.proto";
+
+
+// -- Testing: Base (Shared) Protocol
+enum TestValueType {
+  // Represents a test value in milligrams (mg).
+  MILLIGRAMS = 0;
+
+  // Represents a test value in percent of volume (%).
+  PERCENTAGE = 1;
+
+  // Represents a cannabinoid type is present at all (BOOLEAN).
+  PRESENCE = 2;
+
+  // Represents a test value in milligrams-per-gram (mg/g).
+  MILLIGRAMS_PER_GRAM = 3;
+}
+
+// Specifies the different types of testing error that may be reported: percent error, absolute error, and
+// relative error.
+enum TestErrorType {
+  // Represents a percent error type.
+  PERCENT = 0;
+
+  // Represents an absolute error type.
+  ABSOLUTE = 1;
+
+  // Represents a relative error type.
+  RELATIVE = 2;
+}
+
+// Specifies the different types of testing media that may be generated to act as verification of testing.
+enum TestMediaType {
+  // Represents a Certificate of Authenticity.
+  CERTIFICATE = 0;
+
+  // Represents a set of results from a test.
+  RESULTS = 1;
+
+  // Represents a product image.
+  PRODUCT_IMAGE = 2;
+}
+
+//Specifies the value of the test, its type of measurement, and the error value and type if applicable.
+message TestValue {
+  // Specifies the degree of uncertainty that arises during testing and consists of the type of error being reported
+  // along with the error value.  See more information at: 
+  // https://www.nde-ed.org/GeneralResources/ErrorAnalysis/UncertaintyTerms.htm
+  message TestError {
+    // Represents the type of error, if it is measurable.
+    TestErrorType type = 1;
+
+    // Represents the value of the error, if it is measurable.
+    double value = 2;
+  }
+
+  // Represents the type of value of the test.
+  TestValueType type = 1;
+
+  // Represents the error information.
+  TestError error = 2;
+
+  // Specifies the lab certified measurement of the test. This would be the value that the dispensaries care about.
+  oneof value {
+    // Represents the value of the test.
+    double measurement = 10;
+
+    // Represents if a value is present in the test or not.
+    bool present = 20;
+  }
+}
+
+// Specifies media acting as verification for testing.
+message TestMedia {
+  // Represents the testing media type.
+  TestMediaType type = 1;
+
+  // Represents the location of the test media.
+  media.MediaItem media_item = 2;
+}

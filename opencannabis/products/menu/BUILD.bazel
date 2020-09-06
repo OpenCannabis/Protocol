@@ -1,0 +1,41 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+# Menus
+proto(
+    name = "Section",
+    srcs = ["Section.proto"],
+    deps = [
+        "//opencannabis/content:Name",
+        "//opencannabis/media:MediaItem"],
+)
+
+proto(
+    name = "Menu",
+    srcs = ["Menu.proto"],
+    deps = [
+        ":Section",
+        "//opencannabis/core:Datamodel",
+        "//opencannabis/base:ProductKey",
+        "//opencannabis/media:MediaKey",
+        "//opencannabis/temporal:Instant",
+        "//opencannabis/products:Apothecary",
+        "//opencannabis/products:Cartridge",
+        "//opencannabis/products:Edible",
+        "//opencannabis/products:Extract",
+        "//opencannabis/products:Flower",
+        "//opencannabis/products:Merchandise",
+        "//opencannabis/products:Plant",
+        "//opencannabis/products:Preroll",
+        "//opencannabis/products:SKU",
+        "//opencannabis/crypto/primitives:Integrity",
+        "//sources/private/models/partner:LocationKey"],
+)
+
+
+module(
+    name = "opencannabis.products.menu",
+    deps = [":Section", ":Menu"],
+)

@@ -1,0 +1,57 @@
+
+/**
+ * Provides structures relating to cartridge and enumerates various cartridge flags, and types.
+ */
+syntax = "proto3";
+
+package opencannabis.products;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.product";
+option java_multiple_files = false;
+option java_outer_classname = "CartridgeProduct";
+
+import "opencannabis/base/ProductKey.proto";
+
+import "opencannabis/content/MaterialsData.proto";
+import "opencannabis/content/ProductContent.proto";
+
+
+// Specifies a vaporizor or cartridge-style product, for instance, vaporizor pens and table units. Vaporizers are
+// composed of two elements: a battery, or the bottom power unit, and a cartridge, or the top fuel unit, that contains
+// cannabinoids and is disposable or refillable.
+message Cartridge {
+  // Specifies types of cartridge products that may be expressed.
+  enum Type {
+    // Unknown, unrecognized, or otherwise unspecified cartridge type.
+    UNSPECIFIED_CARTRIDGE = 0;
+
+    // Specifies a lone cartridge product with no battery or other accompanying items.
+    CARTRIDGE = 1;
+
+    // Specifies a battery unit with no cartridge.
+    BATTERY = 2;
+
+    // Specifies a full kit with a battery and cartridge unit.
+    KIT = 3;
+
+    // Disposable pen and cartridge pair.
+    DISPOSABLE = 4;
+
+    // E-liquid for purchase in raw or bulk form.
+    E_LIQUID = 5;
+  }
+
+  // Product key uniquely identifying this cartridge-style product.
+  opencannabis.base.ProductKey key = 1;
+
+  // Type of cartridge product being described.
+  Type type = 2;
+
+  // Product content about this cartridge item.
+  opencannabis.content.ProductContent product = 3;
+
+  // Materials and handling information about this cartridge product.
+  opencannabis.content.MaterialsData material = 4;
+}

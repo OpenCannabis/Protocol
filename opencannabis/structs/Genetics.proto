@@ -1,0 +1,25 @@
+
+/**
+ * Provides genetic lineage structures.
+ */
+syntax = "proto3";
+
+package opencannabis.structs;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.product.struct";
+option java_multiple_files = true;
+option java_outer_classname = "GeneticsStructs";
+
+import "opencannabis/base/ProductKey.proto";
+
+
+// Specifies genetics for a particular plant or flower item.
+message Genetics {
+  // Specifies the male side of an item's genetics.
+  opencannabis.base.ProductReference male = 1;
+
+  // Specifies the female side of an item's genetics.
+  opencannabis.base.ProductReference female = 2;
+}

@@ -1,0 +1,58 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+# Menus
+proto(
+    name = "Catalog",
+    srcs = ["Catalog.proto"],
+    deps = [
+        "//opencannabis/core:Datamodel",
+        "//sources/private/models/partner:BrandKey",
+        "//sources/private/models/creative:CreativeKey",
+        "//opencannabis/base:ProductKey",
+        "//opencannabis/media:MediaKey",
+        "//opencannabis/temporal:Instant",
+        "//opencannabis/products:Apothecary",
+        "//opencannabis/products:Cartridge",
+        "//opencannabis/products:Edible",
+        "//opencannabis/products:Extract",
+        "//opencannabis/products:Flower",
+        "//opencannabis/products:Merchandise",
+        "//opencannabis/products:Plant",
+        "//opencannabis/products:Preroll",
+        "//opencannabis/products:SKU",
+        "//opencannabis/products/menu:Menu",
+        "//opencannabis/crypto/primitives:Integrity",
+        "@com_google_protobuf//:field_mask_proto"],
+)
+
+proto(
+    name = "Policy",
+    srcs = ["Policy.proto"],
+    deps = [
+        ":PolicyKey",
+        "//opencannabis/core:Datamodel",
+        "//opencannabis/base:ProductKind",
+        "//opencannabis/temporal:Instant",
+        "//sources/private/models/identity:UserKey",
+        "@com_google_protobuf//:field_mask_proto",
+        "@com_google_protobuf//:struct_proto"],
+)
+
+proto(
+    name = "PolicyKey",
+    srcs = ["PolicyKey.proto"],
+    deps = [
+        "//opencannabis/core:Datamodel",
+        "//sources/private/models/partner:BrandKey",
+        "//sources/private/models/partner:PartnerKey",
+        "//sources/private/models/partner:LocationKey"],
+)
+
+
+module(
+    name = "opencannabis.catalog",
+    deps = [":Catalog", ":Policy", ":PolicyKey"],
+)

@@ -1,0 +1,103 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+# Products
+proto(
+    name = "Apothecary",
+    srcs = ["Apothecary.proto"],
+    deps = [
+        "//opencannabis/base:ProductKey",
+        "//opencannabis/content:MaterialsData",
+        "//opencannabis/content:ProductContent"],
+)
+
+proto(
+    name = "Cartridge",
+    srcs = ["Cartridge.proto"],
+    deps = [
+        "//opencannabis/base:ProductKey",
+        "//opencannabis/content:MaterialsData",
+        "//opencannabis/content:ProductContent"],
+)
+
+proto(
+    name = "Edible",
+    srcs = ["Edible.proto"],
+    deps = [
+        "//opencannabis/base:ProductKey",
+        "//opencannabis/content:MaterialsData",
+        "//opencannabis/content:ProductContent"],
+)
+
+proto(
+    name = "Extract",
+    srcs = ["Extract.proto"],
+    deps = [
+        "//opencannabis/base:ProductKey",
+        "//opencannabis/content:MaterialsData",
+        "//opencannabis/content:ProductContent"],
+)
+
+proto(
+    name = "Flower",
+    srcs = ["Flower.proto"],
+    deps = [
+        "//opencannabis/core:Datamodel",
+        "//opencannabis/base:ProductKey",
+        "//opencannabis/content:MaterialsData",
+        "//opencannabis/content:ProductContent"],
+)
+
+proto(
+    name = "Merchandise",
+    srcs = ["Merchandise.proto"],
+    deps = [
+        "//opencannabis/base:ProductKey",
+        "//opencannabis/content:ProductContent"],
+)
+
+proto(
+    name = "Plant",
+    srcs = ["Plant.proto"],
+    deps = [
+        "//opencannabis/base:ProductKey",
+        "//opencannabis/content:MaterialsData",
+        "//opencannabis/content:ProductContent"],
+)
+
+proto(
+    name = "Preroll",
+    srcs = ["Preroll.proto"],
+    deps = [
+        "//opencannabis/base:ProductKey",
+        "//opencannabis/content:MaterialsData",
+        "//opencannabis/content:ProductContent"],
+)
+
+proto(
+    name = "SKU",
+    srcs = ["SKU.proto"],
+    deps = [
+        "//sources/private/models/partner/integrations:IntegrationSettings",
+        "//opencannabis/commerce:Item",
+        "//opencannabis/core:Datamodel"],
+)
+
+
+module(
+    name = "opencannabis.products",
+    deps = [
+        ":Apothecary",
+        ":Cartridge",
+        ":Edible",
+        ":Extract",
+        ":Flower",
+        ":Merchandise",
+        ":Plant",
+        ":Preroll",
+        ":SKU",
+        "//opencannabis/products/distribution:opencannabis.products.distribution",
+        "//opencannabis/products/menu:opencannabis.products.menu"],
+)

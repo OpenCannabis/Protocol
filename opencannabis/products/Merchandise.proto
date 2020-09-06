@@ -1,0 +1,79 @@
+
+/**
+ * Provides structures relating to merchandise and enumerates various merchandise flags, and types.
+ */
+syntax = "proto3";
+
+package opencannabis.products;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.product";
+option java_multiple_files = false;
+option java_outer_classname = "MerchandiseProduct";
+
+import "opencannabis/base/ProductKey.proto";
+import "opencannabis/content/ProductContent.proto";
+
+
+// Flags that may be applied specifically to merchandise items.
+enum MerchandiseFlag {
+  // No flags specified.
+  NO_MERCHANDISE_FLAGS = 0;
+
+  // This item requires that a user have a valid medical recommendation for cannabis.
+  MEDICAL_ONLY = 1;
+
+  // This item is branded for the partner and should be promoted as such.
+  BRAND_SWAG = 2;
+}
+
+
+// Specifies an item of merchandise, that does not contain cannabis, but is sold anyway by a dispensary, such as branded
+// clothing, containers, lighters, and other random stuff.
+message Merchandise {
+  // Specifies types of generic merchandise that may be carried on a dispensary menu.
+  enum Type {
+    // Unknown, unrecognized, or otherwise unspecified merchandise subcategory.
+    UNSPECIFIED_MERCHANDISE = 0;
+
+    // Clothing - i.e. shirts, pants, hoodies, and other wearable textiles.
+    CLOTHING = 1;
+
+    // Cups, mugs, on up to pipes and bongs.
+    GLASSWARE = 2;
+
+    // Containers for cannabis.
+    CONTAINER = 3;
+
+    // Tools to produce fire to consume cannabis.
+    LIGHTER = 4;
+
+    // Specific clothing value for t-shirts.
+    TSHIRT = 5;
+
+    // Specific clothing value for sweatshirts.
+    HOODIE = 6;
+
+    // Specific clothing value for hats.
+    HAT = 7;
+
+    // Accessories for other products. Deprecated.
+    ACCESSORIES = 8 [deprecated = true];
+
+    // Rolling papers.
+    PAPERS = 9;
+  }
+
+  // Product key uniquely identifying this merchandise item.
+  opencannabis.base.ProductKey key = 1;
+
+  // Sub-category for this merchandise item, if known.
+  Type type = 2;
+
+  // Flags for this merchandise item.
+  repeated MerchandiseFlag flags = 3;
+
+  // Content about this merchandise item.
+  opencannabis.content.ProductContent product = 4;
+}

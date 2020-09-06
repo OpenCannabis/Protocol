@@ -1,0 +1,38 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+# Testing
+proto(
+    name = "Terpenes",
+    srcs = ["Terpenes.proto"],
+)
+
+proto(
+    name = "Cannabinoids",
+    srcs = ["Cannabinoids.proto"],
+)
+
+proto(
+    name = "TestValue",
+    srcs = ["TestValue.proto"],
+    deps = ["//opencannabis/media:MediaItem"],
+)
+
+proto(
+    name = "TestResults",
+    srcs = ["TestResults.proto"],
+    deps = [
+        ":TestValue",
+        ":Terpenes",
+        ":Cannabinoids",
+        "//opencannabis/content:Content",
+        "//opencannabis/temporal:Instant"],
+)
+
+
+module(
+    name = "opencannabis.structs.labtesting",
+    deps = [":TestValue", ":TestResults", ":Terpenes", ":Cannabinoids"],
+)

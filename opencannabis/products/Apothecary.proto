@@ -1,0 +1,71 @@
+
+/**
+ * Provides structures relating to apothacary and enumerates various apothacary flags, and types.
+ */
+syntax = "proto3";
+
+package opencannabis.products;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.product";
+option java_multiple_files = false;
+option java_outer_classname = "ApothecaryProduct";
+
+import "opencannabis/base/ProductKey.proto";
+
+import "opencannabis/content/MaterialsData.proto";
+import "opencannabis/content/ProductContent.proto";
+
+
+// Specifies an apothecary item for sale. Apothecary items are described as drugstore-style items, like capsules, oils,
+// injectors, and other edge-case applications.
+message Apothecary {
+  // Specifies types of apothecary items that may be expressed.
+  enum Type {
+    // Specifies an unidentified, or unspecified, apothecary item.
+    UNSPECIFIED_APOTHECARY = 0;
+
+    // Specifies a topical material, such as an ointment or oil, meant for application to the skin.
+    TOPICAL = 1;
+
+    // Specifies a liquid that may be added to other liquids or foods. Often used with tea.
+    TINCTURE = 2;
+
+    // Specifies a capsule containing cannabinoids, similar to a dietary supplement.
+    CAPSULE = 3;
+
+    // Specifies an injector or injection style system.
+    INJECTOR = 4;
+
+    // Specifies a spray-style tool or bottle.
+    SPRAY = 5;
+
+    // Specifies a sublingual strip or dropper-style applicator.
+    SUBLINGUAL = 6;
+
+    // Specifies an anally-administered dose or applicator.
+    SUPPOSITORY = 7;
+
+    // Specifies a patch or substance that works via a transdermal mechanism (i.e. via skin).
+    TRANSDERMAL = 8;
+
+    // Bath bombs, soaps, and so on.
+    BATH_AND_BODY = 9;
+
+    // Lotions, creams, and balms.
+    LOTION = 10;
+  }
+
+  // Product key uniquely identifying this apothecary item.
+  opencannabis.base.ProductKey key = 1;
+
+  // Specific type of apothecary item being described.
+  Type type = 2;
+
+  // Product content about this apothecary item.
+  opencannabis.content.ProductContent product = 3;
+
+  // Materials and handling information about this apothecary item.
+  opencannabis.content.MaterialsData material = 4;
+}

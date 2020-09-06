@@ -1,0 +1,18 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+## Device
+proto(
+    name = "Device",
+    srcs = ["Device.proto"],
+    deps = ["//opencannabis/core:Datamodel"],
+)
+
+
+
+module(
+    name = "opencannabis.device",
+    deps = [":Device"],
+)

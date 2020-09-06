@@ -1,0 +1,51 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+# Structs
+proto(
+    name = "Genetics",
+    srcs = ["Genetics.proto"],
+    deps = ["//opencannabis/base:ProductKey"],
+)
+
+proto(
+    name = "Grow",
+    srcs = ["Grow.proto"],
+)
+
+proto(
+    name = "ProductFlags",
+    srcs = ["ProductFlags.proto"],
+)
+
+proto(
+    name = "Shelf",
+    srcs = ["Shelf.proto"],
+)
+
+proto(
+    name = "Species",
+    srcs = ["Species.proto"],
+)
+
+proto(
+    name = "Version",
+    srcs = ["Version.proto"],
+    deps = ["//opencannabis/core:Datamodel"],
+)
+
+
+module(
+    name = "opencannabis.structs",
+    deps = [
+        ":Genetics",
+        ":Grow",
+        ":ProductFlags",
+        ":Shelf",
+        ":Species",
+        ":Version",
+        "//opencannabis/structs/labtesting:opencannabis.structs.labtesting",
+        "//opencannabis/structs/pricing:opencannabis.structs.pricing"],
+)

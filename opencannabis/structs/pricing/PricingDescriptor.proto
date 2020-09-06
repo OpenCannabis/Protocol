@@ -1,0 +1,144 @@
+
+/**
+ * Provides a structure and definitions for pricing, with a weighted or unit pricing model, and for availability.
+ * Enumerates weight tier and pricing types.
+ */
+syntax = "proto3";
+
+package opencannabis.structs.pricing;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.product.struct";
+option java_multiple_files = true;
+option java_outer_classname = "ProductPricingSpec";
+
+import "opencannabis/commerce/Currency.proto";
+import "opencannabis/structs/pricing/SaleDescriptor.proto";
+
+
+// Enumerates supported pricing schemes. Defaults to 'UNIT'-based pricing.
+enum PricingType {
+  // Cost-per-item based pricing scheme, where each product is priced individually, regardless of other attributes. For
+  // example, edibles or standard merchandise are purchased, at their price, "each."
+  UNIT = 0;
+
+  // Cost-by-weight pricing scheme, where each product has multiple weight tiers, each priced individually. For example,
+  // standard retail flower pricing is weighted at 1g (one gram), 3.5g, 7g, 14g and 28g (one ounce).
+  WEIGHTED = 1;
+}
+
+// Enumerates supported pricing tiers, when the 'WEIGHTED' pricing scheme is in effect. Each known tier is enumerated,
+// with an additional defaulted option for 'OTHER,' which would allow a custom weight to be assigned via some other
+// property or metric.
+enum PricingWeightTier {
+  // No weight indicated.
+  NO_WEIGHT = 0;
+
+  // Pricing for 'ONE GRAM' of the subject material or merchandise.
+  GRAM = 1;
+
+  // Pricing for one 'HALF GRAM' of the subject material or merchandise. Usually used only for extracts.
+  HALFGRAM = 2;
+
+  // Pricing for one 'QUARTER GRAM' of the subject material or merchandise. Usually used only for extracts.
+  QUARTERGRAM = 3;
+
+  // Pricing for TWO GRAMS of the subject material or merchandise. Rarely used.
+  DUB = 4;
+
+  // Pricing for an 'EIGHTH' of the subject material or merchandise, usually defined as 3-and-one-half grams. In some
+  // cases, providers may choose to define their 'EIGHTH' weight value at 4 grams. This functionality is supported via
+  // partner or location-level settings. 'EIGHTH' usually refers to an eighth-of-an-ounce.
+  EIGHTH = 5;
+
+  // Pricing for a 'QUARTER' of the subject material or merchandise, usually defined as 7 grams.
+  QUARTER = 6;
+
+  // Pricing for a 'HALF OUNCE' of the subject material or merchandise. Usually defined as 14 grams.
+  HALF = 7;
+
+  // Pricing for 'ONCE OUNCE' of subject material or merchandise. Usually defined as 28 grams.
+  OUNCE = 8;
+
+  // Pricing for 'QUARTER POUND' of subject material or merchandise.
+  QUARTERPOUND = 9;
+
+  // Pricing for 'HALF POUND' of subject material or merchandise.
+  HALFPOUND = 10;
+
+  // Pricing for 'ONE POUND' of subject material or merchandise.
+  POUND = 11;
+
+  // Pricing for 'ONE KILO' of subject material or merchandise.
+  KILO = 12;
+
+  // Pricing for 'ONE TON' of subject material or merchandise.
+  TON = 13;
+
+  // 'Other,' or custom weighted pricing.
+  OTHER = 99;
+}
+
+// Specifies availability and stock status flags for a particular pricing tier.
+message PricingTierAvailability {
+  // Specifies whether a particular pricing tier is offered at all. This would be interpreted to indicate whether a
+  // particular pricing tier is 'ever available' or 'ever offered.'
+  bool offered = 1;
+
+  // Specifies whether a particular pricing tier is currently available. This would be interpreted to indicate whether a
+  // particular pricing tier is 'currently available,' 'currently in stock,' or 'currently offered.'
+  bool available = 2;
+}
+
+// Specifies pricing information for a unit-priced product, including the price value, tier status, and any discounts
+// that currently apply.
+message UnitPricingDescriptor {
+  // Unit price value.
+  opencannabis.commerce.CurrencyValue price = 1;
+
+  // Availability flags for this unit-priced tier.
+  PricingTierAvailability status = 2;
+
+  // Discounts that should apply to this tier.
+  repeated opencannabis.structs.pricing.SaleDescriptor discounts = 3;
+}
+
+// Specifies pricing information for a weight-priced product, at a particular weight tier, including the price value,
+// tier status, and, optionally, a custom weight.
+message WeightedPricingDescriptor {
+  // Weight tier selection.
+  PricingWeightTier weight = 1;
+
+  // Pricing descriptor for this tier, including the price value, status, and any discounts that should apply.
+  UnitPricingDescriptor tier = 2;
+
+  // Custom weight in grams, if any.
+  float weight_in_grams = 3;
+}
+
+// Specifies a descriptor for product pricing, which specifies the price configuration for one independent price tier
+// in a given set of pricing tiers for a product.
+message PricingDescriptor {
+  // Type of pricing tier this descriptor is specifying.
+  PricingType type = 1;
+
+  // Pricing information for this tier, based on the pricing tier type.
+  oneof tier {
+    // Unit-based pricing information, with no variance in price change.
+    UnitPricingDescriptor unit = 20;
+
+    // Weight-based pricing information, with prices assgined to specific or known weights.
+    WeightedPricingDescriptor weighted = 21;
+  }
+}
+
+// Pricing manifest for a product, with the combined tiers and top-level discounts that are currently configured for a
+// given sellable material or unit of merchandise.
+message ProductPricing {
+  // Discounts that should apply across all pricing tiers for the subject product.
+  repeated opencannabis.structs.pricing.SaleDescriptor discounts = 1;
+
+  // Pricing tiers attached to this product pricing manifest.
+  repeated PricingDescriptor manifest = 2;
+}

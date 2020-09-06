@@ -1,0 +1,134 @@
+
+/**
+ * Provides enumerations and messages that structure and specify jurisdictionally-imposed costs on goods sold (i.e.,
+ * taxes). Support is included for taxes at the federal, provincial, and municipal levels.
+ */
+syntax = "proto3";
+
+package opencannabis.taxes;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.accounting";
+option java_multiple_files = false;
+option java_outer_classname = "AccountingTaxes";
+
+import "opencannabis/geo/Province.proto";
+import "opencannabis/geo/Country.proto";
+
+
+// Enumerates the jurisdictions at which tax may be levied.
+enum TaxJurisdictionMode {
+  // The tax is levied by a local municipality.
+  LOCAL = 0;
+
+  // The tax is levied by a provincial jurisdiction.
+  PROVINCE = 1;
+
+  // The tax is levied by a national government.
+  FEDERAL = 2;
+}
+
+
+// Specifies information about a municipally- or locally-imposed tax.
+message LocalTax {
+  // Municipality imposing the tax.
+  string municipality = 1;
+
+  // Province the municipality is in.
+  opencannabis.geo.Province province = 2;
+
+  // Country the province is in.
+  opencannabis.geo.Country country = 3;
+}
+
+
+// Specifies information about a provincially-imposed tax.
+message ProvincialTax {
+  // Province the municipality is in.
+  opencannabis.geo.Province province = 1;
+
+  // Country the province is in.
+  opencannabis.geo.Country country = 2;
+}
+
+
+// Specifies information about a federally-imposed tax.
+message FederalTax {
+  // Province the municipality is in.
+  opencannabis.geo.Country country = 1;
+}
+
+
+// Specifies information about a particular tax jurisdiction.
+message TaxJurisdiction {
+  // Operating mode of this tax jurisdiction.
+  TaxJurisdictionMode mode = 1;
+
+  // Specifies information regarding the actual jurisdiction.
+  oneof jurisdiction {
+    // Local tax jurisdiction information.
+    LocalTax local = 2;
+
+    // Provincial tax jurisdiction information.
+    ProvincialTax provincial = 3;
+
+    // Federal tax jurisdiction information.
+    FederalTax federal = 4;
+  }
+}
+
+
+// Enumerates the types of bases a tax may be calculated from.
+enum TaxBasis {
+  // The tax is calculated per-item.
+  ITEM = 0;
+
+  // The tax is calculated from the order subtotal.
+  ORDER_SUBTOTAL = 1;
+
+  // The tax is calculated in a second phase, applied to the subtotal which includes other taxes.
+  ORDER_TOTAL = 2;
+}
+
+
+// Specification record for a type of taxes to apply.
+message TaxSpec {
+  // The basis to calculate the tax value from.
+  TaxBasis basis = 1;
+
+  // Jurisdiction that is levying the tax.
+  TaxJurisdiction jurisdiction = 2;
+
+  // What to call this tax on receipts, and other end-user-visible materials.
+  string transaction_label = 3;
+
+  // Rate specified for the tax.
+  oneof rate {
+    // Percentage rate for the tax.
+    double percentage = 4;
+
+    // Flat rate for the tax.
+    double static_value = 5;
+  }
+}
+
+
+// Specifies a tax to be applied during a purchase.
+message Tax {
+  // ID code for this tax entry.
+  string id = 1;
+
+  // Specification for how the tax behaves.
+  TaxSpec spec = 2;
+
+  // Back-office name for this tax.
+  string name = 3;
+
+  // User-visible name for this tax.
+  string label = 4;
+
+  // Narrative description for the tax, to be displayed to back-office and end-users in some
+  // special circumstances.
+  string description = 5;
+}

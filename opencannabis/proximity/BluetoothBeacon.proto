@@ -1,0 +1,38 @@
+
+/**
+ * Provides structures related to bluetooth beacon and bluetooth proximity sensing.
+ */
+syntax = "proto3";
+
+package opencannabis.proximity;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.proximity";
+option java_multiple_files = true;
+
+import "opencannabis/geo/Location.proto";
+import "opencannabis/geo/Distance.proto";
+import "opencannabis/temporal/Instant.proto";
+
+
+// Specifies a Bluetooth beacon signal, detected or emitted by a BLE device.
+message BluetoothBeacon {
+  // UUID for the device, as observed or emitted.
+  string uuid = 1;
+
+  // 'Major' value in the BLE signal.
+  uint32 major = 2;
+
+  // 'Minor' value in the BLE signal.
+  uint32 minor = 3;
+
+  // Timestamp for when this beacon was witnessed.
+  opencannabis.temporal.Instant seen = 4;
+
+  // Location of the emitting or reporting (receiving) beacon.
+  opencannabis.geo.Location location = 5;
+
+  // Estimate as to the distance accuracy of this beacon.
+  opencannabis.geo.LocationAccuracy accuracy = 6;
+}

@@ -1,0 +1,15 @@
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+## Core
+alias(
+    name = "Datamodel",
+    actual = "@gust//gust/core:datamodel",
+)
+
+module(
+    name = "opencannabis.core",
+    deps = [":Datamodel"],
+)
+

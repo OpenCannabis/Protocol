@@ -1,0 +1,39 @@
+
+/**
+ * Quantitative or empirical content regarding the substance or material of a given product.
+ */
+syntax = "proto3";
+
+package opencannabis.content;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.content";
+option java_multiple_files = false;
+option java_outer_classname = "MaterialsContent";
+
+import "opencannabis/structs/Grow.proto";
+import "opencannabis/structs/Shelf.proto";
+import "opencannabis/structs/Species.proto";
+import "opencannabis/structs/Genetics.proto";
+
+import "opencannabis/products/distribution/DistributionChannel.proto";
+
+
+// Specifies materials-related data about a product that contains cannabis.
+message MaterialsData {
+  // Species of an item, if known.
+  opencannabis.structs.Species species = 1;
+
+  // Specifies the genetics of an item, if known.
+  opencannabis.structs.Genetics genetics = 2;
+
+  // Specifies how this item was grown.
+  opencannabis.structs.Grow grow = 3;
+
+  // Shelf status of this product.
+  opencannabis.structs.Shelf shelf = 4;
+
+  // Specifies distribution policy for this particular subject material.
+  repeated opencannabis.products.distribution.DistributionPolicy channel = 5;
+}

@@ -1,0 +1,87 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "module")
+
+
+alias(name = "opencannabis.accounting",
+      actual = "//opencannabis/accounting:opencannabis.accounting")
+
+alias(name = "opencannabis.base",
+      actual = "//opencannabis/base:opencannabis.base")
+
+alias(name = "opencannabis.commerce",
+      actual = "//opencannabis/commerce:opencannabis.commerce")
+
+alias(name = "opencannabis.catalog",
+      actual = "//opencannabis/catalog:opencannabis.catalog")
+
+alias(name = "opencannabis.contact",
+      actual = "//opencannabis/contact:opencannabis.contact")
+
+alias(name = "opencannabis.content",
+      actual = "//opencannabis/content:opencannabis.content")
+
+alias(name = "opencannabis.core",
+      actual = "//opencannabis/core:opencannabis.core")
+
+alias(name = "opencannabis.crypto",
+      actual = "//opencannabis/crypto:opencannabis.crypto")
+
+alias(name = "opencannabis.device",
+      actual = "//opencannabis/device:opencannabis.device")
+
+alias(name = "opencannabis.geo",
+      actual = "//opencannabis/geo:opencannabis.geo")
+
+alias(name = "opencannabis.inventory",
+      actual = "//opencannabis/inventory:opencannabis.inventory")
+
+alias(name = "opencannabis.media",
+      actual = "//opencannabis/media:opencannabis.media")
+
+alias(name = "opencannabis.oauth",
+      actual = "//opencannabis/oauth:opencannabis.oauth")
+
+alias(name = "opencannabis.person",
+      actual = "//opencannabis/person:opencannabis.person")
+
+alias(name = "opencannabis.products",
+      actual = "//opencannabis/products:opencannabis.products")
+
+alias(name = "opencannabis.proximity",
+      actual = "//opencannabis/proximity:opencannabis.proximity")
+
+alias(name = "opencannabis.regulatory",
+      actual = "//opencannabis/regulatory:opencannabis.regulatory")
+
+alias(name = "opencannabis.structs",
+      actual = "//opencannabis/structs:opencannabis.structs")
+
+alias(name = "opencannabis.temporal",
+      actual = "//opencannabis/temporal:opencannabis.temporal")
+
+
+## OpenCannabis: Models
+module(
+    name = "OpenCannabis",
+    deps = [
+        ":opencannabis.accounting",
+        ":opencannabis.base",
+        ":opencannabis.commerce",
+        ":opencannabis.catalog",
+        ":opencannabis.contact",
+        ":opencannabis.content",
+        ":opencannabis.core",
+        ":opencannabis.crypto",
+        ":opencannabis.device",
+        ":opencannabis.geo",
+        ":opencannabis.inventory",
+        ":opencannabis.media",
+        ":opencannabis.oauth",
+        ":opencannabis.person",
+        ":opencannabis.products",
+        ":opencannabis.proximity",
+        ":opencannabis.regulatory",
+        ":opencannabis.structs",
+        ":opencannabis.temporal"],
+)

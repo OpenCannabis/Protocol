@@ -1,0 +1,24 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+# Cryptographic Primitives
+proto(
+    name = "Integrity",
+    srcs = ["Integrity.proto"],
+)
+
+proto(
+    name = "Keys",
+    srcs = ["Keys.proto"],
+    deps = [":Integrity"],
+)
+
+
+module(
+    name = "opencannabis.crypto.primitives",
+    deps = [
+        ":Integrity",
+        ":Keys"],
+)

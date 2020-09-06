@@ -1,0 +1,81 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+# Commerce
+proto(
+    name = "Currency",
+    srcs = ["Currency.proto"],
+)
+
+proto(
+    name = "Customer",
+    srcs = ["Customer.proto"],
+    deps = [
+        "//opencannabis/person:Person",
+        "//opencannabis/core:Datamodel"],
+)
+
+proto(
+    name = "Delivery",
+    srcs = ["Delivery.proto"],
+    deps = [
+        "//opencannabis/geo:Address",
+        "//opencannabis/core:Datamodel"],
+)
+
+proto(
+    name = "Discounts",
+    srcs = ["Discounts.proto"],
+    deps = ["//opencannabis/temporal:Instant"],
+)
+
+proto(
+    name = "Item",
+    srcs = ["Item.proto"],
+    deps = [
+        "//opencannabis/base:ProductKey",
+        "//opencannabis/structs/pricing:PricingDescriptor"],
+)
+
+proto(
+    name = "Order",
+    srcs = ["Order.proto"],
+    deps = [
+        ":Item",
+        ":Delivery",
+        ":Customer",
+        "//opencannabis/commerce/payments:Payment",
+        "//opencannabis/temporal:Instant",
+        "//opencannabis/core:Datamodel"],
+)
+
+proto(
+    name = "Purchase",
+    srcs = ["Purchase.proto"],
+    deps = [
+        ":Item",
+        ":Currency",
+        ":Discounts",
+        "//opencannabis/core:Datamodel",
+        "//opencannabis/accounting:Taxes",
+        "//opencannabis/crypto:Signature",
+        "//opencannabis/commerce/payments:Payment",
+        "//opencannabis/inventory:InventoryProduct",
+        "//opencannabis/temporal:Instant"],
+)
+
+
+module(
+    name = "opencannabis.commerce",
+    deps = [
+        ":Currency",
+        ":Customer",
+        ":Delivery",
+        ":Discounts",
+        ":Item",
+        ":Order",
+        ":Purchase",
+        "//opencannabis/commerce/payments:opencannabis.commerce.payments"],
+)

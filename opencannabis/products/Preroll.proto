@@ -1,0 +1,66 @@
+
+/**
+ * Provides structures relating to prerolls and enumerates various preroll flags and types.
+ */
+syntax = "proto3";
+
+package opencannabis.products;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.product";
+option java_multiple_files = false;
+option java_outer_classname = "PrerollProduct";
+
+import "opencannabis/base/ProductKey.proto";
+
+import "opencannabis/content/MaterialsData.proto";
+import "opencannabis/content/ProductContent.proto";
+
+
+// Specifies a pre-rolled cannabis product, where a production process consumes cannabis plant material and produces
+// end-products that are already rolled into joints, marijuana cigarettes, blunts, and so on.
+message Preroll {
+  // Specifies flags that may be specifically applied to pre-rolled cannabis products.
+  enum Flag {
+    // Specifies that no flags are set.
+    NO_PREROLL_FLAGS = 0;
+
+    // Specifies that this pre-rolled item is hash-infused.
+    HASH_INFUSED = 1;
+
+    // Specifies that this pre-rolled item is kief-infused.
+    KIEF_INFUSED = 2;
+
+    // Specifies that this pre-rolled item is fortified with extracted cannabis products in some manner.
+    FORTIFIED = 3;
+
+    // Specifies that this pre-rolled item is rolled with "full flower" buds, rather than trimmings, or other discarded
+    // cannabis from other production processes.
+    FULL_FLOWER = 4;
+
+    // Specifies that this product contains tobacco.
+    CONTAINS_TOBACCO = 5;
+  }
+
+  // Product key that uniquely identifies this pre-rolled cannabis product.
+  opencannabis.base.ProductKey key = 1;
+
+  // Specifies the flowers used to produce this product, if known.
+  opencannabis.base.ProductReference flower = 2;
+
+  // Specifies the measured length of this prerolled item, if known.
+  double length = 3;
+
+  // Specifies the measured thickness of this prerolled item, if known.
+  double thickness = 4;
+
+  // Specifies flags that may be applied specifically to this prerolled item.
+  repeated Flag flags = 5;
+
+  // Specifies product content attached to this prerolled item.
+  opencannabis.content.ProductContent product = 6;
+
+  // Specifies handling and materials data associated with this prerolled item.
+  opencannabis.content.MaterialsData material = 7;
+}

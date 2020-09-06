@@ -1,0 +1,76 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+## Geography
+proto(
+    name = "Address",
+    srcs = ["Address.proto"],
+    deps = ["//opencannabis/core:Datamodel"],
+)
+
+proto(
+    name = "Country",
+    srcs = ["Country.proto"],
+    deps = ["//opencannabis/core:Datamodel"],
+)
+
+proto(
+    name = "Distance",
+    srcs = ["Distance.proto"],
+    deps = ["//opencannabis/core:Datamodel"],
+)
+
+proto(
+    name = "Geohash",
+    srcs = ["Geohash.proto"],
+    deps = [
+        ":Distance",
+        "//opencannabis/core:Datamodel"],
+)
+
+proto(
+    name = "Point",
+    srcs = ["Point.proto"],
+    deps = [
+        ":Distance",
+        "//opencannabis/core:Datamodel"],
+)
+
+proto(
+    name = "Location",
+    srcs = ["Location.proto"],
+    deps = [
+        ":Address",
+        ":Point",
+        ":Distance",
+        "//opencannabis/content:Name",
+        "//opencannabis/core:Datamodel"],
+)
+
+proto(
+    name = "USState",
+    srcs = ["USState.proto"],
+)
+
+proto(
+    name = "Province",
+    srcs = ["Province.proto"],
+    deps = [":USState"],
+)
+
+
+module(
+    name = "opencannabis.geo",
+    deps = [
+        ":Address",
+        ":Country",
+        ":Distance",
+        ":Geohash",
+        ":Point",
+        ":Location",
+        ":USState",
+        ":Province",
+        "//opencannabis/geo/usa/ca:opencannabis.geo.usa.ca"],
+)

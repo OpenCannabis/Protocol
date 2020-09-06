@@ -1,0 +1,16 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+## Commercial Payments
+proto(
+    name = "Payment",
+    srcs = ["Payment.proto"],
+)
+
+
+module(
+    name = "opencannabis.commerce.payments",
+    deps = [":Payment"],
+)

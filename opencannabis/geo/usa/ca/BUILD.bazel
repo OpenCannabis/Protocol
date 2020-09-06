@@ -1,0 +1,15 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+proto(
+    name = "CACounty",
+    srcs = ["CACounty.proto"],
+)
+
+
+
+module(
+    name = "opencannabis.geo.usa.ca",
+    deps = [":CACounty"],
+)

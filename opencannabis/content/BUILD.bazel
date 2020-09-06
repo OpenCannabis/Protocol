@@ -1,0 +1,78 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+## Content
+proto(
+    name = "Name",
+    srcs = ["Name.proto"],
+)
+
+proto(
+    name = "Colors",
+    srcs = ["Colors.proto"],
+)
+
+proto(
+    name = "Content",
+    srcs = ["Content.proto"],
+    deps = [
+        "//opencannabis/core:Datamodel",
+        "//opencannabis/base:Language",
+        "//opencannabis/base:Compression"],
+)
+
+proto(
+    name = "Data",
+    srcs = ["Data.proto"],
+)
+
+proto(
+    name = "MaterialsData",
+    srcs = ["MaterialsData.proto"],
+    deps = [
+        "//opencannabis/structs:Grow",
+        "//opencannabis/structs:Shelf",
+        "//opencannabis/structs:Species",
+        "//opencannabis/structs:Genetics",
+        "//opencannabis/products/distribution:DistributionChannel"],
+)
+
+proto(
+    name = "Brand",
+    srcs = ["Brand.proto"],
+    deps = [
+            "//opencannabis/content:Name",
+            "//opencannabis/content:Colors",
+            "//opencannabis/content:Content",
+            "//opencannabis/media:MediaKey"],
+)
+
+proto(
+    name = "ProductContent",
+    srcs = ["ProductContent.proto"],
+    deps = [
+        ":Name",
+        ":Brand",
+        ":Content",
+        "//opencannabis/media:MediaKey",
+        "//opencannabis/structs:ProductFlags",
+        "//opencannabis/temporal:Instant",
+        "//opencannabis/structs/pricing:PricingDescriptor",
+        "//opencannabis/structs/labtesting:TestResults",
+        "//opencannabis/core:Datamodel"],
+)
+
+
+module(
+    name = "opencannabis.content",
+    deps = [
+        ":Name",
+        ":Colors",
+        ":Content",
+        ":Data",
+        ":MaterialsData",
+        ":Brand",
+        ":ProductContent"],
+)

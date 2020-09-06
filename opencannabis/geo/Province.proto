@@ -1,0 +1,26 @@
+
+/**
+ * Provides structures for specifying a provincial area of a country.
+ */
+syntax = "proto3";
+
+package opencannabis.geo;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.geo";
+option java_multiple_files = true;
+
+import "opencannabis/geo/USState.proto";
+
+
+// Specifies a US or non-US province.
+message Province {
+  oneof spec {
+    // US state, specified by enumerated ID.
+    opencannabis.geo.usa.USState state = 1;
+
+    // Generic province reference, by name.
+    string province = 2;
+  }
+}

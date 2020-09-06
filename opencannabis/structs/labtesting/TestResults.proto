@@ -1,0 +1,351 @@
+
+/**
+ * Empirical laboratory product testing structures and definitions. Provides support for cannabinoid testing, terpene
+ * testing, pesticide testing, moisture ratings, and subjective testing.
+ */
+syntax = "proto3";
+
+package opencannabis.structs.labtesting;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.product.struct.testing";
+option java_multiple_files = true;
+option java_outer_classname = "LabTesting";
+
+import "opencannabis/content/Content.proto";
+import "opencannabis/temporal/Instant.proto";
+
+import "opencannabis/structs/labtesting/Terpenes.proto";
+import "opencannabis/structs/labtesting/Cannabinoids.proto";
+import "opencannabis/structs/labtesting/TestValue.proto";
+
+
+// Specific test methods used to quantify or qualify certain properties or components of cannabis.
+enum TestMethod {
+  // 'Unspecified' test method, indicating that we don't know what method was used to test with, or it was left
+  // unspecified. This is the default value.
+  UNSPECIFIED_METHOD = 0;
+
+  // Gas Chromatography / Mass Spectrometry is used to identify specific compounds found within a sample.
+  GCMS = 1;
+
+  // Liquid Chromatography / Mass Spectrometry is used to identify specific compounds found within a sample.
+  // Recommended for the most volatile compounds.
+  LCMS = 2;
+
+  // Classic PCR is a qualitative and semi-quantitative genetic test that identifies the presence or absence of
+  // specific genes.
+  CLASSIC_PCR = 3;
+
+  // Quantitative PCR is a genetic test that quantifies the amount of specific genes within a sample.
+  qPCR = 4;
+
+  // ELISA, or enzyme-linked immunosorbent assay, is an antibody based test that is used to detect and quantify
+  // specific substances within the sample.
+  ELISA = 5;
+}
+
+
+// Test results for contaminants which indicate presence/absence of a compound along with a value (if available)
+message Contaminants {
+  // Pesticide-specific test results. Indicates a pesticide reading, by chemical compound name, and a reading value.
+  Pesticides pesticides = 1;
+
+  // Heavy metal specific test results. Indicates a heavy metal reading, by chemical compound name, along with a 
+  // reading value.
+  Metals metals = 2;
+
+  // Mold and mildew specific test results. Indicates a mold or mildew reading, by species name, along with a reading
+  // value.
+  MoldMildew mold_mildew = 3;
+
+  // Place to store other contaminants that may be found in cannabis, including, but not limited to: glass, sand,
+  // detergents, etc.
+  OtherContaminants other_contaminants = 4;
+}
+
+
+// Structure for a test suite - which contains the item being tested for, the method used to produce the results,
+// the value of the results, and any comments.
+message TestSuite {
+  // Method used to obtain the test result.
+  TestMethod method = 1;
+
+  // Result of the test.
+  TestResults results = 2;
+
+  // String containing any comments about the test.
+  string comments = 3;
+}
+
+
+// Lab testing results for a given product. Includes cannabinoid, terpene, pesticide, moisture, and subjective testing
+// properties. Only cannabinoid testing is considered required.
+message TestResults {
+  // Boolean flag indicating whether results are available for lab testing at all.
+  bool available = 1;
+
+  // Media attached to a set of lab results. This might include images taken during testing, documents (such as PDFs)
+  // specifying test results, and so on.
+  repeated TestMedia media = 2;
+
+  // Last-updated value for these lab test results. Updated each time the record is updated.
+  opencannabis.temporal.Instant last_updated = 3;
+
+  // Precise moment that these results were considered 'sealed' and returned. Once this timestamp is set, a given set of
+  // test results (unique by their coordinates) is considered immutable.
+  opencannabis.temporal.Instant sealed = 4;
+
+  // Coordinate, or ID values, for this set of test results. When specified at the top-level of a set of lab tests,
+  // indicates the coordinates for the active set of test results.
+  TestCoordinates coordinates = 5;
+
+  // Standard cannabinoid testing, with reading results at least for THC and CBD, and optionally additional cannabinoid
+  // compounds.
+  Cannabinoids cannabinoids = 30;
+
+  // Testing for terpene volatiles, which might indicate aroma or flavor notes.
+  Terpenes terpenes = 31;
+
+  // Contaminants that may be present within the sample.
+  Contaminants contaminants = 32;
+
+  // Moisture rating and test results.
+  Moisture moisture = 33;
+
+  // Results from subjective testing - i.e, opinionated human evaluation.
+  Subjective subjective = 34;
+
+  // Computed taste notes for this product, based on the combination of terpene testing and subjective testing, if
+  // available.
+  repeated TasteNote aroma = 35;
+
+  // Raw test result data, stored under a master set of test results. Only one level of nesting is allowed.
+  repeated TestResults data = 36;
+}
+
+
+// Specifies coordinate values for a given lab testing result. This consists of 'zones' (i.e. floors, greenhouses), 
+// made up of 'batches' (i.e. rooms, sections), containing 'lots' (i.e. rows, trays) of individual plants or products.
+message TestCoordinates {
+  // Specifies the 'zone' value for a set of test results. This is usually used as/by a floor or greenhouse ID.
+  string zone = 1;
+
+  // Specifies the 'lot' value for a set of test results. This is usually used as/by a room or section ID.
+  string lot = 2;
+
+  // Specifies the 'batch' value for a set of test results. This is usually used as/by a row or tray ID for individual
+  // plants or test sample products.
+  string batch = 3;
+
+  // Unique ID given to the sample that was tested. This may represent individual plants or products, grouped lots or
+  // batches, or even random selections from entire zones.
+  string sample_id = 4;
+}
+
+
+// Specifies test results with regard to cannabinoid compounds, enumerated in `Cannabinoid`. THC and CBD testing is
+// elevated to a dedicated spot in test results due to its notability as a consumer decision-making signal.
+message Cannabinoids {
+  // Individual payload for a cannabinoid test result.
+  message Result {
+    // Cannabinoid this result is expressing results for.
+    Cannabinoid cannabinoid = 1;
+
+    // Measurement value for this individual result.
+    TestValue measurement = 3;
+  }
+
+  // THC testing value.
+  TestValue thc = 1;
+
+  // CBD testing value.
+  TestValue cbd = 2;
+
+  // Individual results payloads for other cannabinoids.
+  repeated Result results = 3;
+
+  // Overall THC to CBD ratio, calculated if underlying data is available.
+  CannabinoidRatio ratio = 4;
+
+  // Calculated potency estimate, based on this product's type/kind and test results.
+  PotencyEstimate potency = 5;
+}
+
+
+// Enumerates symptomatic/experiential feeling results from subjective product testing. Feeling states are not designed
+// to be scientific or interpreted as medical advice.
+enum Feeling {
+  // No feeling preference or value.
+  NO_FEELING_PREFERENCE = 0;
+
+  // "Grounding" feeling.
+  GROUNDING = 1;
+
+  // "Sleepy" feeling.
+  SLEEP = 2;
+
+  // "Calming" feeling.
+  CALMING = 3;
+
+  // "Stimulating" feeling.
+  STIMULATING = 4;
+
+  // "Funny" feeling.
+  FUNNY = 5;
+
+  // "Focus" feeling.
+  FOCUS = 6;
+
+  // "Passion" feeling.
+  PASSION = 7;
+}
+
+
+// Enumerates taste or aroma notes, either based on subjective product testing or quantitative/empirical terpene
+// compound testing.
+enum TasteNote {
+  // No particular taste or aroma preference or value.
+  NO_TASTE_PREFERENCE = 0;
+
+  // "Sweet" taste/aroma note.
+  SWEET = 1;
+
+  // "Sour" taste/aroma note.
+  SOUR = 2;
+
+  // "Spice" taste/aroma note.
+  SPICE = 3;
+
+  // "Smooth" taste/aroma note.
+  SMOOTH = 4;
+
+  // "Citrus" taste/aroma note.
+  CITRUS = 5;
+
+  // "Pine" taste/aroma note.
+  PINE = 6;
+
+  // "Fruit" taste/aroma note.
+  FRUIT = 7;
+
+  // "Tropics" taste/aroma note.
+  TROPICS = 8;
+
+  // "Floral" taste/aroma note.
+  FLORAL = 9;
+
+  // "Herbal" taste/aroma note.
+  HERB = 10;
+
+  // "Earthy" taste/aroma note.
+  EARTH = 11;
+}
+
+
+// Generic potency estimate enumeration, either based on subjective product testing or calculated against some metric
+// for the user's tolerance level.
+enum PotencyEstimate {
+  // Light potency.
+  LIGHT = 0;
+
+  // Medium potency.
+  MEDIUM = 1;
+
+  // Heavy potency.
+  HEAVY = 2;
+
+  // Top/super potency.
+  SUPER = 3;
+}
+
+
+// Specifies the structure of "subjective testing" results, wherein a consumer or user has tried the product and
+// evaluated its subjective effects.
+message Subjective {
+  // Subjective description of using this product.
+  content.Content description = 1;
+
+  // Subjective description of the taste of this product.
+  content.Content taste = 2;
+
+  // Subjective potency estimate for this product.
+  PotencyEstimate potency = 3;
+
+  // Subjective feeling tags for this product.
+  repeated Feeling feeling = 4;
+
+  // Subjective taste or aroma notes for this product.
+  repeated TasteNote aroma = 5;
+}
+
+
+// Specifies results of pesticide testing.
+message Pesticides {
+  // Flag indicating the product is pesticide free.
+  bool pesticide_free = 1;
+
+  // Measurements for specific, named, pesticides.
+  map<string, TestValue> measurements = 2;
+}
+
+
+// Specifies results of heavy metal testing.
+message Metals {
+  // Flag indicating the product is heavy-metal-free.
+  bool metal_free = 1;
+
+  // Measurements for specific, named, heavy metal values.
+  map<string, TestValue> measurements = 2;
+}
+
+
+// Specifies results of mold/mildew testing.
+message MoldMildew {
+  // Flag indicating the product is mold/mildew free.
+  bool mold_mildew_free = 1;
+
+  // Measurements for specific, named, mold/mildew values.
+  map<string, TestValue> measurements = 2;
+}
+
+
+// Specifies generic results for other types of contaminant testing.
+message OtherContaminants {
+  // Measurements for generic, labeled, contaminant values.
+  map<string, TestValue> measurements = 1;
+}
+
+
+// Specifies test result structure for product moisture level testing.
+message Moisture {
+  // Measurement for the moisture level of the subject product.
+  TestValue measurement = 1;
+}
+
+
+// Specifies the structure of terpene testing. Includes space for a full set of terpene test result values, and
+// corresponding values (computed) for estimated feelings and tasting notes.
+message Terpenes {
+  // Specifies the structure of an individual terpene testing result.
+  message Result {
+    // Terpene this test result is for.
+    Terpene terpene = 1;
+
+    // Measured value of the terpene in question for the subject product.
+    TestValue measurement = 2;
+  }
+
+  // Flag indicating whether terpene testing is available yet or not.
+  bool available = 1;
+
+  // Individual terpene testing results.
+  repeated Result terpene = 10;
+
+  // Enumerates computed feeling notes, based on the specified terpene results.
+  repeated Feeling feeling = 2;
+
+  // Enumerates computed aroma/flavor notes.
+  repeated TasteNote aroma = 3;
+}

@@ -1,0 +1,27 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+# OAuth
+proto(
+    name = "AuthorizationScope",
+    srcs = ["AuthorizationScope.proto"],
+)
+
+proto(
+    name = "Client",
+    srcs = ["Client.proto"],
+    deps = [
+        ":AuthorizationScope",
+        "//opencannabis/media:MediaItem",
+        "//opencannabis/temporal:Instant"],
+)
+
+
+module(
+    name = "opencannabis.oauth",
+    deps = [
+        ":AuthorizationScope",
+        ":Client"],
+)

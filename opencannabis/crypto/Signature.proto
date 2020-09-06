@@ -1,0 +1,42 @@
+
+/**
+ * Specifies structures that carry or otherwise contain cryptographic signatures.
+ */
+syntax = "proto3";
+
+package opencannabis.crypto;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.crypto";
+option java_multiple_files = true;
+
+import "opencannabis/crypto/primitives/Keys.proto";
+import "opencannabis/crypto/primitives/Integrity.proto";
+
+
+// Specifies the concept of a cryptographic signature, including the raw signature bytes, a fingerprint of the data that
+// was signed, and information about the public key corresponding to the private key that performed the signing.
+message Signature {
+  // Public key fingerprint, or raw content of the public key, that performed the signing operation.
+  opencannabis.crypto.KeyMaterial public_key = 1;
+
+  // Cryptographic fingerprint of the subject data that was signed. This is the actual value that should be signed by
+  // the private key and recomputed via the public key.
+  opencannabis.crypto.Hash fingerprint = 2;
+
+  // Specifies the content of the digital signature being carried by this payload.
+  oneof signature {
+    // Raw bytes of the digital signature, performed over `fingerprint` by the private key corresponding to the
+    // `public_key` listed in this request.
+    bytes raw = 5;
+
+    // Base-64 encoded raw bytes of the digital signature, performed over `fingerprint` by the private key corresponding
+    // to the `public_key` listed in this request.
+    string b64 = 6;
+
+    // Hex-encoded and uppercased raw bytes of the digital signature, performed over `fingerprint` by the private key
+    // corresponding to the `public_key` listed in the request.
+    string hex = 7;
+  }
+}

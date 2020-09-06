@@ -1,0 +1,85 @@
+
+/**
+ * Provides structures relating to extracts and enumerates various extract flags, and types.
+ */
+syntax = "proto3";
+
+package opencannabis.products;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.product";
+option java_multiple_files = false;
+option java_outer_classname = "ExtractProduct";
+
+import "opencannabis/base/ProductKey.proto";
+import "opencannabis/content/MaterialsData.proto";
+import "opencannabis/content/ProductContent.proto";
+
+
+// Specifies an extracted cannabis product, whereby cannabis plant material has been reduced to a more potent and
+// concentrated form by some process.
+message Extract {
+  // Specifies flags that may specifically be applied to an extracted cannabis product.
+  enum Flag {
+    // Specifies that no flags are set.
+    NO_EXTRACT_FLAGS = 0;
+
+    // Specifies that this extract was made with a solventless process.
+    SOLVENTLESS = 1;
+  }
+
+  // Enumerates types of extracted oleoresin cannabis products that have known/specified subcategories.
+  enum Type {
+    // Unknown, unrecognized, or otherwise unspecified extract type.
+    UNSPECIFIED_EXTRACT = 0;
+
+    // Cannabis oil, usually in liquid form.
+    OIL = 1;
+
+    // Cannabis wax - viscous semisolid forms of cannabis oil.
+    WAX = 2;
+
+    // Clear, amber solid cannabis wax.
+    SHATTER = 3;
+
+    // Particulate discharge from cannabis flowers that contains THC or other cannabinoids.
+    KIEF = 4;
+
+    // Fully extracted and concentrated cannabis resin.
+    HASH = 5;
+
+    // Extracted cannabis that is kept at freezing temperatures, rather than dried.
+    LIVE_RESIN = 6;
+
+    // Heated and terpene-vaporized live resin.
+    ROSIN = 7;
+
+    // Similar process to shatter, but with higher-terpene output and a softer, cheese-like consistency.
+    CRUMBLE = 8;
+
+    // THC distillate, often with extracted terpene content added.
+    SAUCE = 9;
+
+    // Raw THC or terpene distillate, in dust or powder form.
+    SUGAR = 10;
+  }
+
+  // Product key that uniquely identifies this cannabis extract item.
+  opencannabis.base.ProductKey key = 1;
+
+  // Specific type of extract being described.
+  Type type = 2;
+
+  // Specifies flags that may specifically be applied to this extracted cannabis item.
+  repeated Flag flag = 3;
+
+  // Flower that was used to produce this extract.
+  opencannabis.base.ProductReference flower = 4;
+
+  // Product content about this extracted cannabis item.
+  opencannabis.content.ProductContent product = 5;
+
+  // Materials and handling data attached to this extracted cannabis item.
+  opencannabis.content.MaterialsData material = 6;
+}

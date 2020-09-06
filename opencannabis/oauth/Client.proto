@@ -1,0 +1,121 @@
+
+/**
+ * Provides a structure for the Oauth Client and tools for creating a permission based identity and enumerates grant
+ * types.
+ */
+syntax = "proto3";
+
+package opencannabis.oauth;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.oauth";
+option java_multiple_files = true;
+option java_outer_classname = "OAuthClient";
+
+import "opencannabis/media/MediaItem.proto";
+import "opencannabis/temporal/Instant.proto";
+import "opencannabis/oauth/AuthorizationScope.proto";
+
+
+// Specifies an OAuth2-client that can perform authorization operations in certain circumstances.
+message Client {
+  // ID for this OAuth2 client.
+  string id = 1;
+
+  // Secret (password) for this OAuth2 client.
+  string secret = 2;
+
+  // Name of the client.
+  string name = 3;
+
+  // Contact information for the client.
+  repeated string contact = 4;
+
+  // Grant types supported by this client.
+  repeated GrantType grant_types = 5;
+
+  // Attached media item for branding.
+  opencannabis.media.MediaItem branding = 6;
+
+  // Owner information for this client.
+  string owner = 7;
+
+  // Privacy policy URI.
+  opencannabis.media.MediaItem policy = 8;
+
+  // Terms of Service URI.
+  opencannabis.media.MediaItem terms = 9;
+
+  // Whether this client is public or not.
+  bool public = 10;
+
+  // Supported/allowed redirect URIs for this client.
+  repeated string redirect_uri = 11;
+
+  // Supported OAuth2 response types for this client.
+  repeated ResponseType response_type = 12;
+
+  // Allowed authorization scopes for this client.
+  repeated AuthorizationScope scope = 13;
+}
+
+
+// Client/auth information regarding the consent application.
+message Consent {
+  // ID value of THIS indvidual request.
+  string id = 1;
+
+  // Client ID value.
+  string client_id = 2;
+
+  // Expires-at value.
+  opencannabis.temporal.Instant expires_at = 3;
+
+  // Redirect URI.
+  string redirect_uri = 4;
+
+  // Requested scopes.
+  repeated string requested_scope = 5;
+}
+
+
+// Specifies a ticket responding to a consent flow.
+message ConsentTicket {
+  // Specifies client information for this flow.
+  Client client = 1;
+
+  // Specifies consent information for this flow.
+  Consent consent = 2;
+}
+
+// Enumerates OAuth2 response types supportable by clients.
+enum ResponseType {
+  // Unspecified, or unresolved, response type.
+  UNSPECIFIED_RESPONSE_TYPE = 0;
+
+  // 'token' response type.
+  TOKEN = 1;
+
+  // 'code' response type.
+  CODE = 2;
+
+  // 'id_token' response type.
+  ID_TOKEN = 3;
+}
+
+
+// Enumerates OAuth2 grant types supportable by clients.
+enum GrantType {
+  // Unspecified, or unresolved, grant type.
+  UNSPECIFIED_GRANT_TYPE = 0;
+
+  // 'authorzation_code' grant type.
+  AUTHORIZATION_CODE = 1;
+
+  // 'refresh_token' grant type.
+  REFRESH_TOKEN = 2;
+
+  // 'client_credentials' grant type.
+  CLIENT_CREDENTIALS = 3;
+}

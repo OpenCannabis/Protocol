@@ -1,0 +1,20 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+# Proximity
+proto(
+    name = "BluetoothBeacon",
+    srcs = ["BluetoothBeacon.proto"],
+    deps = [
+        "//opencannabis/geo:Location",
+        "//opencannabis/geo:Distance",
+        "//opencannabis/temporal:Instant"],
+)
+
+
+module(
+    name = "opencannabis.proximity",
+    deps = [":BluetoothBeacon"],
+)

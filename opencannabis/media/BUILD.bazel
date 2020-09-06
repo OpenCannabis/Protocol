@@ -1,0 +1,46 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+## Media
+proto(
+    name = "MediaOrientation",
+    srcs = ["MediaOrientation.proto"],
+    deps = ["//opencannabis/core:Datamodel"],
+)
+
+proto(
+    name = "MediaType",
+    srcs = ["MediaType.proto"],
+    deps = ["//opencannabis/core:Datamodel"],
+)
+
+proto(
+    name = "MediaKey",
+    srcs = ["MediaKey.proto"],
+    deps = [
+        ":MediaType",
+        "//opencannabis/core:Datamodel"],
+)
+
+proto(
+    name = "MediaItem",
+    srcs = ["MediaItem.proto"],
+    deps = [
+        ":MediaKey",
+        ":MediaType",
+        "//opencannabis/base:ProductKey",
+        "//opencannabis/temporal:Instant",
+        "//opencannabis/core:Datamodel"],
+)
+
+
+module(
+    name = "opencannabis.media",
+    deps = [
+        ":MediaOrientation",
+        ":MediaType",
+        ":MediaKey",
+        ":MediaItem"],
+)

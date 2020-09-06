@@ -1,0 +1,56 @@
+
+/**
+ * Specifies container structures for use in cryptographic algorithms and design patterns.
+ */
+syntax = "proto3";
+
+package opencannabis.crypto;
+
+option optimize_for = SPEED;
+option objc_class_prefix = "OCS";
+option java_package = "io.opencannabis.schema.crypto";
+option java_multiple_files = true;
+
+import "opencannabis/base/Compression.proto";
+
+import "opencannabis/content/Content.proto";
+
+import "opencannabis/crypto/primitives/Keys.proto";
+import "opencannabis/crypto/primitives/Integrity.proto";
+
+
+// Carries a payload of arbitrary data, that is supposedly encrypted in some manner.
+message EncryptedData {
+  // Ciphertext, i.e., data contained in the encrypted container.
+  bytes data = 1;
+
+  // Content encoding for the raw ciphertext data specified.
+  opencannabis.content.Encoding encoding = 2;
+
+  // Compression applied to the cleartext, if applicable and specified.
+  opencannabis.base.Compression compression = 3;
+
+  // Cryptographic fingerprint of the ciphertext data. If compression is active, this is applied beforehand.
+  opencannabis.crypto.Hash fingerprint = 4;
+}
+
+
+// Container that carries an encrypted data payload, and maintains metadata describing it.
+message EncryptedContainer {
+  // Specifies the encrypted data payload, or, the content inside this encrypted container.
+  EncryptedData payload = 1;
+
+  // Type of keying used to encrypt/decrypt this payload.
+  KeyType keying = 2;
+
+  // Initialization vector value for this container, if applicable according to the algorithm in use.
+  InitializationVector vector = 3;
+
+  oneof parameters {
+    // Specifies information regarding the key used to encrypt this container.
+    SymmetricKeyParameters key = 4;
+
+    // Specifies information regarding the key pair used to encrypt this container.
+    AsymmetricKeypairParameters keypair = 5;
+  }
+}

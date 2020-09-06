@@ -1,0 +1,63 @@
+
+package(default_visibility = ["//visibility:public"])
+load("//defs:proto.bzl", "proto", "module")
+
+
+## Temporal
+proto(
+    name = "Date",
+    srcs = ["Date.proto"],
+    deps = ["//opencannabis/core:Datamodel"],
+)
+
+proto(
+    name = "Duration",
+    srcs = ["Duration.proto"],
+    deps = ["//opencannabis/core:Datamodel"],
+)
+
+proto(
+    name = "Instant",
+    srcs = ["Instant.proto"],
+    deps = ["//opencannabis/core:Datamodel"],
+)
+
+proto(
+    name = "Interval",
+    srcs = ["Interval.proto"],
+    deps = ["//opencannabis/core:Datamodel"],
+)
+
+proto(
+    name = "Time",
+    srcs = ["Time.proto"],
+)
+
+proto(
+    name = "Schedule",
+    srcs = ["Schedule.proto"],
+    deps = [
+        ":Time",
+        ":Instant",
+        ":Interval",
+        "//opencannabis/core:Datamodel"],
+)
+
+proto(
+    name = "Timehash",
+    srcs = ["Timehash.proto"],
+    deps = ["//opencannabis/core:Datamodel"],
+)
+
+
+module(
+    name = "opencannabis.temporal",
+    deps = [
+        ":Date",
+        ":Duration",
+        ":Instant",
+        ":Interval",
+        ":Time",
+        ":Schedule",
+        ":Timehash"],
+)
