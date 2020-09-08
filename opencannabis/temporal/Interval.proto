@@ -12,7 +12,7 @@ option java_package = "io.opencannabis.schema.temporal";
 option java_multiple_files = false;
 option java_outer_classname = "TemporalInterval";
 
-import "gust/core/datamodel.proto";
+import "opencannabis/core/Datamodel.proto";
 
 
 // Enumerates supported time interval types.

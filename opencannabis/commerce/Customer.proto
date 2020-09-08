@@ -13,7 +13,7 @@ option java_package = "io.opencannabis.schema.commerce";
 option java_multiple_files = false;
 option java_outer_classname = "OrderCustomer";
 
-import "gust/core/datamodel.proto";
+import "opencannabis/core/Datamodel.proto";
 import "opencannabis/person/Person.proto";
 
 

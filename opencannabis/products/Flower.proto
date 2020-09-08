@@ -12,7 +12,7 @@ option java_package = "io.opencannabis.schema.product";
 option java_multiple_files = false;
 option java_outer_classname = "FlowerProduct";
 
-import "gust/core/datamodel.proto";
+import "opencannabis/core/Datamodel.proto";
 import "opencannabis/base/ProductKey.proto";
 
 import "opencannabis/content/MaterialsData.proto";

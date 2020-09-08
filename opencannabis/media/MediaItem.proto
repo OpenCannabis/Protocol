@@ -13,7 +13,7 @@ option java_package = "io.opencannabis.schema.media";
 option java_multiple_files = false;
 option java_outer_classname = "AttachedMedia";
 
-import "gust/core/datamodel.proto";
+import "opencannabis/core/Datamodel.proto";
 
 import "opencannabis/media/MediaKey.proto";
 import "opencannabis/media/MediaType.proto";

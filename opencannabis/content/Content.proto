@@ -12,7 +12,7 @@ option java_package = "io.opencannabis.schema.content";
 option java_multiple_files = false;
 option java_outer_classname = "GenericContent";
 
-import "gust/core/datamodel.proto";
+import "opencannabis/core/Datamodel.proto";
 
 import "opencannabis/base/Language.proto";
 import "opencannabis/base/Compression.proto";

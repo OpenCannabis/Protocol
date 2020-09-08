@@ -11,7 +11,7 @@ option objc_class_prefix = "OCS";
 option java_package = "io.opencannabis.schema.person";
 option java_multiple_files = true;
 
-import "gust/core/datamodel.proto";
+import "opencannabis/core/Datamodel.proto";
 
 
 // Represents a human being's name, in the style of "given" name (first) and "family" name (last) being concatenated to

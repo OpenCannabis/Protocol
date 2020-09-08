@@ -11,7 +11,7 @@ option objc_class_prefix = "OCS";
 option java_package = "io.opencannabis.schema.person";
 option java_multiple_files = true;
 
-import "gust/core/datamodel.proto";
+import "opencannabis/core/Datamodel.proto";
 
 import "opencannabis/temporal/Date.proto";
 import "opencannabis/contact/ContactInfo.proto";
