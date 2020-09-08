@@ -11,7 +11,7 @@ option objc_class_prefix = "OCS";
 option java_package = "io.opencannabis.schema.inventory";
 option java_multiple_files = true;
 
-import "gust/core/datamodel.proto";
+import "opencannabis/core/Datamodel.proto";
 import "opencannabis/temporal/Instant.proto";
 import "opencannabis/inventory/rfid/RFID.proto";
 
