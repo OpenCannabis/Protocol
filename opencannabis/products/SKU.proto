@@ -12,7 +12,7 @@ option objc_class_prefix = "OCS";
 option java_package = "io.opencannabis.schema.sku";
 option java_multiple_files = false;
 
-import "gust/core/datamodel.proto";
+import "opencannabis/core/Datamodel.proto";
 import "opencannabis/commerce/Item.proto";
 
 
