@@ -1,0 +1,4 @@
+*.proto linguist-language=Protocol-Buffer linguist-detectable
+*.bzl linguist-language=Starlark
+*.build linguist-language=Starlark
+*.owl linguist-language=Web-Ontology-Language
