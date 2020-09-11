@@ -8,8 +8,6 @@ option objc_class_prefix = "OCS";
 option java_package = "io.opencannabis.schema.temporal";
 option java_multiple_files = true;
 
-import "opencannabis/core/Datamodel.proto";
-
 
 // Specifies time units that may be used to express durations.
 enum TimeUnit {

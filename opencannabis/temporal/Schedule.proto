@@ -12,8 +12,6 @@ option java_package = "io.opencannabis.schema.temporal";
 option java_multiple_files = false;
 option java_outer_classname = "TemporalSchedule";
 
-import "opencannabis/core/Datamodel.proto";
-
 import "opencannabis/temporal/Time.proto";
 import "opencannabis/temporal/Instant.proto";
 import "opencannabis/temporal/Interval.proto";
