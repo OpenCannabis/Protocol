@@ -1,7 +1,7 @@
 
 /**
  * Specifies structures that relate to data modeling and the structure of the data. Enumerates collection mode and field
- * type.
+ * type. Overridden from the central Gust framework which defines the core of the spec.
  */
 syntax = "proto3";
 package core;
