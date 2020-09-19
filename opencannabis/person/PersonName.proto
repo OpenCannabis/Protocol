@@ -16,7 +16,7 @@ import "opencannabis/core/Datamodel.proto";
 
 // Represents a human being's name, in the style of "given" name (first) and "family" name (last) being concatenated to
 // form a full person's name. Additional names, like middle names, etc, are also specified here.
-message Name {
+message PersonName {
   // Person's full name, if a fulltext value should override.
   string full_name = 1 [
     (core.field).summary = "Person's full name, if a fulltext value should override."

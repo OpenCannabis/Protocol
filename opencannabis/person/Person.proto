@@ -132,17 +132,17 @@ message Gender {
 // A person/patient and their name, legal name, nickname, etc.
 message Person {
   // Person's primary name information.
-  Name name = 1 [
+  PersonName name = 1 [
     (core.field).summary = "Person's primary name information."
   ];
 
   // Person's legal name, if it differs from their primary name.
-  Name legal_name = 2 [
+  PersonName legal_name = 2 [
     (core.field).summary = "Person's legal name, if it differs from their primary name."
   ];
 
   // Person's optional alternate name.
-  Name alternate_name = 3 [
+  PersonName alternate_name = 3 [
     (core.field).summary = "Person's optional alternate name."
   ];
 
